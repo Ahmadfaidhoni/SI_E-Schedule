@@ -90,6 +90,9 @@
                                     <option value="User" {{ old('level', $pegawai->level) == 'User' ? 'selected' : '' }}>
                                         User
                                     </option>
+                                    <option value="Keuangan" {{ old('level', $pegawai->level) == 'Keuangan' ? 'selected' : '' }}>
+                                        Keuangan
+                                    </option>
                                 </select>
                                 @error('level')
                                     <div class="invalid-feedback">
