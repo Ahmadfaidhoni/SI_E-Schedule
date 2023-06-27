@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GolonganController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -7,6 +8,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\KegiatanController;
+use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\RubahJadwalController;
@@ -23,11 +25,18 @@ use App\Http\Controllers\RubahJadwalController;
 */
 
 Route::group(['middleware' => 'auth'], function () {
+
+    // dashboard
+    Route::get('/', [DashboardController::class, 'index']);
+
     // home
-    Route::get('/', [JadwalController::class, 'index']);
+    Route::get('/jadwal', [JadwalController::class, 'index']);
 
     //jadwal
     Route::get('/history-jadwal', [JadwalController::class, 'history']);
+
+    // export
+    Route::get('/export-jadwal/{awal}/{akhir}', [JadwalController::class, 'export_jadwal']);
 
     //perubahan jadwal
     Route::get('/perubahan-jadwal', [RubahJadwalController::class, 'index']);
@@ -43,6 +52,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('editProfile-{user:name}', [ProfileController::class, 'edit']);
     Route::patch('profile.{user}', [ProfileController::class, 'update']);
     Route::post('change-password', [ProfileController::class, 'changePassword'])->name('change.password');
+});
+
+Route::group(['middleware' => 'keuangan'], function () {
+    Route::get('/keuangan', [KeuanganController::class, 'index']);
+    Route::get('/data-keuangan-pegawai-{user:nip}', [KeuanganController::class, 'show']);
 });
 
 Route::group(['middleware' => 'admin'], function () {

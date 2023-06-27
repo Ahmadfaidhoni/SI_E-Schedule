@@ -134,12 +134,17 @@
                         @endcan
                     </li>
                     <li>
+                        <a href="/" aria-expanded="false" class="text-decoration-none">
+                            <i class="bi bi-house"></i><span class="nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
                         <a class="has-arrow text-decoration-none" href="javascript:void()" aria-expanded="false">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Penjadwalan</span>
                         </a>
                         <ul aria-expanded="false">
                             <li>
-                                <a href="/" class="text-decoration-none">
+                                <a href="/jadwal" class="text-decoration-none">
                                     <i class="bi bi-calendar3"></i>Jadwal
                                 </a>
                             </li>
@@ -160,15 +165,33 @@
                                 <i class="bi bi-bookmark"></i><span class="nav-text">Data Kegiatan</span>
                             </a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="/data-golongan" aria-expanded="false" class="text-decoration-none">
                                 <i class="bi bi-award"></i><span class="nav-text">Data Golongan</span>
                             </a>
-                        </li>
+                        </li> --}}
                         <li>
                             <a href="/data-ruangan" aria-expanded="false" class="text-decoration-none">
                                 <i class="bi bi-door-open"></i><span class="nav-text">Data Ruangan</span>
                             </a>
+                        </li>
+                    @endcan
+                    @can('keuangan')
+                        <li>
+                            <a class="has-arrow text-decoration-none" href="javascript:void()" aria-expanded="false">
+                                <i class="icon-speedometer menu-icon"></i><span class="nav-text">Keuangan</span>
+                            </a>
+                            <ul aria-expanded="false">
+                                <li>
+                                    <a href="/keuangan" class="text-decoration-none">
+                                        <i class="bi bi-currency-dollar"></i>Master Keuangan
+                                    </a>
+                                </li>
+                                {{-- <li><a href="/perubahan-jadwal" class="text-decoration-none">
+                                    <i class="icon-note menu-icon"></i>Laporan
+                                </a>
+                            </li> --}}
+                            </ul>
                         </li>
                     @endcan
                 </ul>
@@ -232,8 +255,23 @@
     <script src="./plugins/validation/jquery.validate.min.js"></script>
     <script src="./plugins/validation/jquery.validate-init.js"></script>
     <script src="./plugins/tables/js/jquery.dataTables.min.js"></script>
-    <script src="./plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
+    {{-- <script src="./plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script> --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <script src="./plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
+
+    <!-- plugin DataTable -->
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+
+    <!-- plugin Buttons -->
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.dataTables.min.css">
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.colVis.min.js"></script>
+
 
     <!-- Clock Plugin JavaScript -->
     <script src="./plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
