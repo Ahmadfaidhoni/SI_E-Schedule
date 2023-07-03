@@ -12,7 +12,8 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class ProfileController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return view('profile.index', [
             'profiles' => User::where('id', Auth::user()->id)->get()
         ]);
@@ -35,25 +36,25 @@ class ProfileController extends Controller
             'status_anggota' => ''
         ];
 
-        if($request->nip != $user->nip){
+        if ($request->nip != $user->nip) {
             $rules['nip'] = 'required|unique:users';
         }
 
-        if(($request->email != null) && ($request->email != $user->email)){
+        if (($request->email != null) && ($request->email != $user->email)) {
             $rules['email'] = 'unique:users';
         }
 
-        if(($request->phone != null) && ($request->phone != $user->phone)){
+        if (($request->phone != null) && ($request->phone != $user->phone)) {
             $rules['phone'] = 'unique:users';
         }
 
         $validatedData = $request->validate($rules);
-        
-        if($request->email == null){
+
+        if ($request->email == null) {
             $validatedData['email'] = null;
         }
-        
-        if($request->phone == null){
+
+        if ($request->phone == null) {
             $validatedData['phone'] = null;
         }
 
@@ -72,11 +73,24 @@ class ProfileController extends Controller
             'new_password' => ['required'],
             'new_confirm_password' => ['same:new_password'],
         ]);
-   
-        User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
+
+        User::find(auth()->user()->id)->update(['password' => Hash::make($request->new_password)]);
 
         Alert::success('Congrats', 'Password Berhasil diubah!');
         return redirect('/profile');
         // return redirect('/profile')->with('successPassword', 'Password Berhasil diubah.');
+    }
+
+    public function reset($id)
+    {
+        $password = "password";
+
+        $user = User::find($id);
+        $user->update(['password' => Hash::make($password)]);
+
+        // Alert::success('Congrats', 'Password Berhasil direset!');
+        // return redirect('/data-pegawai-' . $user->nip);
+
+        return  response()->json(['error' => false]);
     }
 }

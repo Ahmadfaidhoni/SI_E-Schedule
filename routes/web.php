@@ -52,6 +52,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('editProfile-{user:name}', [ProfileController::class, 'edit']);
     Route::patch('profile.{user}', [ProfileController::class, 'update']);
     Route::post('change-password', [ProfileController::class, 'changePassword'])->name('change.password');
+    Route::post('reset-password/{id}', [ProfileController::class, 'reset']);
 });
 
 Route::group(['middleware' => 'keuangan'], function () {
