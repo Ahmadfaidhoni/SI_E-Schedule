@@ -10,6 +10,7 @@ use App\Models\Kegiatan;
 use Illuminate\Http\Request;
 use App\Mail\NotifEditJadwal;
 use App\Mail\NotifTolak;
+use App\Models\HistoryPerubahanJadwal;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -25,11 +26,19 @@ class RubahJadwalController extends Controller
             ]);
         } else {
             return view('dashboard.rubah-jadwal.perubahan-jadwal', [
-                'jadwal' => Jadwal::where('user_id', Auth::user()->id)->
-                                where('request', true)->get()
+                'jadwal' => Jadwal::where('user_id', Auth::user()->id)->where('request', true)->get()
             ]);
         }
     }
+
+    public function history_perubahan()
+    {
+        $perubahan_jadwal = HistoryPerubahanJadwal::get();
+        return view('dashboard.jadwal.history-perubahan-jadwal', [
+            'jadwal' => $perubahan_jadwal
+        ]);
+    }
+
 
     public function create()
     {
@@ -84,7 +93,7 @@ class RubahJadwalController extends Controller
      */
     public function update(Request $request, Jadwal $jadwal)
     {
-        if(Auth::id() == $jadwal->user_id){
+        if (Auth::id() == $jadwal->user_id) {
             $validatedData = $request->validate([
                 'alasan' => 'required',
             ]);
@@ -97,21 +106,20 @@ class RubahJadwalController extends Controller
 
             $getEmail = User::find($getIdUser)->email;
             $emailAdmin = User::where('level', 'Admin')->where('email', '!=', null)->get();
-            
+
             $arr_email = [];
-            foreach($emailAdmin as $item){
+            foreach ($emailAdmin as $item) {
                 $arr_email[] = $item->email;
             }
 
-            if($getEmail != null){
+            if ($getEmail != null) {
                 Mail::to($getEmail)->send(new NotifEditJadwal($validatedData));
 
-                if($arr_email != null){
+                if ($arr_email != null) {
                     Mail::to($arr_email)->send(new NotifAdmin($validatedData));
                 }
-
             } else {
-                if($arr_email != null){
+                if ($arr_email != null) {
                     Mail::to($arr_email)->send(new NotifAdmin($validatedData));
                 }
             }
@@ -173,7 +181,7 @@ class RubahJadwalController extends Controller
 
         $getEmail = User::find($getIdUser)->email;
 
-        if($getEmail != null){
+        if ($getEmail != null) {
             Mail::to($getEmail)->send(new NotifTolak($data));
         }
 

@@ -2,13 +2,10 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <h4 class="">Perubahan Jadwal</h4>
+            <h4 class="">History Jadwal</h4>
             <div class="card">
                 <div class="card-body">
-                    <div class="mx-2" style="display: inline-block">
-                        <a href="/history-perubahan-jadwal"><button type="button" class="btn btn-info"><i
-                                    class="bi bi-calendar2-week"></i> History</button></a>
-                    </div>
+
                     @if (session()->has('success'))
                         <div class="alert alert-success my-3 mx-4 col-lg-8">
                             {{ session('success') }}
@@ -19,21 +16,23 @@
                         </div>
                     @endif
 
+                    <div class="ml-4" style="display: inline-block">
+                        <a href="/"><button type="button" class="btn btn-primary"><i class="bi bi-arrow-bar-left"></i>
+                                Back to Jadwal</button></a>
+                    </div>
+
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered zero-configuration">
                             <thead>
                                 <tr>
                                     <th>No</th>
                                     <th>Kegiatan</th>
-                                    @can('admin')
-                                        <th>Pegawai</th>
-                                    @endcan
+                                    <th>Pegawai</th>
                                     <th>Jumlah JP</th>
                                     <th>Tanggal Kegiatan</th>
                                     <th>Jam</th>
                                     <th>Angkatan</th>
-                                    <th>Aksi</th>
-
+                                    <th>status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -44,12 +43,10 @@
                                             @if ($jdwl->tipe_jadwal == 2)
                                                 Perjalanan Dinas
                                             @else
-                                                {{ $jdwl->kegiatan->nama_kegiatan }}
+                                                {{ isset($jdwl->kegiatan) ? $jdwl->kegiatan->nama_kegiatan : '-' }}
                                             @endif
                                         </td>
-                                        @can('admin')
-                                            <td>{{ isset($jdwl->user) ? $jdwl->user->name : '-' }}</td>
-                                        @endcan
+                                        <td>{{ isset($jdwl->user) ? $jdwl->user->name : '-' }}</td>
                                         <td>
                                             @if ($jdwl->jp < 15)
                                                 {{ $jdwl->jp }}
@@ -58,31 +55,12 @@
                                             @endif
                                         </td>
                                         <td>{{ date('d-m-Y', strtotime($jdwl->waktu_mulai)) }}</td>
+
                                         <td>{{ date('H:i', strtotime($jdwl->waktu_mulai)) }} -
                                             {{ date('H:i', strtotime($jdwl->waktu_selesai)) }}</td>
                                         <td>{{ isset($jdwl->angkatan) ? $jdwl->angkatan : '-' }}</td>
                                         <td>
-                                            @if (Auth::user()->level == 'Admin')
-                                                <div class="row">
-                                                    <div class="col-lg-12" style="white-space: nowrap">
-                                                        <a href="ubah-jadwal-{{ $jdwl->id }}"><button type="button"
-                                                                class="btn btn-sm mb-1 btn-primary"><i
-                                                                    class="bi bi-eye"></i> Lihat</button></a>
-                                                        <form action="tolak-jadwal.{{ $jdwl->id }}" method="post"
-                                                            class="d-inline">
-                                                            @method('patch')
-                                                            @csrf
-                                                            <button type="submit"
-                                                                class="btn btn-sm mb-1 btn-warning text-white"
-                                                                onclick="return confirm('Apakah anda yakin ingin menolak jadwal ini?');"><i
-                                                                    class="bi bi-dash-circle"></i> Tolak</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            @elseif(Auth::user()->level == 'User')
-                                                <button type="button" class="btn btn-sm mb-1 btn-warning text-white"
-                                                    style="pointer-events: none">Dalam Pengecekan</button>
-                                            @endif
+                                            {{ $jdwl->status }}
                                         </td>
                                     </tr>
                                 @endforeach

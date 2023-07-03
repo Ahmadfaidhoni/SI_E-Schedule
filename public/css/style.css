@@ -10663,7 +10663,9 @@ input[type="checkbox"]:checked:after {
   background-position: center bottom, center calc(100% - 1px);
   background-repeat: no-repeat;
   background-size: 0 2px, 100% 1px;
-  border: 0 none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px;
   border-radius: 0;
   box-shadow: none;
   float: none;
@@ -14014,7 +14016,8 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   padding-right: 15rem; }
 
 [data-nav-headerbg="color_1"] .nav-header {
-  background-color: #7571f9; }
+  /* background-color: #7571f9; } */
+  background-color: #27394F; }
 
 [data-nav-headerbg="color_2"] .nav-header {
   background-color: #27394F !important; }
