@@ -40,6 +40,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     //perubahan jadwal
     Route::get('/perubahan-jadwal', [RubahJadwalController::class, 'index']);
+    Route::get('/history-perubahan-jadwal', [RubahJadwalController::class, 'history_perubahan']);
     Route::get('{jadwal}.editJadwal', [RubahJadwalController::class, 'edit']);
     Route::patch('data-ubah-jadwal.{jadwal}', [RubahJadwalController::class, 'update']);
     // Route::get('jadwal-{jadwal:kegiatan_id}', [RubahJadwalController::class, 'show']);
