@@ -40,6 +40,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     //perubahan jadwal
     Route::get('/perubahan-jadwal', [RubahJadwalController::class, 'index']);
+    Route::get('/history-perubahan-jadwal', [RubahJadwalController::class, 'history_perubahan']);
     Route::get('{jadwal}.editJadwal', [RubahJadwalController::class, 'edit']);
     Route::patch('data-ubah-jadwal.{jadwal}', [RubahJadwalController::class, 'update']);
     // Route::get('jadwal-{jadwal:kegiatan_id}', [RubahJadwalController::class, 'show']);
@@ -52,6 +53,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('editProfile-{user:name}', [ProfileController::class, 'edit']);
     Route::patch('profile.{user}', [ProfileController::class, 'update']);
     Route::post('change-password', [ProfileController::class, 'changePassword'])->name('change.password');
+    Route::post('reset-password/{id}', [ProfileController::class, 'reset']);
 });
 
 Route::group(['middleware' => 'keuangan'], function () {

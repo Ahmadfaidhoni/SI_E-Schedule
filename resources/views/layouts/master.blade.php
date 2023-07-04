@@ -55,6 +55,7 @@
         ***********************************-->
         <div class="nav-header">
             <div class="brand-logo">
+                <img class="logo-abbr mt-3 ml-2" src="images/logo/logo.png">
                 <a href="/" class="text-decoration-none">
                     {{-- <b class="logo-abbr"><img src="images/logo.png" alt=""> </b> --}}
                     <span class="logo-compact"><img src="./images/logo-compact.png" alt=""></span>
@@ -255,9 +256,9 @@
     <script src="./plugins/validation/jquery.validate.min.js"></script>
     <script src="./plugins/validation/jquery.validate-init.js"></script>
     <script src="./plugins/tables/js/jquery.dataTables.min.js"></script>
-    {{-- <script src="./plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script> --}}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="./plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
+    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"> --}}
     <script src="./plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
 
     <!-- plugin DataTable -->
