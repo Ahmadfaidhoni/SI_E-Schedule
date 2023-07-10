@@ -30,7 +30,9 @@ class DashboardController extends Controller
             ->orderBy('waktu_mulai', 'ASC')
             ->get();
 
+        $active_menu = 'dashboard';
 
-        return view('dashboard.dashboard', compact('pegawai', 'kegiatan', 'ruangan', 'perubahan', 'jadwal_pribadi', 'jadwal_semua'));
+
+        return view('dashboard.dashboard', compact('pegawai', 'kegiatan', 'ruangan', 'perubahan', 'jadwal_pribadi', 'jadwal_semua', 'active_menu'));
     }
 }

@@ -15,7 +15,8 @@ class KegiatanController extends Controller
      */
     public function index()
     {
-        return view('dashboard.kegiatan.data-kegiatan', [
+        $active_menu = 'data-kegiatan';
+        return view('dashboard.kegiatan.data-kegiatan', compact('active_menu'), [
             "kegiatan" => Kegiatan::orderBy('kode_kegiatan', 'ASC')->get()
         ]);
     }
