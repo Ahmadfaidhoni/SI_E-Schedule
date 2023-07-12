@@ -23,10 +23,31 @@
     <link href="./plugins/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="./template/plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="./template/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="./template/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="./template/plugins/jqvmap/jqvmap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="./template/dist/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="./template/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="./template/plugins/daterangepicker/daterangepicker.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="./template/plugins/summernote/summernote-bs4.min.css">
+
 
 </head>
 
-<body>
+<body class="hold-transition sidebar-mini layout-fixed">
     @include('sweetalert::alert')
 
     <!--*******************
@@ -48,23 +69,23 @@
     <!--**********************************
         Main wrapper start
     ***********************************-->
-    <div id="main-wrapper">
+    <div class="wrapper">
 
         <!--**********************************
             Nav header start
         ***********************************-->
-        <div class="nav-header">
+        {{-- <div class="nav-header">
             <div class="brand-logo">
                 <img class="logo-abbr mt-3 ml-2" src="images/logo/logo.png">
                 <a href="/" class="text-decoration-none">
-                    {{-- <b class="logo-abbr"><img src="images/logo.png" alt=""> </b> --}}
+                    <b class="logo-abbr"><img src="images/logo.png" alt=""> </b>
                     <span class="logo-compact"><img src="./images/logo-compact.png" alt=""></span>
                     <span class="brand-title">
                         <h3 class="text-white text-center">E-Schedule</h3>
                     </span>
                 </a>
             </div>
-        </div>
+        </div> --}}
         <!--**********************************
             Nav header end
         ***********************************-->
@@ -72,7 +93,7 @@
         <!--**********************************
             Header start
         ***********************************-->
-        <div class="header">
+        {{-- <div class="header">
             <div class="header-content clearfix">
 
                 <div class="nav-control">
@@ -119,7 +140,202 @@
                     </div>
                 @endauth
             </div>
-        </div>
+        </div> --}}
+
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
+                            class="fas fa-bars"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+                @auth
+                    <li class="icons dropdown d-none d-md-flex">
+                        <a class="nav-link">
+                            <span>Selamat Datang, {{ auth()->user()->name }}</span>
+                        </a>
+                    </li>
+                    <li class="icons dropdown mr-3">
+                        <div class="user-img c-pointer position-relative" data-toggle="dropdown">
+                            <span class="activity active"></span>
+                            <img src="images/user/1.png" height="40" width="40" alt="">
+                        </div>
+                        <div class="drop-down dropdown-profile   dropdown-menu">
+                            <div class="dropdown-content-body">
+                                <ul>
+                                    <li>
+                                        <a href="/profile" class="text-decoration-none text-muted"><i class="icon-user"></i>
+                                            <span>Profile</span></a>
+                                    </li>
+                                    <hr class="my-2">
+
+                                    <li>
+                                        <form action="/logout" method="post">
+                                            @csrf
+                                            <button type="submit" class="button-logout">
+                                                <i class="icon-key"></i> <span>Logout</span>
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                @endauth
+            </ul>
+        </nav>
+
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <a href="/" class="brand-link">
+                <img src="images/logo/logo.png" alt="AdminLTE Logo" class="bg-white img-circle elevation-3"
+                    width="50" height="50">
+                <span class="ml-3 brand-text font-weight-light">E-Schedule</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar user panel (optional) -->
+                {{-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img src="template/dist/img/user2-160x160.jpg" class="img-circle elevation-2"
+                            alt="User Image">
+                    </div>
+                    <div class="info">
+                        <a href="#" class="d-block">Alexander Pierce</a>
+                    </div>
+                </div> --}}
+
+                <!-- SidebarSearch Form -->
+                {{-- <div class="form-inline">
+                    <div class="input-group" data-widget="sidebar-search">
+                        <input class="form-control form-control-sidebar" type="search" placeholder="Search"
+                            aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-sidebar">
+                                <i class="fas fa-search fa-fw"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div> --}}
+
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                        data-accordion="false">
+                        <li class="nav-item">
+                            <a href="/" aria-expanded="false"
+                                class="nav-link @if (!empty($active_menu)) {{ $active_menu == 'dashboard' ? 'active' : '' }} @endif">
+                                <i class="bi bi-house nav-icon"></i>
+                                <p>
+                                    <span class="nav-text">Dashboard</span>
+                                </p>
+                            </a>
+                        </li>
+                        {{-- <li class="nav-item">
+                            <a href="pages/widgets.html" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Widgets
+                                    <span class="right badge badge-danger">New</span>
+                                </p>
+                            </a>
+                        </li> --}}
+                        {{-- <li class="nav-item">
+                            <a class="has-arrow nav-link text-decoration-none" href="javascript:void()"
+                                aria-expanded="false">
+                                <i class="icon-speedometer menu-icon"></i><span class="nav-text">Penjadwalan</span>
+                            </a>
+                            <ul aria-expanded="false">
+                                <li class="nav-item">
+                                    <a href="/jadwal" class="nav-link text-decoration-none">
+                                        <i class="bi bi-calendar3"></i>Jadwal
+                                    </a>
+                                </li>
+                                <li class="nav-item"><a href="/perubahan-jadwal" class="text-decoration-none">
+                                        <i class="icon-note menu-icon"></i>Perubahan Jadwal
+                                    </a>
+                                </li>
+                            </ul>
+                        </li> --}}
+                        <li
+                            class="nav-item @if (!empty($active_menu)) {{ $active_menu == 'jadwal' || $active_menu == 'perubahan-jadwal' ? 'menu-open' : '' }} @endif">
+                            <a href="#" class="nav-link">
+                                <i class="icon-speedometer nav-icon"></i>
+                                <p>
+                                    Penjadwalan
+                                    <i class="fas fa-angle-left right"></i>
+                                    {{-- <span class="badge badge-info right">6</span> --}}
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/jadwal"
+                                        class="nav-link @if (!empty($active_menu)) {{ $active_menu == 'jadwal' ? 'active' : '' }} @endif">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Jadwal</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/perubahan-jadwal"
+                                        class="nav-link @if (!empty($active_menu)) {{ $active_menu == 'perubahan-jadwal' ? 'active' : '' }} @endif">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Perubahan Jadwal</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        @can('admin')
+                            <li class="nav-item">
+                                <a href="/data-pegawai" aria-expanded="false"
+                                    class="nav-link @if (!empty($active_menu)) {{ $active_menu == 'data-pegawai' ? 'active' : '' }} @endif">
+                                    <i class="bi nav-icon bi-people"></i>
+                                    <p><span class="nav-text">Data Pegawai</span></p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/data-kegiatan" aria-expanded="false"
+                                    class="nav-link @if (!empty($active_menu)) {{ $active_menu == 'data-kegiatan' ? 'active' : '' }} @endif">
+                                    <i class="bi nav-icon bi-bookmark"></i>
+                                    <p><span class="nav-text">Data Kegiatan</span></p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/data-ruangan" aria-expanded="false"
+                                    class="nav-link @if (!empty($active_menu)) {{ $active_menu == 'data-ruangan' ? 'active' : '' }} @endif">
+                                    <i class="bi nav-icon bi-door-open"></i>
+                                    <p><span class="nav-text">Data Ruangan</span></p>
+                                </a>
+                            </li>
+                        @endcan
+                        @can('keuangan')
+                            <li class="nav-item">
+                                <a class="has-arrow text-decoration-none" href="javascript:void()" aria-expanded="false">
+                                    <i class="icon-speedometer menu-icon"></i><span class="nav-text">Keuangan</span>
+                                </a>
+                                <ul aria-expanded="false">
+                                    <li class="nav-item">
+                                        <a href="/keuangan" class="text-decoration-none nav-link">
+                                            <i class="bi bi-currency-dollar"></i>Master Keuangan
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endcan
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
         <!--**********************************
             Header end ti-comment-alt
         ***********************************-->
@@ -127,7 +343,7 @@
         <!--**********************************
             Sidebar start
         ***********************************-->
-        <div class="nk-sidebar">
+        {{-- <div class="nk-sidebar">
             <div class="nk-nav-scroll">
                 <ul class="metismenu" id="menu">
                     <li class="nav-label">Dashboard @can('admin')
@@ -166,11 +382,6 @@
                                 <i class="bi bi-bookmark"></i><span class="nav-text">Data Kegiatan</span>
                             </a>
                         </li>
-                        {{-- <li>
-                            <a href="/data-golongan" aria-expanded="false" class="text-decoration-none">
-                                <i class="bi bi-award"></i><span class="nav-text">Data Golongan</span>
-                            </a>
-                        </li> --}}
                         <li>
                             <a href="/data-ruangan" aria-expanded="false" class="text-decoration-none">
                                 <i class="bi bi-door-open"></i><span class="nav-text">Data Ruangan</span>
@@ -188,16 +399,12 @@
                                         <i class="bi bi-currency-dollar"></i>Master Keuangan
                                     </a>
                                 </li>
-                                {{-- <li><a href="/perubahan-jadwal" class="text-decoration-none">
-                                    <i class="icon-note menu-icon"></i>Laporan
-                                </a>
-                            </li> --}}
                             </ul>
                         </li>
                     @endcan
                 </ul>
             </div>
-        </div>
+        </div> --}}
         <!--**********************************
             Sidebar end
         ***********************************-->
@@ -205,7 +412,7 @@
         <!--**********************************
             Content body start
         ***********************************-->
-        <div class="content-body">
+        <div class="content-wrapper">
 
             <div class="row page-titles mx-0">
                 <div class="col p-md-0">
@@ -280,6 +487,54 @@
     <script src="./plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js"></script>
     <!-- Date Picker Plugin JavaScript -->
     <script src="./plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+
+
+    <!-- Bootstrap 4 -->
+    <script src="./template/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- ChartJS -->
+    <script src="./template/plugins/chart.js/Chart.min.js"></script>
+    <!-- Sparkline -->
+    <script src="./template/plugins/sparklines/sparkline.js"></script>
+    <!-- JQVMap -->
+    <script src="./template/plugins/jqvmap/jquery.vmap.min.js"></script>
+    <script src="./template/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="./template/plugins/jquery-knob/jquery.knob.min.js"></script>
+    <!-- daterangepicker -->
+    <script src="./template/plugins/moment/moment.min.js"></script>
+    <script src="./template/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="./template/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Summernote -->
+    <script src="./template/plugins/summernote/summernote-bs4.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="./template/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="./template/dist/js/adminlte.js"></script>
+    {{-- <!-- AdminLTE for demo purposes -->
+    <script src="./template/dist/js/demo.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="./template/dist/js/pages/dashboard.js"></script> --}}
+
+
+
+
+    <script src="./template/plugins/jquery/jquery.min.js"></script>
+    <script src="./template/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+    <script src="./template/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="./template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="./template/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="./template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="./template/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="./template/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="./template/plugins/jszip/jszip.min.js"></script>
+    <script src="./template/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="./template/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="./template/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="./template/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="./template/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
 
     @yield('page_script')
 

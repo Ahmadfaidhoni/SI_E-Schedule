@@ -25,12 +25,13 @@ class JadwalController extends Controller
      */
     public function index()
     {
+        $active_menu = 'jadwal';
         if (auth()->user()->level === "Admin") {
-            return view('dashboard.jadwal.data-jadwal', [
+            return view('dashboard.jadwal.data-jadwal', compact('active_menu'), [
                 'jadwal' => Jadwal::where('request', false)->whereRaw("((STR_TO_DATE(waktu_mulai, '%Y-%m-%d') ) >= curdate())")->orderBy('waktu_mulai', 'ASC')->get()
             ]);
         } else {
-            return view('dashboard.jadwal.data-jadwal', [
+            return view('dashboard.jadwal.data-jadwal', compact('active_menu'), [
                 'jadwal' => Jadwal::where('user_id', Auth::user()->id)->where('request', false)->whereRaw("((STR_TO_DATE(waktu_mulai, '%Y-%m-%d') ) >= curdate())")->orderBy('waktu_mulai', 'ASC')->get()
             ]);
         }
@@ -56,7 +57,8 @@ class JadwalController extends Controller
      */
     public function create()
     {
-        return view('dashboard.jadwal.add-jadwal', [
+        $active_menu = 'jadwal';
+        return view('dashboard.jadwal.add-jadwal', compact('active_menu'), [
             "kegiatan" => Kegiatan::all(),
             "pegawai" => User::all(),
             "ruangan" => Ruangan::all(),

@@ -20,7 +20,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('dashboard.pegawai.data-pegawai', [
+        $active_menu = 'data-pegawai';
+        return view('dashboard.pegawai.data-pegawai', compact('active_menu'), [
             "pegawai" => User::where('id', '!=', '1')->orderBy('name', 'ASC')->get()
         ]);
     }
@@ -55,20 +56,20 @@ class UserController extends Controller
             'level' => 'required',
         ];
 
-        if($request->nip != $user->nip){
+        if ($request->nip != $user->nip) {
             $rules['nip'] = 'unique:users';
         }
 
-        if($request->email != $user->email){
+        if ($request->email != $user->email) {
             $rules['email'] = 'unique:users';
         }
 
-        if($request->phone != $user->phone){
+        if ($request->phone != $user->phone) {
             $rules['phone'] = 'unique:users';
         }
 
         $validatedData = $request->validate($rules);
-        
+
         $validatedData['password'] = $validatedData['nip'];
 
         $validatedData['password'] = Hash::make($validatedData['password']);
@@ -76,13 +77,13 @@ class UserController extends Controller
         User::create($validatedData);
 
         $email = $request->email;
-        
-        if($request->email != null){
+
+        if ($request->email != null) {
             Mail::to($email)->send(new NotifUser($validatedData));
         }
 
         Alert::success('Congrats', 'Data Pegawai Berhasil dibuat.');
-        
+
         return redirect('/data-pegawai');
         // return redirect('/data-pegawai')->with('success', 'Data Pegawai Berhasil dibuat.');
     }
@@ -124,7 +125,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $pegawai)
     {
-        
+
         $rules = [
             'nip' => 'required',
             'name' => 'required',
@@ -134,25 +135,25 @@ class UserController extends Controller
             'status_anggota' => 'required'
         ];
 
-        if($request->nip != $pegawai->nip){
+        if ($request->nip != $pegawai->nip) {
             $rules['nip'] = 'required|unique:users';
         }
 
-        if(($request->email != null) && ($request->email != $pegawai->email)){
+        if (($request->email != null) && ($request->email != $pegawai->email)) {
             $rules['email'] = 'unique:users';
         }
 
-        if(($request->phone != null) && ($request->phone != $pegawai->phone)){
+        if (($request->phone != null) && ($request->phone != $pegawai->phone)) {
             $rules['phone'] = 'unique:users';
         }
 
         $validatedData = $request->validate($rules);
 
-        if($request->email == null){
+        if ($request->email == null) {
             $validatedData['email'] = null;
         }
-        
-        if($request->phone == null){
+
+        if ($request->phone == null) {
             $validatedData['phone'] = null;
         }
 
@@ -175,7 +176,7 @@ class UserController extends Controller
         $pegawaiId = $pegawai->id;
         $jadwalId = Jadwal::where('user_id', $pegawaiId);
         $jadwalId->delete();
-        
+
         User::destroy($pegawai->id);
 
         Alert::success('Congrats', 'Data Pegawai Berhasil dihapus.');
