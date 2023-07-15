@@ -348,9 +348,9 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ isset($jdsm->kegiatan) ? $jdsm->kegiatan->nama_kegiatan : '-' }}</td>
-                                            <td>{{ $jdsm->user->nama }}</td>
+                                            <td>{{ $jdsm->user->name ?? '-' }}</td>
                                             <td>{{ $jdsm->jp }}</td>
-                                            <td>{{ $jdsm->tanggal }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($jdsm->waktu_mulai)) }}</td>
                                             <td>{{ date('H:i', strtotime($jdsm->waktu_mulai)) }} -
                                                 {{ date('H:i', strtotime($jdsm->waktu_selesai)) }}</td>
                                             <td>{{ $jdsm->angkatan }}</td>
@@ -388,7 +388,7 @@
                                         <td>{{ date('H:i', strtotime($jdpr->waktu_mulai)) }} -
                                             {{ date('H:i', strtotime($jdpr->waktu_selesai)) }}</td>
                                         <td>{{ isset($jdpr->angkatan) ? $jdpr->angkatan : '-' }}</td>
-                                        <td></td>
+                                        <td>{{ $jdsm->biaya }}</td>
                                     </tr>
                                 @endforeach
                         </table>
