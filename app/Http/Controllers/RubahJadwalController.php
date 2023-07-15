@@ -20,12 +20,13 @@ class RubahJadwalController extends Controller
 {
     public function index()
     {
+        $active_menu = 'perubahan-jadwal';
         if (auth()->user()->level === "Admin") {
-            return view('dashboard.rubah-jadwal.perubahan-jadwal', [
+            return view('dashboard.rubah-jadwal.perubahan-jadwal', compact('active_menu'), [
                 'jadwal' => Jadwal::where('request', true)->get()
             ]);
         } else {
-            return view('dashboard.rubah-jadwal.perubahan-jadwal', [
+            return view('dashboard.rubah-jadwal.perubahan-jadwal', compact('active_menu'), [
                 'jadwal' => Jadwal::where('user_id', Auth::user()->id)->where('request', true)->get()
             ]);
         }

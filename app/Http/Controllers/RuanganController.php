@@ -15,7 +15,8 @@ class RuanganController extends Controller
      */
     public function index()
     {
-        return view('dashboard.ruangan.data-ruangan', [
+        $active_menu = 'data-ruangan';
+        return view('dashboard.ruangan.data-ruangan', compact('active_menu'), [
             "ruangan" => Ruangan::orderBy('nama_ruangan', 'ASC')->get()
         ]);
     }

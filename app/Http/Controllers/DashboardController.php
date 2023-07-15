@@ -26,11 +26,21 @@ class DashboardController extends Controller
             ->get();
 
         $jadwal_semua = Jadwal::where('request', false)
+            ->leftJoin('keuangans', 'keuangans.jadwal_id', '=', 'jadwals.id')
             ->whereRaw("((STR_TO_DATE(waktu_mulai, '%Y-%m-%d') ) >= curdate())")
             ->orderBy('waktu_mulai', 'ASC')
             ->get();
 
+        $akumulasi_biaya = Jadwal::where('request', false)
+            ->leftJoin('keuangans', 'keuangans.jadwal_id', '=', 'jadwals.id')
+            ->whereRaw("((STR_TO_DATE(waktu_mulai, '%Y-%m-%d') ) >= curdate())")
+            ->orderBy('waktu_mulai', 'ASC')
+            ->pluck('biaya')
+            ->sum();
 
-        return view('dashboard.dashboard', compact('pegawai', 'kegiatan', 'ruangan', 'perubahan', 'jadwal_pribadi', 'jadwal_semua'));
+        $active_menu = 'dashboard';
+
+
+        return view('dashboard.dashboard', compact('pegawai', 'kegiatan', 'ruangan', 'perubahan', 'jadwal_pribadi', 'jadwal_semua', 'active_menu', 'akumulasi_biaya'));
     }
 }
