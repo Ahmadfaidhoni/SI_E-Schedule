@@ -30,9 +30,16 @@ class DashboardController extends Controller
             ->orderBy('waktu_mulai', 'ASC')
             ->get();
 
+        $akumulasi_biaya = Jadwal::where('request', false)
+            ->leftJoin('keuangans', 'keuangans.jadwal_id', '=', 'jadwals.id')
+            ->whereRaw("((STR_TO_DATE(waktu_mulai, '%Y-%m-%d') ) >= curdate())")
+            ->orderBy('waktu_mulai', 'ASC')
+            ->pluck('biaya')
+            ->sum();
+
         $active_menu = 'dashboard';
 
 
-        return view('dashboard.dashboard', compact('pegawai', 'kegiatan', 'ruangan', 'perubahan', 'jadwal_pribadi', 'jadwal_semua', 'active_menu'));
+        return view('dashboard.dashboard', compact('pegawai', 'kegiatan', 'ruangan', 'perubahan', 'jadwal_pribadi', 'jadwal_semua', 'active_menu', 'akumulasi_biaya'));
     }
 }

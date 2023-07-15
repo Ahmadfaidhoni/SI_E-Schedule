@@ -183,14 +183,14 @@
                                 <!-- small box -->
                                 <div class="small-box bg-info">
                                     <div class="inner">
-                                        <h3>150</h3>
+                                        <h3>{{ $pegawai }}</h3>
 
-                                        <p>New Orders</p>
+                                        <p>Data Pegawai</p>
                                     </div>
                                     <div class="icon">
-                                        <i class="ion ion-bag"></i>
+                                        {{-- <i class="ion ion-bag"></i> --}}
                                     </div>
-                                    <a href="#" class="small-box-footer">More info <i
+                                    <a href="/data-pegawai" class="small-box-footer">More info <i
                                             class="fas fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
@@ -199,14 +199,14 @@
                                 <!-- small box -->
                                 <div class="small-box bg-success">
                                     <div class="inner">
-                                        <h3>53<sup style="font-size: 20px">%</sup></h3>
+                                        <h3>{{ $kegiatan }}</h3>
 
-                                        <p>Bounce Rate</p>
+                                        <p>Data Kegiatan</p>
                                     </div>
                                     <div class="icon">
-                                        <i class="ion ion-stats-bars"></i>
+                                        {{-- <i class="ion ion-stats-bars"></i> --}}
                                     </div>
-                                    <a href="#" class="small-box-footer">More info <i
+                                    <a href="/data-kegiatan" class="small-box-footer">More info <i
                                             class="fas fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
@@ -215,14 +215,14 @@
                                 <!-- small box -->
                                 <div class="small-box bg-warning">
                                     <div class="inner">
-                                        <h3>44</h3>
+                                        <h3>{{ $ruangan }}</h3>
 
-                                        <p>User Registrations</p>
+                                        <p>Data Ruangan</p>
                                     </div>
                                     <div class="icon">
-                                        <i class="ion ion-person-add"></i>
+                                        {{-- <i class="ion ion-person-add"></i> --}}
                                     </div>
-                                    <a href="#" class="small-box-footer">More info <i
+                                    <a href="/data-ruangan" class="small-box-footer">More info <i
                                             class="fas fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
@@ -231,9 +231,9 @@
                                 <!-- small box -->
                                 <div class="small-box bg-danger">
                                     <div class="inner">
-                                        <h3>65</h3>
+                                        <h3>{{ $akumulasi_biaya }}</h3>
 
-                                        <p>Unique Visitors</p>
+                                        <p>Akumulasi Biaya Hari ini</p>
                                     </div>
                                     <div class="icon">
                                         <i class="ion ion-pie-graph"></i>
@@ -284,10 +284,9 @@
                                     <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
 
                                     <div class="info-box-content">
-                                        <span class="info-box-text">CPU Traffic</span>
+                                        <span class="info-box-text">Jadwal Hari ini</span>
                                         <span class="info-box-number">
-                                            10
-                                            <small>%</small>
+                                            {{ $jadwal_semua->count() }}
                                         </span>
                                     </div>
                                     <!-- /.info-box-content -->
@@ -301,8 +300,9 @@
                                             class="fas fa-thumbs-up"></i></span>
 
                                     <div class="info-box-content">
-                                        <span class="info-box-text">Likes</span>
-                                        <span class="info-box-number">41,410</span>
+                                        <span class="info-box-text">Jadwal yang akan datang</span>
+                                        {{ $jadwal_semua->count() }}
+                                        <span class="info-box-number"></span>
                                     </div>
                                     <!-- /.info-box-content -->
                                 </div>
@@ -319,8 +319,8 @@
                                             class="fas fa-shopping-cart"></i></span>
 
                                     <div class="info-box-content">
-                                        <span class="info-box-text">Sales</span>
-                                        <span class="info-box-number">760</span>
+                                        <span class="info-box-text">Perubahan Jadwal</span>
+                                        <span class="info-box-number">{{ $perubahan }}</span>
                                     </div>
                                     <!-- /.info-box-content -->
                                 </div>
