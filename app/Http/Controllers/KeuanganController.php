@@ -10,7 +10,8 @@ class KeuanganController extends Controller
 {
     public function index()
     {
-        return view('keuangan.data-pegawai-keuangan', [
+        $active_menu = 'keuangan';
+        return view('keuangan.data-pegawai-keuangan', compact('active_menu'), [
             "pegawai" => User::where('id', '!=', '1')->orderBy('name', 'ASC')->get()
         ]);
     }

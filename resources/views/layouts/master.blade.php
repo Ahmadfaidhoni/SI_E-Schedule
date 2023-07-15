@@ -316,7 +316,7 @@
                             </li>
                         @endcan
                         @can('keuangan')
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a class="has-arrow text-decoration-none" href="javascript:void()" aria-expanded="false">
                                     <i class="icon-speedometer menu-icon"></i><span class="nav-text">Keuangan</span>
                                 </a>
@@ -324,6 +324,27 @@
                                     <li class="nav-item">
                                         <a href="/keuangan" class="text-decoration-none nav-link">
                                             <i class="bi bi-currency-dollar"></i>Master Keuangan
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li> --}}
+
+                            <li
+                                class="nav-item @if (!empty($active_menu)) {{ $active_menu == 'keuangan' ? 'menu-open' : '' }} @endif">
+                                <a href="#" class="nav-link">
+                                    <i class="icon-speedometer nav-icon"></i>
+                                    <p>
+                                        Keuangan
+                                        <i class="fas fa-angle-left right"></i>
+                                        {{-- <span class="badge badge-info right">6</span> --}}
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="/keuangan"
+                                            class="nav-link @if (!empty($active_menu)) {{ $active_menu == 'keuangan' ? 'active' : '' }} @endif">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Master Keuangan</p>
                                         </a>
                                     </li>
                                 </ul>
