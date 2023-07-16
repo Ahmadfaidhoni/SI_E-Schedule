@@ -138,7 +138,9 @@
                                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
                                     quis nostrud
                                     exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p> --}}
-                                <img src="images/logo/logo1.png" width="400" height="400">
+                                <div class="card">
+                                    <img src="images/logo/logo1.png" width="400" height="400">
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-5">

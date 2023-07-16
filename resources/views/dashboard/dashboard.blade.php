@@ -179,61 +179,63 @@
                                         class="hind-font caption-12 c-dashboardInfo__subInfo">Last month: €30</span>
                                 </div>
                             </div> --}}
-                            <div class="col-lg-3 col-6">
-                                <!-- small box -->
-                                <div class="small-box bg-info">
-                                    <div class="inner">
-                                        <h3>150</h3>
+                            @can('admin')
+                                <div class="col-lg-3 col-6">
+                                    <!-- small box -->
+                                    <div class="small-box bg-info">
+                                        <div class="inner">
+                                            <h3>{{ $pegawai }}</h3>
 
-                                        <p>New Orders</p>
+                                            <p>Data Pegawai</p>
+                                        </div>
+                                        <div class="icon">
+                                            {{-- <i class="ion ion-bag"></i> --}}
+                                        </div>
+                                        <a href="/data-pegawai" class="small-box-footer">More info <i
+                                                class="fas fa-arrow-circle-right"></i></a>
                                     </div>
-                                    <div class="icon">
-                                        <i class="ion ion-bag"></i>
-                                    </div>
-                                    <a href="#" class="small-box-footer">More info <i
-                                            class="fas fa-arrow-circle-right"></i></a>
                                 </div>
-                            </div>
-                            <!-- ./col -->
-                            <div class="col-lg-3 col-6">
-                                <!-- small box -->
-                                <div class="small-box bg-success">
-                                    <div class="inner">
-                                        <h3>53<sup style="font-size: 20px">%</sup></h3>
+                                <!-- ./col -->
+                                <div class="col-lg-3 col-6">
+                                    <!-- small box -->
+                                    <div class="small-box bg-success">
+                                        <div class="inner">
+                                            <h3>{{ $kegiatan }}</h3>
 
-                                        <p>Bounce Rate</p>
+                                            <p>Data Kegiatan</p>
+                                        </div>
+                                        <div class="icon">
+                                            {{-- <i class="ion ion-stats-bars"></i> --}}
+                                        </div>
+                                        <a href="/data-kegiatan" class="small-box-footer">More info <i
+                                                class="fas fa-arrow-circle-right"></i></a>
                                     </div>
-                                    <div class="icon">
-                                        <i class="ion ion-stats-bars"></i>
-                                    </div>
-                                    <a href="#" class="small-box-footer">More info <i
-                                            class="fas fa-arrow-circle-right"></i></a>
                                 </div>
-                            </div>
-                            <!-- ./col -->
-                            <div class="col-lg-3 col-6">
-                                <!-- small box -->
-                                <div class="small-box bg-warning">
-                                    <div class="inner">
-                                        <h3>44</h3>
+                                <!-- ./col -->
+                                <div class="col-lg-3 col-6">
+                                    <!-- small box -->
+                                    <div class="small-box bg-warning">
+                                        <div class="inner">
+                                            <h3>{{ $ruangan }}</h3>
 
-                                        <p>User Registrations</p>
+                                            <p>Data Ruangan</p>
+                                        </div>
+                                        <div class="icon">
+                                            {{-- <i class="ion ion-person-add"></i> --}}
+                                        </div>
+                                        <a href="/data-ruangan" class="small-box-footer">More info <i
+                                                class="fas fa-arrow-circle-right"></i></a>
                                     </div>
-                                    <div class="icon">
-                                        <i class="ion ion-person-add"></i>
-                                    </div>
-                                    <a href="#" class="small-box-footer">More info <i
-                                            class="fas fa-arrow-circle-right"></i></a>
                                 </div>
-                            </div>
+                            @endcan
                             <!-- ./col -->
                             <div class="col-lg-3 col-6">
                                 <!-- small box -->
                                 <div class="small-box bg-danger">
                                     <div class="inner">
-                                        <h3>65</h3>
+                                        <h3>{{ $akumulasi_biaya }}</h3>
 
-                                        <p>Unique Visitors</p>
+                                        <p>Akumulasi Biaya Hari ini</p>
                                     </div>
                                     <div class="icon">
                                         <i class="ion ion-pie-graph"></i>
@@ -278,68 +280,74 @@
                                 </div>
                             </div>
                         </div> --}}
-                        <div class="row">
-                            <div class="col-12 col-sm-6 col-md-4">
-                                <div class="info-box">
-                                    <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+                        @can('admin')
+                            <div class="row">
+                                <div class="col-12 col-sm-6 col-md-4">
+                                    <div class="info-box">
+                                        <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
 
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">CPU Traffic</span>
-                                        <span class="info-box-number">
-                                            10
-                                            <small>%</small>
-                                        </span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Jadwal Hari ini</span>
+                                            <span class="info-box-number">
+                                                {{ $jadwal_semua->count() }}
+                                            </span>
+                                        </div>
+                                        <!-- /.info-box-content -->
                                     </div>
-                                    <!-- /.info-box-content -->
+                                    <!-- /.info-box -->
                                 </div>
-                                <!-- /.info-box -->
-                            </div>
-                            <!-- /.col -->
-                            <div class="col-12 col-sm-6 col-md-4">
-                                <div class="info-box mb-3">
-                                    <span class="info-box-icon bg-danger elevation-1"><i
-                                            class="fas fa-thumbs-up"></i></span>
+                                <!-- /.col -->
+                                <div class="col-12 col-sm-6 col-md-4">
+                                    <div class="info-box mb-3">
+                                        <span class="info-box-icon bg-danger elevation-1"><i
+                                                class="fas fa-thumbs-up"></i></span>
 
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Likes</span>
-                                        <span class="info-box-number">41,410</span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Jadwal yang akan datang</span>
+                                            {{ $jadwal_semua->count() }}
+                                            <span class="info-box-number"></span>
+                                        </div>
+                                        <!-- /.info-box-content -->
                                     </div>
-                                    <!-- /.info-box-content -->
+                                    <!-- /.info-box -->
                                 </div>
-                                <!-- /.info-box -->
-                            </div>
-                            <!-- /.col -->
+                                <!-- /.col -->
 
-                            <!-- fix for small devices only -->
-                            <div class="clearfix hidden-md-up"></div>
+                                <!-- fix for small devices only -->
+                                <div class="clearfix hidden-md-up"></div>
 
-                            <div class="col-12 col-sm-6 col-md-4">
-                                <div class="info-box mb-3">
-                                    <span class="info-box-icon bg-success elevation-1"><i
-                                            class="fas fa-shopping-cart"></i></span>
+                                <div class="col-12 col-sm-6 col-md-4">
+                                    <div class="info-box mb-3">
+                                        <span class="info-box-icon bg-success elevation-1"><i
+                                                class="fas fa-shopping-cart"></i></span>
 
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Sales</span>
-                                        <span class="info-box-number">760</span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Perubahan Jadwal</span>
+                                            <span class="info-box-number">{{ $perubahan }}</span>
+                                        </div>
+                                        <!-- /.info-box-content -->
                                     </div>
-                                    <!-- /.info-box-content -->
+                                    <!-- /.info-box -->
                                 </div>
-                                <!-- /.info-box -->
+                                <!-- /.col -->
                             </div>
-                            <!-- /.col -->
-                        </div>
+                        @endcan
                         <h4>Jadwal Keseluruhan Pegawai Hari ini</h4>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered zero-configuration">
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Kegiatan</th>
+                                        @can('admin')
+                                            <th>Kegiatan</th>
+                                        @endcan
                                         <th>Pegawai</th>
-                                        <th>Jumlah JP</th>
-                                        <th>Tanggal Kegiatan</th>
-                                        <th>Jam</th>
-                                        <th>Angkatan</th>
+                                        @can('admin')
+                                            <th>Jumlah JP</th>
+                                            <th>Tanggal Kegiatan</th>
+                                            <th>Jam</th>
+                                            <th>Angkatan</th>
+                                        @endcan
                                         <th>Biaya</th>
                                     </tr>
                                 </thead>
@@ -347,13 +355,17 @@
                                     @foreach ($jadwal_semua as $jdsm)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ isset($jdsm->kegiatan) ? $jdsm->kegiatan->nama_kegiatan : '-' }}</td>
-                                            <td>{{ $jdsm->user->nama }}</td>
-                                            <td>{{ $jdsm->jp }}</td>
-                                            <td>{{ $jdsm->tanggal }}</td>
-                                            <td>{{ date('H:i', strtotime($jdsm->waktu_mulai)) }} -
-                                                {{ date('H:i', strtotime($jdsm->waktu_selesai)) }}</td>
-                                            <td>{{ $jdsm->angkatan }}</td>
+                                            @can('admin')
+                                                <td>{{ isset($jdsm->kegiatan) ? $jdsm->kegiatan->nama_kegiatan : '-' }}</td>
+                                            @endcan
+                                            <td>{{ $jdsm->user->name ?? '-' }}</td>
+                                            @can('admin')
+                                                <td>{{ $jdsm->jp }}</td>
+                                                <td>{{ date('d-m-Y', strtotime($jdsm->waktu_mulai)) }}</td>
+                                                <td>{{ date('H:i', strtotime($jdsm->waktu_mulai)) }} -
+                                                    {{ date('H:i', strtotime($jdsm->waktu_selesai)) }}</td>
+                                                <td>{{ $jdsm->angkatan }}</td>
+                                            @endcan
                                             <td>{{ $jdsm->biaya }}</td>
                                         </tr>
                                     @endforeach
@@ -388,7 +400,7 @@
                                         <td>{{ date('H:i', strtotime($jdpr->waktu_mulai)) }} -
                                             {{ date('H:i', strtotime($jdpr->waktu_selesai)) }}</td>
                                         <td>{{ isset($jdpr->angkatan) ? $jdpr->angkatan : '-' }}</td>
-                                        <td></td>
+                                        <td>{{ $jdsm->biaya }}</td>
                                     </tr>
                                 @endforeach
                         </table>
