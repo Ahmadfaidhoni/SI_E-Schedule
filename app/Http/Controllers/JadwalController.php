@@ -143,7 +143,7 @@ class JadwalController extends Controller
 
         // return redirect('/jadwal');
 
-        // return redirect('/')->with('success', 'Jadwal Berhasil dibuat.');
+        return redirect('/jadwal')->with('success', 'Jadwal Berhasil dibuat.');
     }
 
     /**

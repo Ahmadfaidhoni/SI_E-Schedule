@@ -7,6 +7,10 @@
                     <div class="form-validation">
                         <form class="form-valide" action="/add-jadwal" method="post">
                             @csrf
+                            <div class="alert alert-danger alert-block" id="checkSpan" style="display: none">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                <strong></strong>
+                            </div>
                             <div class="row form-material">
                                 <div class="col-md-6 mt-1">
                                     <label for="tipe_kegiatan">Tipe Jadwal</label> <span class="text-danger">*</span>
@@ -80,8 +84,8 @@
                                     @enderror
                                 </div>
                                 <div class="col-md-12 mt-2">
-                                    <button id="btn_check" type="button" class="btn btn-info my-2">Check</button><span
-                                        id="checkSpan" class="ml-2 text-danger" style="display: none;"></span>
+                                    <button id="btn_check" type="button" class="btn btn-info my-2">Check</button>
+                                    {{-- <span id="checkSpan" class="ml-2 text-danger" style="display: none;"></span> --}}
                                 </div>
                                 <div id="form_pengajar" class="col-md-6 mt-2">
                                     <label for="pengajar">Pegawai</label> <span class="text-danger">*</span>
@@ -197,6 +201,8 @@
                     if (!tipe_jadwal || !tipe_jadwal2 || !tipe_jadwal3) {
                         var checkSpan = document.getElementById('checkSpan');
                         checkSpan.style.display = '';
+                        checkSpan.classList.remove("alert-success");
+                        checkSpan.classList.add("alert-danger");
                         checkSpan.innerHTML = "Lengkapi Inputan!"
                         setTimeout(() => {
                             checkSpan.style.display = 'none';
@@ -205,6 +211,8 @@
                     } else if (results <= 0) {
                         var checkSpan = document.getElementById('checkSpan');
                         checkSpan.style.display = '';
+                        checkSpan.classList.remove("alert-success");
+                        checkSpan.classList.add("alert-danger");
                         checkSpan.innerHTML = "Inputan Jam Salah!"
                         setTimeout(() => {
                             checkSpan.style.display = 'none';
@@ -213,6 +221,8 @@
                     } else if (results > 15) {
                         var checkSpan = document.getElementById('checkSpan');
                         checkSpan.style.display = '';
+                        checkSpan.classList.remove("alert-success");
+                        checkSpan.classList.add("alert-danger");
                         checkSpan.innerHTML = "Maks JP Mengajar adalah 15!"
                         setTimeout(() => {
                             checkSpan.style.display = 'none';
@@ -221,6 +231,8 @@
                     } else {
                         var checkSpan = document.getElementById('checkSpan');
                         checkSpan.style.display = '';
+                        checkSpan.classList.remove("alert-danger");
+                        checkSpan.classList.add("alert-success");
                         checkSpan.innerHTML = "Check Pegawai Berhasil!"
                         setTimeout(() => {
                             checkSpan.style.display = 'none';
@@ -258,6 +270,8 @@
                     if (!tipe_jadwal) {
                         var checkSpan = document.getElementById('checkSpan');
                         checkSpan.style.display = '';
+                        checkSpan.classList.remove("alert-success");
+                        checkSpan.classList.add("alert-danger");
                         checkSpan.innerHTML = "Lengkapi Inputan!"
                         setTimeout(() => {
                             checkSpan.style.display = 'none';
@@ -265,6 +279,8 @@
                     } else {
                         var checkSpan = document.getElementById('checkSpan');
                         checkSpan.style.display = '';
+                        checkSpan.classList.remove("alert-danger");
+                        checkSpan.classList.add("alert-success");
                         checkSpan.innerHTML = "Check Pegawai Berhasil!"
                         setTimeout(() => {
                             checkSpan.style.display = 'none';
