@@ -24,7 +24,7 @@
                                     <th>NIP</th>
                                     <th>Nama</th>
                                     <th>Jabatan</th>
-                                    <th>Pangkat-Gol/Ruang</th>
+                                    {{-- <th>Pangkat-Gol/Ruang</th> --}}
                                     <th>Email</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
@@ -37,9 +37,9 @@
                                         <td>{{ $pgw->nip }}</td>
                                         <td>{{ $pgw->name }}</td>
                                         <td>{{ $pgw->jabatan }}</td>
-                                        <td>{{ isset($pgw->golongan) ? $pgw->golongan->nama_pangkat : '- ' }} -
+                                        {{-- <td>{{ isset($pgw->golongan) ? $pgw->golongan->nama_pangkat : '- ' }} -
                                             {{ isset($pgw->golongan) ? $pgw->golongan->jenis_golongan : '- ' }}/{{ isset($pgw->golongan) ? $pgw->golongan->ruang : ' -' }}
-                                        </td>
+                                        </td> --}}
                                         <td>{{ isset($pgw->email) ? $pgw->email : '-' }}</td>
                                         <td class="text-center">
                                             @if ($pgw->status_anggota == 1)
