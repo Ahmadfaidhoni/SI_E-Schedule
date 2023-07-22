@@ -57,12 +57,12 @@
                                 <th scope="row">Jabatan:</th>
                                 <td>{{ $user->jabatan }}</td>
                             </tr>
-                            <tr>
+                            {{-- <tr>
                                 <th scope="row">Pangkat-Gol/Ruang:</th>
                                 <td>{{ isset($user->golongan) ? $user->golongan->nama_pangkat : '- ' }} -
                                     {{ isset($user->golongan) ? $user->golongan->jenis_golongan : '- ' }}/{{ isset($user->golongan) ? $user->golongan->ruang : ' -' }}
                                 </td>
-                            </tr>
+                            </tr> --}}
                             <tr>
                                 <th scope="row">E-mail:</th>
                                 <td>{{ isset($user->email) ? $user->email : '-' }}</td>
