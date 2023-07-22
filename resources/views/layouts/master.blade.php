@@ -314,6 +314,13 @@
                                     <p><span class="nav-text">Data Ruangan</span></p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="/config" aria-expanded="false"
+                                    class="nav-link @if (!empty($active_menu)) {{ $active_menu == 'config' ? 'active' : '' }} @endif">
+                                    <i class="bi nav-icon bi-gear"></i>
+                                    <p><span class="nav-text">Config</span></p>
+                                </a>
+                            </li>
                         @endcan
                         @can('keuangan')
                             {{-- <li class="nav-item">

@@ -218,12 +218,13 @@
                             checkSpan.style.display = 'none';
                         }, 3000);
 
-                    } else if (results > 15) {
+                    } else if (results > ("{{ $config_max_jp->value ?? 15 }}")) {
                         var checkSpan = document.getElementById('checkSpan');
                         checkSpan.style.display = '';
                         checkSpan.classList.remove("alert-success");
                         checkSpan.classList.add("alert-danger");
-                        checkSpan.innerHTML = "Maks JP Mengajar adalah 15!"
+                        checkSpan.innerHTML =
+                            "Maks JP Mengajar adalah {{ $config_max_jp->value ?? 15 }}!"
                         setTimeout(() => {
                             checkSpan.style.display = 'none';
                         }, 3000);
@@ -293,7 +294,7 @@
                                 tanggal: tipe_jadwal,
                                 mulai: '00:00:00',
                                 selesai: '23:59:59',
-                                jp: 15,
+                                jp: "{{ $config_max_jp->value ?? 15 }}",
                             },
                             dataType: "json",
                             success: function({

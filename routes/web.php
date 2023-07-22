@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GolonganController;
 use Illuminate\Support\Facades\Route;
@@ -94,6 +95,9 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('editRuangan-{ruangan:id}', [RuanganController::class, 'edit']);
     Route::patch('data-ruangan.{ruangan}', [RuanganController::class, 'update']);
     Route::delete('data-ruangan.{ruangan}', [RuanganController::class, 'destroy']);
+
+    Route::get('/config', [ConfigController::class, 'index']);
+    Route::post('/update_config', [ConfigController::class, 'update']);
 
 
     //jadwal
