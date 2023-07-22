@@ -60,28 +60,29 @@
                                     <select class="form-control @error('jabatan') is-invalid @enderror" id="jabatan"
                                         name="jabatan">
                                         <optgroup label="Golongan IV">
-                                            <option value="Pembina Utama IV-e">Pembina Utama IV-e</option>
+                                            <option value="Pembina Utama IV-e">Pembina Utama IV-e
+                                            </option>
                                             <option value="Pembina utama Muda IV-c">Pembina utama Muda IV-c</option>
-                                            <option value="Pembina Tingkat 1 IV-b">Pembina Tingkat 1 IV-b</option>
+                                            <option value="Pembina Tingkat I IV-b">Pembina Tingkat I IV-b</option>
                                             <option value="Pembina IV-a">Pembina IV-a</option>
                                         </optgroup>
                                         <optgroup label="Golongan III">
-                                            <option value="Penata Tingkat 1 III-e">Penata Tingkat 1 III-e</option>
-                                            <option value="Pembina utama III-e">Pembina utama III-e</option>
-                                            <option value="Pembina utama III-e">Pembina utama III-e</option>
-                                            <option value="Pembina utama III-e">Pembina utama III-e</option>
+                                            <option value="Penata Tingkat I III-d">Penata Tingkat I III-d</option>
+                                            <option value="Penata III-c">Penata III-c</option>
+                                            <option value="Penata Muda Tingkat I III-b">Penata Muda Tingkat I III-b</option>
+                                            <option value="Penata Muda III-a">Penata Muda III-a</option>
                                         </optgroup>
                                         <optgroup label="Golongan II">
-                                            <option value="Pembina utama IV-e">Pembina utama IV-e</option>
-                                            <option value="Pembina utama IV-e">Pembina utama IV-e</option>
-                                            <option value="Pembina utama IV-e">Pembina utama IV-e</option>
-                                            <option value="Pembina utama IV-e">Pembina utama IV-e</option>
+                                            <option value="Pengatur Tingkat I II-d">Pengatur Tingkat I II-d</option>
+                                            <option value="Pengatur II-c">Pengatur II-c</option>
+                                            <option value="Pengatur Muda II-b">Pengatur Muda II-b</option>
+                                            <option value="Pengatur Muda II-a">Pengatur Muda II-a</option>
                                         </optgroup>
                                         <optgroup label="Golongan I">
-                                            <option value="Pembina utama IV-e">Pembina utama IV-e</option>
-                                            <option value="Pembina utama IV-e">Pembina utama IV-e</option>
-                                            <option value="Pembina utama IV-e">Pembina utama IV-e</option>
-                                            <option value="Pembina utama IV-e">Pembina utama IV-e</option>
+                                            <option value="Juru Tingkat I I-d">Juru Tingkat I I-d</option>
+                                            <option value="Juru I-c">Juru I-c</option>
+                                            <option value="Juru Muda Tingkat I I-b">Juru Muda Tingkat I I-b</option>
+                                            <option value="Juru Muda I-a">Juru Muda I-a</option>
                                         </optgroup>
                                     </select>
                                     @error('jabatan')

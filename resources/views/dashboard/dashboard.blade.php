@@ -27,10 +27,10 @@
                                         <p>Jadwal Terlaksana Hari ini</p>
                                     </div>
                                     <div class="icon">
-                                        {{-- <i class="ion ion-bag"></i> --}}
+                                        <i class="ion ion-document"></i>
                                     </div>
-                                    {{-- <a href="/data-pegawai" class="small-box-footer">More info <i
-                                            class="fas fa-arrow-circle-right"></i></a> --}}
+                                    <a href="/jadwal" class="small-box-footer">More info <i
+                                            class="fas fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                             <!-- ./col -->
@@ -43,10 +43,10 @@
                                         <p>Jadwal Yang Akan Datang</p>
                                     </div>
                                     <div class="icon">
-                                        {{-- <i class="ion ion-stats-bars"></i> --}}
+                                        <i class="ion ion-calendar"></i>
                                     </div>
-                                    {{-- <a href="/data-kegiatan" class="small-box-footer">More info <i
-                                            class="fas fa-arrow-circle-right"></i></a> --}}
+                                    <a href="/jadwal" class="small-box-footer">More info <i
+                                            class="fas fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                             <!-- ./col -->
@@ -59,10 +59,10 @@
                                         <p>Perubahan Jadwal</p>
                                     </div>
                                     <div class="icon">
-                                        {{-- <i class="ion ion-person-add"></i> --}}
+                                        <i class="ion ion-clock"></i>
                                     </div>
-                                    {{-- <a href="/data-ruangan" class="small-box-footer">More info <i
-                                            class="fas fa-arrow-circle-right"></i></a> --}}
+                                    <a href="/perubahan-jadwal" class="small-box-footer">More info <i
+                                            class="fas fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                             <!-- ./col -->
@@ -159,10 +159,10 @@
                                     <p>Jadwal Terlaksana Hari ini</p>
                                 </div>
                                 <div class="icon">
-                                    {{-- <i class="ion ion-bag"></i> --}}
+                                    <i class="ion ion-document"></i>
                                 </div>
-                                {{-- <a href="/data-pegawai" class="small-box-footer">More info <i
-                                        class="fas fa-arrow-circle-right"></i></a> --}}
+                                <a href="/jadwal" class="small-box-footer">More info <i
+                                        class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -175,10 +175,10 @@
                                     <p>Jadwal Yang Akan Datang</p>
                                 </div>
                                 <div class="icon">
-                                    {{-- <i class="ion ion-stats-bars"></i> --}}
+                                    <i class="ion ion-calendar"></i>
                                 </div>
-                                {{-- <a href="/data-kegiatan" class="small-box-footer">More info <i
-                                        class="fas fa-arrow-circle-right"></i></a> --}}
+                                <a href="/jadwal" class="small-box-footer">More info <i
+                                        class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -191,10 +191,10 @@
                                     <p>Perubahan Jadwal</p>
                                 </div>
                                 <div class="icon">
-                                    {{-- <i class="ion ion-person-add"></i> --}}
+                                    <i class="ion ion-clock"></i>
                                 </div>
-                                {{-- <a href="/data-ruangan" class="small-box-footer">More info <i
-                                        class="fas fa-arrow-circle-right"></i></a> --}}
+                                <a href="/perubahan-jadwal" class="small-box-footer">More info <i
+                                        class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -206,11 +206,11 @@
 
                                     <p>Pendapatan Bulan ini</p>
                                 </div>
-                                {{-- <div class="icon">
+                                <div class="icon">
                                     <i class="ion ion-pie-graph"></i>
-                                </div> --}}
-                                {{-- <a href="#" class="small-box-footer">More info <i
-                                        class="fas fa-arrow-circle-right"></i></a> --}}
+                                </div>
+                                <a href="#" class="small-box-footer">More info <i
+                                        class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>
