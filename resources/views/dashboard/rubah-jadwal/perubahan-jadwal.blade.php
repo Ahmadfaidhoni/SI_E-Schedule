@@ -68,18 +68,26 @@
                                                         <a href="ubah-jadwal-{{ $jdwl->id }}"><button type="button"
                                                                 class="btn btn-sm mb-1 btn-primary"><i
                                                                     class="bi bi-eye"></i> Lihat</button></a>
-                                                        <form action="tolak-jadwal.{{ $jdwl->id }}" method="post"
-                                                            class="d-inline">
-                                                            @method('patch')
-                                                            @csrf
-                                                            <button type="submit"
+                                                        {{-- <button type="submit"
                                                                 class="btn btn-sm mb-1 btn-warning text-white"
                                                                 onclick="return confirm('Apakah anda yakin ingin menolak jadwal ini?');"><i
-                                                                    class="bi bi-dash-circle"></i> Tolak</button>
-                                                        </form>
+                                                                    class="bi bi-dash-circle"></i> Tolak</button> --}}
+
+                                                        {{-- button to open modal --}}
+                                                        <button type="button"
+                                                            class="btn btn-sm mb-1 btn-warning text-white"
+                                                            data-toggle="modal" data-target="#modal-tolak">
+                                                            <i class="bi bi-dash-circle"></i> Tolak
+                                                        </button>
+
+                                                        {{-- <a href="#" data-toggle="modal" data-target="#exampleModal">
+                                                            Forgot Password
+                                                        </a> --}}
+
+
                                                     </div>
                                                 </div>
-                                            @elseif(Auth::user()->level == 'User')
+                                            @elseif(Auth::user()->level == 'User' || Auth::user()->level == 'Keuangan')
                                                 <button type="button" class="btn btn-sm mb-1 btn-warning text-white"
                                                     style="pointer-events: none">Dalam Pengecekan</button>
                                             @endif
@@ -90,6 +98,32 @@
                         </table>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-tolak" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Penolakan Jadwal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="tolak-jadwal" method="post" class="d-inline">
+                    @method('put')
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $jdwl->id ?? '' }}">
+                    <div class="modal-body">
+                        <label for="comment">Komentar:</label>
+                        <input type="text" id="comment" name="comment" class="form-control">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save
+                            Changes</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

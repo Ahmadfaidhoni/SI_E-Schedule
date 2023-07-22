@@ -66,7 +66,7 @@ class RubahJadwalController extends Controller
     public function show(Jadwal $jadwal)
     {
         return view('dashboard.rubah-jadwal.show-ubah-jadwal', [
-            'jadwal' => $jadwal
+            'jadwal' => $jadwal,
         ]);
     }
 
@@ -170,15 +170,23 @@ class RubahJadwalController extends Controller
         // return redirect('/')->with('success', 'Jadwal Berhasil dihapus.');
     }
 
-    public function tolakJadwal(Jadwal $jadwal)
+    public function tolakJadwal(Request $request)
     {
+        // dd($request->all());
         $data = [];
         $data['request'] = false;
         $data['alasan'] = null;
 
-        Jadwal::where('id', $jadwal->id)->update($data);
+        $jadwal = Jadwal::where('id', $request->id)->first();
+        $jadwal->update($data);
 
-        $getIdUser = $jadwal['user_id'];
+        HistoryPerubahanJadwal::create([
+            'jadwal_id' => $request->id,
+            'status' => 'disapproved',
+            'comment' => $request->comment
+        ]);
+
+        $getIdUser = $jadwal->user_id;
 
         $getEmail = User::find($getIdUser)->email;
 

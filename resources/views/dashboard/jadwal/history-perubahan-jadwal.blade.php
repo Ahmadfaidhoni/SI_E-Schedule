@@ -17,7 +17,8 @@
                     @endif
 
                     <div class="ml-4" style="display: inline-block">
-                        <a href="/"><button type="button" class="btn btn-primary"><i class="bi bi-arrow-bar-left"></i>
+                        <a href="/perubahan-jadwal"><button type="button" class="btn btn-primary"><i
+                                    class="bi bi-arrow-bar-left"></i>
                                 Back to Jadwal</button></a>
                     </div>
 
@@ -33,6 +34,7 @@
                                     <th>Jam</th>
                                     <th>Angkatan</th>
                                     <th>status</th>
+                                    <th>Comment</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -43,24 +45,27 @@
                                             @if ($jdwl->tipe_jadwal == 2)
                                                 Perjalanan Dinas
                                             @else
-                                                {{ isset($jdwl->kegiatan) ? $jdwl->kegiatan->nama_kegiatan : '-' }}
+                                                {{ isset($jdwl->jadwal->kegiatan) ? $jdwl->jadwal->kegiatan->nama_kegiatan : '-' }}
                                             @endif
                                         </td>
-                                        <td>{{ isset($jdwl->user) ? $jdwl->user->name : '-' }}</td>
+                                        <td>{{ isset($jdwl->jadwal->user) ? $jdwl->jadwal->user->name : '-' }}</td>
                                         <td>
-                                            @if ($jdwl->jp < 15)
-                                                {{ $jdwl->jp }}
+                                            @if ($jdwl->jadwal->jp < 15)
+                                                {{ $jdwl->jadwal->jp }}
                                             @else
                                                 Full Day
                                             @endif
                                         </td>
-                                        <td>{{ date('d-m-Y', strtotime($jdwl->waktu_mulai)) }}</td>
+                                        <td>{{ date('d-m-Y', strtotime($jdwl->jadwal->waktu_mulai)) }}</td>
 
-                                        <td>{{ date('H:i', strtotime($jdwl->waktu_mulai)) }} -
-                                            {{ date('H:i', strtotime($jdwl->waktu_selesai)) }}</td>
-                                        <td>{{ isset($jdwl->angkatan) ? $jdwl->angkatan : '-' }}</td>
+                                        <td>{{ date('H:i', strtotime($jdwl->jadwal->waktu_mulai)) }} -
+                                            {{ date('H:i', strtotime($jdwl->jadwal->waktu_selesai)) }}</td>
+                                        <td>{{ isset($jdwl->jadwal->angkatan) ? $jdwl->jadwal->angkatan : '-' }}</td>
                                         <td>
-                                            {{ $jdwl->status }}
+                                            {{ $jdwl->status ?? '' }}
+                                        </td>
+                                        <td>
+                                            {{ $jdwl->comment ?? '' }}
                                         </td>
                                     </tr>
                                 @endforeach
