@@ -5,14 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class HistoryPerubahanJadwal extends Model
+class Config extends Model
 {
     use HasFactory;
 
+    protected $table = 'config';
+    protected $primaryKey = 'id';
     protected $guarded = ['id'];
-
-    public function jadwal()
-    {
-        return $this->belongsTo(Jadwal::class);
-    }
 }

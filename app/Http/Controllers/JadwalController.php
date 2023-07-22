@@ -9,6 +9,7 @@ use App\Models\Kegiatan;
 use App\Mail\NotifJadwal;
 use Illuminate\Http\Request;
 use App\Mail\NotificationEmail;
+use App\Models\Config;
 use App\Models\Keuangan;
 use App\Models\Ruangan;
 use Illuminate\Support\Facades\DB;
@@ -62,6 +63,7 @@ class JadwalController extends Controller
             "kegiatan" => Kegiatan::all(),
             "pegawai" => User::all(),
             "ruangan" => Ruangan::all(),
+            "config_max_jp" => Config::where('key', 'MAX_JP')->first()
         ]);
     }
 
@@ -75,6 +77,7 @@ class JadwalController extends Controller
     {
         // dd($request->all());
         $checkTipeJadwal = $request->tipe_jadwal;
+        $config_max_jp = Config::where('key', 'MAX_JP')->first();
 
         $biaya = null;
         if ($checkTipeJadwal != 1) {
@@ -86,9 +89,10 @@ class JadwalController extends Controller
                 'keterangan' => '',
             ]);
 
+
             $validatedData['kegiatan_id'] = null;
             $validatedData['angkatan'] = null;
-            $validatedData['jp'] = 15;
+            $validatedData['jp'] = $config_max_jp->value ?? 15;
             $validatedData['waktu_mulai'] = $validatedData['tanggal'] . " 00:00:00";
             $validatedData['waktu_selesai'] = $validatedData['tanggal'] . " 23:59:00";
 
@@ -111,7 +115,10 @@ class JadwalController extends Controller
             $validatedData['waktu_mulai'] = $validatedData['tanggal'] . " " . $validatedData['waktu_mulai'];
             $validatedData['waktu_selesai'] = $validatedData['tanggal'] . " " . $validatedData['waktu_selesai'];
 
-            $biaya = 45000 * $validatedData['jp'];
+
+            $config_biaya = Config::where('key', 'BIAYA_JP')->first();
+
+            $biaya = ($config_biaya->value ?? 45000) * $validatedData['jp'];
         }
 
         unset($validatedData['tanggal']);
@@ -143,7 +150,7 @@ class JadwalController extends Controller
 
         // return redirect('/jadwal');
 
-        // return redirect('/')->with('success', 'Jadwal Berhasil dibuat.');
+        return redirect('/jadwal')->with('success', 'Jadwal Berhasil dibuat.');
     }
 
     /**
@@ -185,6 +192,8 @@ class JadwalController extends Controller
     {
         $checkTipeJadwal = $request->tipe_jadwal;
         $checkRequest = $jadwal->request;
+        $config_max_jp = Config::where('key', 'MAX_JP')->first();
+
 
         if ($checkTipeJadwal != 1) {
             $validatedData = $request->validate([
@@ -195,9 +204,10 @@ class JadwalController extends Controller
                 'keterangan' => ''
             ]);
 
+
             $validatedData['kegiatan_id'] = null;
             $validatedData['angkatan'] = null;
-            $validatedData['jp'] = '15';
+            $validatedData['jp'] = $config_max_jp->value ?? 15;
             $validatedData['waktu_mulai'] = $validatedData['tanggal'] . " 00:00:00";
             $validatedData['waktu_selesai'] = $validatedData['tanggal'] . " 23:59:00";
         } else {
@@ -273,7 +283,8 @@ class JadwalController extends Controller
 
     public function checkJadwal(Request $request)
     {
-        $limit_max_jp = 15;
+        $config_max_jp = Config::where('key', 'MAX_JP')->first();
+        $limit_max_jp = $config_max_jp->value ?? 15;
         $tanggal_mulai = $request->tanggal . ' ' . $request->mulai;
         $tanggal_selesai = $request->tanggal . ' ' . $request->selesai;
         $jp = $request->jp;
@@ -315,7 +326,8 @@ class JadwalController extends Controller
 
     public function checkJadwalUpdate(Request $request)
     {
-        $limit_max_jp = 15;
+        $config_max_jp = Config::where('key', 'MAX_JP')->first();
+        $limit_max_jp = $config_max_jp->value ?? 15;
         $tanggal_mulai = $request->tanggal . ' ' . $request->mulai;
         $tanggal_selesai = $request->tanggal . ' ' . $request->selesai;
         $id = $request->id;

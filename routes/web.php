@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GolonganController;
 use Illuminate\Support\Facades\Route;
@@ -95,6 +96,9 @@ Route::group(['middleware' => 'admin'], function () {
     Route::patch('data-ruangan.{ruangan}', [RuanganController::class, 'update']);
     Route::delete('data-ruangan.{ruangan}', [RuanganController::class, 'destroy']);
 
+    Route::get('/config', [ConfigController::class, 'index']);
+    Route::post('/update_config', [ConfigController::class, 'update']);
+
 
     //jadwal
     Route::get('/add-jadwal', [JadwalController::class, 'create']);
@@ -111,7 +115,7 @@ Route::group(['middleware' => 'admin'], function () {
 
     //perubahan jadwal
     Route::get('ubah-jadwal-{jadwal:id}', [RubahJadwalController::class, 'show']);
-    Route::patch('tolak-jadwal.{jadwal}', [RubahJadwalController::class, 'tolakJadwal']);
+    Route::put('tolak-jadwal', [RubahJadwalController::class, 'tolakJadwal']);
     Route::patch('acc-jadwal.{jadwal}', [RubahJadwalController::class, 'AccRequest']);
 });
 
