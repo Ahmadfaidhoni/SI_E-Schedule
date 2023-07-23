@@ -19,11 +19,13 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function edit(User $user)
+    public function edit()
     {
+        $auth = Auth::user();
+        $user = User::find($auth->id);
         return view('profile.edit-profile', [
             "user" => $user,
-            "golongan" => Golongan::orderBy('jenis_golongan', 'ASC')->orderBy('ruang', 'ASC')->get()
+            // "golongan" => Golongan::orderBy('jenis_golongan', 'ASC')->orderBy('ruang', 'ASC')->get()
         ]);
     }
 
