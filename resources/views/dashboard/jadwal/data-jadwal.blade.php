@@ -27,10 +27,11 @@
                                     class="bi bi-calendar2-week"></i> History</button></a>
                     </div>
                     <div class="mx-2" style="display: inline-block">
-                        {{-- button to trigger modal --}}
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
-                            Export
-                        </button>
+                        @can('admin')
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+                                Export
+                            </button>
+                        @endcan
                     </div>
 
                     {{-- make modal --}}

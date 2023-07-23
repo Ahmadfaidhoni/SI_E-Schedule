@@ -52,7 +52,6 @@ class UserController extends Controller
             'nip' => 'required',
             'name' => 'required',
             'jabatan' => 'required',
-            'golongan_id' => 'required',
             'level' => 'required',
         ];
 

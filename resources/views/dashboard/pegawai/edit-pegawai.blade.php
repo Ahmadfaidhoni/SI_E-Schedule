@@ -55,9 +55,64 @@
                                         class="text-danger">*</span>
                                 </label>
                                 <div class="col-lg-6">
-                                    <input type="text" class="form-control @error('jabatan') is-invalid @enderror"
+                                    {{-- <input type="text" class="form-control @error('jabatan') is-invalid @enderror"
                                         id="jabatan" name="jabatan" placeholder="Masukan Jabatan.."
-                                        value="{{ old('jabatan', $pegawai->jabatan) }}">
+                                        value="{{ old('jabatan', $pegawai->jabatan) }}"> --}}
+                                    <select class="form-control @error('jabatan') is-invalid @enderror" id="jabatan"
+                                        name="jabatan">
+                                        <optgroup label="Golongan IV">
+                                            <option value="Pembina Utama IV-e"
+                                                @if (old('jabatan', $pegawai->jabatan) == 'Pembina Utama IV-e') selected @endif>Pembina Utama IV-e
+                                            </option>
+                                            <option value="Pembina utama Muda IV-c"
+                                                {{ old('jabatan', $pegawai->jabatan) == 'Pembina utama Muda IV-c' ? 'selected' : '' }}>
+                                                Pembina utama Muda IV-c
+                                            </option>
+                                            <option value="Pembina Tingkat I IV-b"
+                                                @if (old('jabatan', $pegawai->jabatan) == 'Pembina Tingkat I IV-b') selected @endif>Pembina Tingkat I IV-b
+                                            </option>
+                                            <option value="Pembina IV-a" @if (old('jabatan', $pegawai->jabatan) == 'Pembina IV-a') selected @endif>
+                                                Pembina IV-a</option>
+                                        </optgroup>
+                                        <optgroup label="Golongan III">
+                                            <option value="Penata Tingkat I III-d"
+                                                @if (old('jabatan', $pegawai->jabatan) == 'Penata Tingkat I III-d') selected @endif>Penata Tingkat I III-d
+                                            </option>
+                                            <option value="Penata III-c" @if (old('jabatan', $pegawai->jabatan) == 'Penata III-c') selected @endif>
+                                                Penata III-c</option>
+                                            <option value="Penata Muda Tingkat I III-b"
+                                                @if (old('jabatan', $pegawai->jabatan) == 'Penata Muda Tingkat I III-b') selected @endif>Penata Muda Tingkat I
+                                                III-b</option>
+                                            <option value="Penata Muda III-a"
+                                                @if (old('jabatan', $pegawai->jabatan) == 'Penata Muda III-a') selected @endif>Penata Muda III-a
+                                            </option>
+                                        </optgroup>
+                                        <optgroup label="Golongan II">
+                                            <option value="Pengatur Tingkat I II-d"
+                                                @if (old('jabatan', $pegawai->jabatan) == 'Pengatur Tingkat I II-d') selected @endif>Pengatur Tingkat I II-d
+                                            </option>
+                                            <option value="Pengatur II-c"
+                                                @if (old('jabatan', $pegawai->jabatan) == 'Pengatur II-c') selected @endif>Pengatur II-c</option>
+                                            <option value="Pengatur Muda II-b"
+                                                @if (old('jabatan', $pegawai->jabatan) == 'Pengatur Muda II-b') selected @endif>Pengatur Muda II-b
+                                            </option>
+                                            <option value="Pengatur Muda II-a"
+                                                @if (old('jabatan', $pegawai->jabatan) == 'Pengatur Muda II-a') selected @endif>Pengatur Muda II-a
+                                            </option>
+                                        </optgroup>
+                                        <optgroup label="Golongan I">
+                                            <option value="Juru Tingkat I I-d"
+                                                @if (old('jabatan', $pegawai->jabatan) == 'Juru Tingkat I I-d') selected @endif>Juru Tingkat I I-d
+                                            </option>
+                                            <option value="Juru I-c" @if (old('jabatan', $pegawai->jabatan) == 'Juru I-c') selected @endif>
+                                                Juru I-c</option>
+                                            <option value="Juru Muda Tingkat I I-b"
+                                                @if (old('jabatan', $pegawai->jabatan) == 'Juru Muda Tingkat I I-b') selected @endif>Juru Muda Tingkat I I-b
+                                            </option>
+                                            <option value="Juru Muda I-a"
+                                                @if (old('jabatan', $pegawai->jabatan) == 'Juru Muda I-a') selected @endif>Juru Muda I-a</option>
+                                        </optgroup>
+                                    </select>
                                     @error('jabatan')
                                         <div class="invalid-feedback">
                                             {{ $message }}

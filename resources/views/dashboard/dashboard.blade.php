@@ -27,10 +27,10 @@
                                         <p>Jadwal Terlaksana Hari ini</p>
                                     </div>
                                     <div class="icon">
-                                        {{-- <i class="ion ion-bag"></i> --}}
+                                        <i class="ion ion-document"></i>
                                     </div>
-                                    {{-- <a href="/data-pegawai" class="small-box-footer">More info <i
-                                            class="fas fa-arrow-circle-right"></i></a> --}}
+                                    <a href="/jadwal" class="small-box-footer">More info <i
+                                            class="fas fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                             <!-- ./col -->
@@ -43,10 +43,10 @@
                                         <p>Jadwal Yang Akan Datang</p>
                                     </div>
                                     <div class="icon">
-                                        {{-- <i class="ion ion-stats-bars"></i> --}}
+                                        <i class="ion ion-calendar"></i>
                                     </div>
-                                    {{-- <a href="/data-kegiatan" class="small-box-footer">More info <i
-                                            class="fas fa-arrow-circle-right"></i></a> --}}
+                                    <a href="/jadwal" class="small-box-footer">More info <i
+                                            class="fas fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                             <!-- ./col -->
@@ -59,10 +59,10 @@
                                         <p>Perubahan Jadwal</p>
                                     </div>
                                     <div class="icon">
-                                        {{-- <i class="ion ion-person-add"></i> --}}
+                                        <i class="ion ion-clock"></i>
                                     </div>
-                                    {{-- <a href="/data-ruangan" class="small-box-footer">More info <i
-                                            class="fas fa-arrow-circle-right"></i></a> --}}
+                                    <a href="/perubahan-jadwal" class="small-box-footer">More info <i
+                                            class="fas fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                             <!-- ./col -->
@@ -83,51 +83,41 @@
                             </div> --}}
                         </div>
                         <div class="row">
-                            <div class="col-12 col-sm-6 col-md-3">
+                            <a href="/data-pegawai" class="col-12 col-sm-6 col-md-3"
+                                style="color: inherit; text-decoration: none;">
                                 <div class="info-box">
                                     <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
-
                                     <div class="info-box-content">
                                         <span class="info-box-text">Data Pegawai</span>
                                         <span class="info-box-number">
                                             {{ $pegawai }}
                                         </span>
                                     </div>
-                                    <!-- /.info-box-content -->
                                 </div>
-                                <!-- /.info-box -->
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-3">
+                            </a>
+                            <a href="/data-kegiatan" class="col-12 col-sm-6 col-md-3"
+                                style="color: inherit; text-decoration: none;">
                                 <div class="info-box">
                                     <span class="info-box-icon bg-info elevation-1"><i class="fas fa-list"></i></span>
-
                                     <div class="info-box-content">
                                         <span class="info-box-text">Data Kegiatan</span>
                                         <span class="info-box-number">
                                             {{ $kegiatan }}
                                         </span>
                                     </div>
-                                    <!-- /.info-box-content -->
                                 </div>
-                                <!-- /.info-box -->
-                            </div>
-                            <!-- /.col -->
-                            <div class="col-12 col-sm-6 col-md-3">
+                            </a>
+                            <a href="/data-ruangan" class="col-12 col-sm-6 col-md-3"
+                                style="color: inherit; text-decoration: none;">
                                 <div class="info-box mb-3">
                                     <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-building"></i></span>
-
                                     <div class="info-box-content">
                                         <span class="info-box-text">Data Ruangan</span>
                                         {{ $ruangan }}
                                         <span class="info-box-number"></span>
                                     </div>
-                                    <!-- /.info-box-content -->
                                 </div>
-                                <!-- /.info-box -->
-                            </div>
-                            <!-- /.col -->
-
-                            <!-- fix for small devices only -->
+                            </a>
                             <div class="clearfix hidden-md-up"></div>
 
                             <div class="col-12 col-sm-6 col-md-3">
@@ -159,10 +149,10 @@
                                     <p>Jadwal Terlaksana Hari ini</p>
                                 </div>
                                 <div class="icon">
-                                    {{-- <i class="ion ion-bag"></i> --}}
+                                    <i class="ion ion-document"></i>
                                 </div>
-                                {{-- <a href="/data-pegawai" class="small-box-footer">More info <i
-                                        class="fas fa-arrow-circle-right"></i></a> --}}
+                                <a href="/jadwal" class="small-box-footer">More info <i
+                                        class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -175,10 +165,10 @@
                                     <p>Jadwal Yang Akan Datang</p>
                                 </div>
                                 <div class="icon">
-                                    {{-- <i class="ion ion-stats-bars"></i> --}}
+                                    <i class="ion ion-calendar"></i>
                                 </div>
-                                {{-- <a href="/data-kegiatan" class="small-box-footer">More info <i
-                                        class="fas fa-arrow-circle-right"></i></a> --}}
+                                <a href="/jadwal" class="small-box-footer">More info <i
+                                        class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->
@@ -191,34 +181,33 @@
                                     <p>Perubahan Jadwal</p>
                                 </div>
                                 <div class="icon">
-                                    {{-- <i class="ion ion-person-add"></i> --}}
+                                    <i class="ion ion-clock"></i>
                                 </div>
-                                {{-- <a href="/data-ruangan" class="small-box-footer">More info <i
-                                        class="fas fa-arrow-circle-right"></i></a> --}}
+                                <a href="/perubahan-jadwal" class="small-box-footer">More info <i
+                                        class="fas fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                         <!-- ./col -->
                         <div class="col-lg-3 col-6">
                             <!-- small box -->
-                            <div class="small-box bg-danger">
+                            <div class="small-box bg-danger p-3">
                                 <div class="inner">
                                     <h4>{{ $akumulasi_biaya ? number_format($akumulasi_biaya) : 0 }}</h4>
-
                                     <p>Pendapatan Bulan ini</p>
                                 </div>
-                                {{-- <div class="icon">
+                                <div class="icon">
                                     <i class="ion ion-pie-graph"></i>
-                                </div> --}}
-                                {{-- <a href="#" class="small-box-footer">More info <i
-                                        class="fas fa-arrow-circle-right"></i></a> --}}
+                                </div>
+                                {{-- <a href="#" class="small-box-footer pe-none">
+                                    <i class="fas fa-arrow-circle-right my-1" style="opacity: 0;"></i>
+                                </a> --}}
                             </div>
                         </div>
                     </div>
                 </div>
             @endif
 
-            @if (auth()->user()->can('admin') ||
-                    auth()->user()->can('keuangan'))
+            @if (auth()->user()->can('admin'))
                 <div class="card mt-3">
                     <div class="card-body">
                         <h4>Jadwal Keseluruhan Pegawai Hari ini</h4>
@@ -227,16 +216,12 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        @can('admin')
-                                            <th>Kegiatan</th>
-                                        @endcan
+                                        <th>Kegiatan</th>
                                         <th>Pegawai</th>
-                                        @can('admin')
-                                            <th>Jumlah JP</th>
-                                            <th>Tanggal Kegiatan</th>
-                                            <th>Jam</th>
-                                            <th>Angkatan</th>
-                                        @endcan
+                                        <th>Jumlah JP</th>
+                                        <th>Tanggal Kegiatan</th>
+                                        <th>Jam</th>
+                                        <th>Angkatan</th>
                                         <th>Biaya</th>
                                     </tr>
                                 </thead>
@@ -244,24 +229,19 @@
                                     @foreach ($jadwal_semua as $jdsm)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            @can('admin')
-                                                {{-- <td>{{ isset($jdsm->kegiatan) ? $jdsm->kegiatan->nama_kegiatan : '-' }}</td> --}}
-                                                <td>
-                                                    @if ($jdsm->tipe_jadwal == 2)
-                                                        Perjalanan Dinas
-                                                    @else
-                                                        {{ isset($jdsm->kegiatan) ? $jdsm->kegiatan->nama_kegiatan : '-' }}
-                                                    @endif
-                                                </td>
-                                            @endcan
+                                            <td>
+                                                @if ($jdsm->tipe_jadwal == 2)
+                                                    Perjalanan Dinas
+                                                @else
+                                                    {{ isset($jdsm->kegiatan) ? $jdsm->kegiatan->nama_kegiatan : '-' }}
+                                                @endif
+                                            </td>
                                             <td>{{ $jdsm->user->name ?? '-' }}</td>
-                                            @can('admin')
-                                                <td>{{ $jdsm->jp }}</td>
-                                                <td>{{ date('d-m-Y', strtotime($jdsm->waktu_mulai)) }}</td>
-                                                <td>{{ date('H:i', strtotime($jdsm->waktu_mulai)) }} -
-                                                    {{ date('H:i', strtotime($jdsm->waktu_selesai)) }}</td>
-                                                <td>{{ $jdsm->angkatan }}</td>
-                                            @endcan
+                                            <td>{{ $jdsm->jp }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($jdsm->waktu_mulai)) }}</td>
+                                            <td>{{ date('H:i', strtotime($jdsm->waktu_mulai)) }} -
+                                                {{ date('H:i', strtotime($jdsm->waktu_selesai)) }}</td>
+                                            <td>{{ $jdsm->angkatan }}</td>
                                             <td>{{ $jdsm->biaya }}</td>
                                         </tr>
                                     @endforeach

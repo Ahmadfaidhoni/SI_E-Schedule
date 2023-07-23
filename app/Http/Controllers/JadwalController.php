@@ -161,6 +161,8 @@ class JadwalController extends Controller
      */
     public function show(Jadwal $jadwal)
     {
+        $jadwal = Jadwal::find($jadwal->id)->leftjoin('keuangans', 'keuangans.jadwal_id', '=', 'jadwals.id')
+            ->first();
         return view('dashboard.jadwal.show-jadwal', [
             'jdwl' => $jadwal
         ]);
