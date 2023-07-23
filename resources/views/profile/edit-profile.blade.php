@@ -6,9 +6,26 @@
                 <div class="card-body">
                     @can('admin')
                         <div class="form-validation">
-                            <form class="form-validate" action="profile.{{ $user->id }}" method="post">
+                            <form class="form-validate" action="profile.{{ $user->id }}" method="post"
+                                enctype="multipart/form-data">
                                 @method('patch')
                                 @csrf
+                                <div class="form-group form-input">
+                                    <label for="profileImage">Profile Image</label>
+                                    <div class="col-md-2 col-lg-2 ml-3 d-flex justify-content-center">
+                                        <img id="imgProfil" height="181"
+                                            src="{{ file_exists('images/user/' . base64_encode(Auth::user()->id) . '.png') ? url('images/user/' . base64_encode(Auth::user()->id) . '.png') : url('images/user/1.png') }}"
+                                            alt="Profile">
+                                        <div class="text-center pt-1 ml-3">
+                                            <a href="#" class="btn btn-primary " title="Ganti profil image"
+                                                onclick="chooseImg()">
+                                                <i class="bi bi-image"></i>
+                                            </a>
+                                            <input type="file" name="imgFile" id="imgFile" style="display:none"
+                                                accept='image/*' onchange="previewImg(this)" />
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                     <label class="col-lg-4 col-form-label" for="nip">NIP <span class="text-danger">*</span>
                                     </label>
@@ -196,9 +213,26 @@
                     @endcan
                     @if (Auth::user()->level == 'User' || Auth::user()->level == 'Keuangan')
                         <div class="form-validation">
-                            <form class="form-validate" action="profile.{{ $user->id }}" method="post">
+                            <form class="form-validate" action="profile.{{ $user->id }}" method="post"
+                                enctype="multipart/form-data">
                                 @method('patch')
                                 @csrf
+                                <div class="form-group form-input">
+                                    <label for="profileImage">Profile Image</label>
+                                    <div class="col-md-2 col-lg-2 ml-3 d-flex justify-content-center">
+                                        <img id="imgProfil" height="181"
+                                            src="{{ file_exists('images/user/' . base64_encode(Auth::user()->id) . '.png') ? url('images/user/' . base64_encode(Auth::user()->id) . '.png') : url('images/user/1.png') }}"
+                                            alt="Profile">
+                                        <div class="text-center pt-1 ml-3">
+                                            <a href="#" class="btn btn-primary " title="Ganti profil image"
+                                                onclick="chooseImg()">
+                                                <i class="bi bi-image"></i>
+                                            </a>
+                                            <input type="file" name="imgFile" id="imgFile" style="display:none"
+                                                accept='image/*' onchange="previewImg(this)" />
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                     <label class="col-lg-4 col-form-label" for="nip">NIP <span
                                             class="text-danger">*</span>
@@ -316,4 +350,18 @@
             </div>
         </div>
     </div>
+@endsection
+@section('page_script')
+    <script>
+        function chooseImg() {
+            document.getElementById('imgFile').click();
+        }
+
+        function previewImg(obj) {
+            document.getElementById('imgProfil').src = URL.createObjectURL(obj.files[0]);
+        }
+
+        let elemento = document.querySelectorAll(".msg")
+        elemento.forEach(e => e.dataset.text = e.textContent)
+    </script>
 @endsection

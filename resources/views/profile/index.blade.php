@@ -27,6 +27,9 @@
                         </div>
                     </div>
                     <div class="card-body">
+                        <img id="imgProfil" height="181" class="mb-3"
+                            src="{{ file_exists('images/user/' . base64_encode(Auth::user()->id) . '.png') ? url('images/user/' . base64_encode(Auth::user()->id) . '.png') : url('images/user/1.png') }}"
+                            alt="Profile">
                         <table class="table table-profile">
                             <tbody>
                                 <tr>
@@ -40,12 +43,6 @@
                                 <tr>
                                     <th scope="row">Jabatan:</th>
                                     <td>{{ $profile->jabatan }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Pangkat-Gol.Ruang:</th>
-                                    <td>{{ isset($profile->golongan) ? $profile->golongan->nama_pangkat : '- ' }} -
-                                        {{ isset($profile->golongan) ? $profile->golongan->jenis_golongan : '- ' }}/{{ isset($profile->golongan) ? $profile->golongan->ruang : ' -' }}
-                                    </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">E-mail:</th>
