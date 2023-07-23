@@ -19,11 +19,13 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function edit(User $user)
+    public function edit()
     {
+        $auth = Auth::user();
+        $user = User::find($auth->id);
         return view('profile.edit-profile', [
             "user" => $user,
-            "golongan" => Golongan::orderBy('jenis_golongan', 'ASC')->orderBy('ruang', 'ASC')->get()
+            // "golongan" => Golongan::orderBy('jenis_golongan', 'ASC')->orderBy('ruang', 'ASC')->get()
         ]);
     }
 
@@ -56,6 +58,12 @@ class ProfileController extends Controller
 
         if ($request->phone == null) {
             $validatedData['phone'] = null;
+        }
+
+        if ($request->File('imgFile') != null) {
+            $file = $request->file('imgFile');
+            $filename = base64_encode(Auth::user()->id) . '.png';
+            $file->move(public_path('images/user/'), $filename);
         }
 
         User::where('id', $user->id)->update($validatedData);

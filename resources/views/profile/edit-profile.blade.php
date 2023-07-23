@@ -6,9 +6,26 @@
                 <div class="card-body">
                     @can('admin')
                         <div class="form-validation">
-                            <form class="form-validate" action="profile.{{ $user->id }}" method="post">
+                            <form class="form-validate" action="profile.{{ $user->id }}" method="post"
+                                enctype="multipart/form-data">
                                 @method('patch')
                                 @csrf
+                                <div class="form-group form-input">
+                                    <label for="profileImage">Profile Image</label>
+                                    <div class="col-md-2 col-lg-2 ml-3 d-flex justify-content-center">
+                                        <img id="imgProfil" height="181"
+                                            src="{{ file_exists('images/user/' . base64_encode(Auth::user()->id) . '.png') ? url('images/user/' . base64_encode(Auth::user()->id) . '.png') : url('images/user/1.png') }}"
+                                            alt="Profile">
+                                        <div class="text-center pt-1 ml-3">
+                                            <a href="#" class="btn btn-primary " title="Ganti profil image"
+                                                onclick="chooseImg()">
+                                                <i class="bi bi-image"></i>
+                                            </a>
+                                            <input type="file" name="imgFile" id="imgFile" style="display:none"
+                                                accept='image/*' onchange="previewImg(this)" />
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                     <label class="col-lg-4 col-form-label" for="nip">NIP <span class="text-danger">*</span>
                                     </label>
@@ -43,9 +60,64 @@
                                             class="text-danger">*</span>
                                     </label>
                                     <div class="col-lg-6">
-                                        <input type="text" class="form-control @error('jabatan') is-invalid @enderror"
+                                        {{-- <input type="text" class="form-control @error('jabatan') is-invalid @enderror"
                                             id="jabatan" name="jabatan" placeholder="Masukan Nama Pengajar.."
-                                            value="{{ old('jabatan', $user->jabatan) }}">
+                                            value="{{ old('jabatan', $user->jabatan) }}"> --}}
+                                        <select class="form-control @error('jabatan') is-invalid @enderror" id="jabatan"
+                                            name="jabatan">
+                                            <optgroup label="Golongan IV">
+                                                <option value="Pembina Utama IV-e"
+                                                    @if (old('jabatan', $user->jabatan) == 'Pembina Utama IV-e') selected @endif>Pembina Utama IV-e
+                                                </option>
+                                                <option value="Pembina utama Muda IV-c"
+                                                    {{ old('jabatan', $user->jabatan) == 'Pembina utama Muda IV-c' ? 'selected' : '' }}>
+                                                    Pembina utama Muda IV-c
+                                                </option>
+                                                <option value="Pembina Tingkat I IV-b"
+                                                    @if (old('jabatan', $user->jabatan) == 'Pembina Tingkat I IV-b') selected @endif>Pembina Tingkat I IV-b
+                                                </option>
+                                                <option value="Pembina IV-a" @if (old('jabatan', $user->jabatan) == 'Pembina IV-a') selected @endif>
+                                                    Pembina IV-a</option>
+                                            </optgroup>
+                                            <optgroup label="Golongan III">
+                                                <option value="Penata Tingkat I III-d"
+                                                    @if (old('jabatan', $user->jabatan) == 'Penata Tingkat I III-d') selected @endif>Penata Tingkat I III-d
+                                                </option>
+                                                <option value="Penata III-c" @if (old('jabatan', $user->jabatan) == 'Penata III-c') selected @endif>
+                                                    Penata III-c</option>
+                                                <option value="Penata Muda Tingkat I III-b"
+                                                    @if (old('jabatan', $user->jabatan) == 'Penata Muda Tingkat I III-b') selected @endif>Penata Muda Tingkat I
+                                                    III-b</option>
+                                                <option value="Penata Muda III-a"
+                                                    @if (old('jabatan', $user->jabatan) == 'Penata Muda III-a') selected @endif>Penata Muda III-a
+                                                </option>
+                                            </optgroup>
+                                            <optgroup label="Golongan II">
+                                                <option value="Pengatur Tingkat I II-d"
+                                                    @if (old('jabatan', $user->jabatan) == 'Pengatur Tingkat I II-d') selected @endif>Pengatur Tingkat I II-d
+                                                </option>
+                                                <option value="Pengatur II-c"
+                                                    @if (old('jabatan', $user->jabatan) == 'Pengatur II-c') selected @endif>Pengatur II-c</option>
+                                                <option value="Pengatur Muda II-b"
+                                                    @if (old('jabatan', $user->jabatan) == 'Pengatur Muda II-b') selected @endif>Pengatur Muda II-b
+                                                </option>
+                                                <option value="Pengatur Muda II-a"
+                                                    @if (old('jabatan', $user->jabatan) == 'Pengatur Muda II-a') selected @endif>Pengatur Muda II-a
+                                                </option>
+                                            </optgroup>
+                                            <optgroup label="Golongan I">
+                                                <option value="Juru Tingkat I I-d"
+                                                    @if (old('jabatan', $user->jabatan) == 'Juru Tingkat I I-d') selected @endif>Juru Tingkat I I-d
+                                                </option>
+                                                <option value="Juru I-c" @if (old('jabatan', $user->jabatan) == 'Juru I-c') selected @endif>
+                                                    Juru I-c</option>
+                                                <option value="Juru Muda Tingkat I I-b"
+                                                    @if (old('jabatan', $user->jabatan) == 'Juru Muda Tingkat I I-b') selected @endif>Juru Muda Tingkat I I-b
+                                                </option>
+                                                <option value="Juru Muda I-a"
+                                                    @if (old('jabatan', $user->jabatan) == 'Juru Muda I-a') selected @endif>Juru Muda I-a</option>
+                                            </optgroup>
+                                        </select>
                                         @error('jabatan')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -53,7 +125,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div id="" class="form-group row">
+                                {{-- <div id="" class="form-group row">
                                     <label class="col-lg-4 col-form-label" for="golongan_id">Golongan <span
                                             class="text-danger">*</span>
                                     </label>
@@ -70,7 +142,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="form-group row">
                                     <label class="col-lg-4 col-form-label" for="email">Email
                                     </label>
@@ -141,9 +213,26 @@
                     @endcan
                     @if (Auth::user()->level == 'User' || Auth::user()->level == 'Keuangan')
                         <div class="form-validation">
-                            <form class="form-validate" action="profile.{{ $user->id }}" method="post">
+                            <form class="form-validate" action="profile.{{ $user->id }}" method="post"
+                                enctype="multipart/form-data">
                                 @method('patch')
                                 @csrf
+                                <div class="form-group form-input">
+                                    <label for="profileImage">Profile Image</label>
+                                    <div class="col-md-2 col-lg-2 ml-3 d-flex justify-content-center">
+                                        <img id="imgProfil" height="181"
+                                            src="{{ file_exists('images/user/' . base64_encode(Auth::user()->id) . '.png') ? url('images/user/' . base64_encode(Auth::user()->id) . '.png') : url('images/user/1.png') }}"
+                                            alt="Profile">
+                                        <div class="text-center pt-1 ml-3">
+                                            <a href="#" class="btn btn-primary " title="Ganti profil image"
+                                                onclick="chooseImg()">
+                                                <i class="bi bi-image"></i>
+                                            </a>
+                                            <input type="file" name="imgFile" id="imgFile" style="display:none"
+                                                accept='image/*' onchange="previewImg(this)" />
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                     <label class="col-lg-4 col-form-label" for="nip">NIP <span
                                             class="text-danger">*</span>
@@ -261,4 +350,18 @@
             </div>
         </div>
     </div>
+@endsection
+@section('page_script')
+    <script>
+        function chooseImg() {
+            document.getElementById('imgFile').click();
+        }
+
+        function previewImg(obj) {
+            document.getElementById('imgProfil').src = URL.createObjectURL(obj.files[0]);
+        }
+
+        let elemento = document.querySelectorAll(".msg")
+        elemento.forEach(e => e.dataset.text = e.textContent)
+    </script>
 @endsection
