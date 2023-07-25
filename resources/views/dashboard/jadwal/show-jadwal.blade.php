@@ -36,12 +36,12 @@
                                 @if ($jdwl->tipe_jadwal != 1)
                                     <td>Perjalanan Dinas</td>
                                 @else
-                                    <td>{{ isset($jdwl->kegiatan) ? $jdwl->kegiatan->nama_kegiatan : '-' }}</td>
+                                    <td>{{ isset($jdwl->nama_kegiatan) ? $jdwl->nama_kegiatan : '-' }}</td>
                                 @endif
                             </tr>
                             <tr>
                                 <th scope="row">Pegawai:</th>
-                                <td>{{ $jdwl->user->name }}</td>
+                                <td>{{ $jdwl->user_name ?? '' }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Tanggal:</th>

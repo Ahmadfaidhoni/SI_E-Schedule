@@ -90,10 +90,12 @@
                                 <div id="form_pengajar" class="col-md-6 mt-2">
                                     <label for="pengajar">Pegawai</label> <span class="text-danger">*</span>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Cari Pegawai" name="user_id"
+                                        {{-- <input type="text" class="form-control" placeholder="Cari Pegawai" name="user_id"
                                             list="list-pengajar" id="user_id" autocomplete="off">
                                         <datalist id="list-pengajar">
-                                        </datalist>
+                                        </datalist> --}}
+                                        <select class="form-control select2" id="user_id" name="user_id">
+                                        </select>
                                     </div>
                                 </div>
                                 <div id="form_jamPelajaran"class="col-md-3 mt-2">
@@ -168,6 +170,10 @@
         crossorigin="anonymous"></script>
     <script>
         $(document).ready(() => {
+            $(document).ready(function() {
+                $('.select2').select2();
+            });
+
             $('#btn_check').on('click', () => {
                 var check_tipe = document.getElementById("tipe_jadwal").value
                 var tipe_jadwal = document.getElementById("tanggal").value;
@@ -256,11 +262,14 @@
                                 data,
                                 debug
                             }) {
-                                // console.log(debug, data);
-                                $('#list-pengajar').html(data.map(({
-                                    id,
-                                    name
-                                }) => (`<option value="${name}"></option>`)).join(''));
+                                // $('#list-pengajar').html(data.map(({
+                                //     id,
+                                //     name
+                                // }) => (`<option value="${name}"></option>`)).join(''));
+
+                                $('#user_id').select2({
+                                    data: data
+                                })
                             },
                             error: function(xhr) {
                                 alert('Error')
@@ -302,10 +311,14 @@
                                 debug
                             }) {
                                 // console.log(debug, data);
-                                $('#list-pengajar').html(data.map(({
-                                    id,
-                                    name
-                                }) => (`<option value="${name}"></option>`)).join(''));
+                                // $('#list-pengajar').html(data.map(({
+                                //     id,
+                                //     name
+                                // }) => (`<option value="${name}"></option>`)).join(''));
+
+                                $('#user_id').select2({
+                                    data: data
+                                })
                             },
                             error: function(xhr) {
                                 alert('Error')

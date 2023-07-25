@@ -123,13 +123,12 @@ class JadwalController extends Controller
 
         unset($validatedData['tanggal']);
 
+        // if (!is_numeric($validatedData['user_id'])) {
+        $getUserName = $validatedData['user_id'];
+        $getId = User::where('id', $getUserName)->first()->id;
 
-        if (!is_numeric($validatedData['user_id'])) {
-            $getUserName = $validatedData['user_id'];
-            $getId = User::where('name', $getUserName)->first()->id;
-
-            $validatedData['user_id'] = $getId;
-        }
+        $validatedData['user_id'] = $getId;
+        // }
 
         $jadwal =  Jadwal::create($validatedData);
 
@@ -161,8 +160,25 @@ class JadwalController extends Controller
      */
     public function show(Jadwal $jadwal)
     {
-        $jadwal = Jadwal::find($jadwal->id)->leftjoin('keuangans', 'keuangans.jadwal_id', '=', 'jadwals.id')
+        // return $jadwal = Jadwal::find($jadwal->id)
+        //     ->select('jadwals.id as jadwal_ids', 'k.id as keuangan_id', 'k.biaya')
+        //     ->leftjoin('keuangans as k', 'k.jadwal_id', '=', 'jadwals.id')
+        //     ->first();
+
+        $jadwal = DB::table('jadwals')
+            ->select(
+                'jadwals.*',
+                'keuangans.id as keuangan_id',
+                'keuangans.biaya',
+                'users.name as user_name',
+                'kegiatans.nama_kegiatan'
+            )
+            ->leftJoin('keuangans', 'keuangans.jadwal_id', '=', 'jadwals.id')
+            ->leftJoin('users', 'users.id', '=', 'jadwals.user_id')
+            ->leftJoin('kegiatans', 'kegiatans.id', '=', 'jadwals.kegiatan_id')
+            ->where('jadwals.id', $jadwal->id)
             ->first();
+
         return view('dashboard.jadwal.show-jadwal', [
             'jdwl' => $jadwal
         ]);
@@ -232,12 +248,18 @@ class JadwalController extends Controller
 
         unset($validatedData['tanggal']);
 
-        if (!is_numeric($validatedData['user_id'])) {
-            $getUserName = $validatedData['user_id'];
-            $getId = User::where('name', $getUserName)->first()->id;
+        // if (!is_numeric($validatedData['user_id'])) {
+        //     $getUserName = $validatedData['user_id'];
+        //     $getId = User::where('name', $getUserName)->first()->id;
 
-            $validatedData['user_id'] = $getId;
-        }
+        //     $validatedData['user_id'] = $getId;
+        // }
+
+        $getUserName = $validatedData['user_id'];
+        $getId = User::where('id', $getUserName)->first()->id;
+
+        $validatedData['user_id'] = $getId;
+
 
         if ($checkRequest == true) {
             $validatedData['request'] = false;
@@ -316,14 +338,22 @@ class JadwalController extends Controller
             // ->where('id', '!=', '1')->whereNotIn('id', $arr_user_id)
             ->get();
 
-        echo json_encode([
-            'data' => $checking,
-            'debug' => [
-                'tanggal_mulai' => $tanggal_mulai,
-                'tanggal_selesai' => $tanggal_selesai,
-                'arr_user_id' => $arr_user_id,
-            ]
-        ]);
+        // $select = array(["id" => '', "text" => 'Select Schedule']);
+        $select = [];
+        foreach ($checking as $item) {
+            $select[] = ["id" => $item->id, "text" => $item->name];
+        }
+
+        return response()->json(["error" => false, "data" => $select]);
+
+        // echo json_encode([
+        //     'data' => $checking,
+        //     'debug' => [
+        //         'tanggal_mulai' => $tanggal_mulai,
+        //         'tanggal_selesai' => $tanggal_selesai,
+        //         'arr_user_id' => $arr_user_id,
+        //     ]
+        // ]);
     }
 
     public function checkJadwalUpdate(Request $request)
@@ -357,16 +387,24 @@ class JadwalController extends Controller
             $arr_user_id[] = $item->user_id;
         }
 
-        $checking = DB::table('users')->orderBy('name', 'ASC')->where('status_anggota', true)->where('id', '!=', '1')->whereNotIn('id', $arr_user_id)->get();
+        // $checking = DB::table('users')->orderBy('name', 'ASC')->where('status_anggota', true)->where('id', '!=', '1')->whereNotIn('id', $arr_user_id)->get();
 
-        echo json_encode([
-            'data' => $checking,
-            'debug' => [
-                'tanggal_mulai' => $tanggal_mulai,
-                'tanggal_selesai' => $tanggal_selesai,
-                'arr_user_id' => $arr_user_id,
-            ]
-        ]);
+        // echo json_encode([
+        //     'data' => $checking,
+        //     'debug' => [
+        //         'tanggal_mulai' => $tanggal_mulai,
+        //         'tanggal_selesai' => $tanggal_selesai,
+        //         'arr_user_id' => $arr_user_id,
+        //     ]
+        // ]);
+
+        $checking = DB::table('users')->orderBy('name', 'ASC')->where('status_anggota', true)->where('id', '!=', '1')->whereNotIn('id', $arr_user_id)->get();
+        $select = [];
+        foreach ($checking as $item) {
+            $select[] = ["id" => $item->id, "text" => $item->name];
+        }
+
+        return response()->json(["error" => false, "data" => $select]);
     }
 
     public function export_jadwal($awal, $akhir)
