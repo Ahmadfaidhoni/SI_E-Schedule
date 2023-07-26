@@ -28,7 +28,7 @@
                     </div>
                     <div class="card-body">
                         <img id="imgProfil" height="181" class="mb-3"
-                            src="{{ file_exists('images/user/' . base64_encode(Auth::user()->id) . '.png') ? url('images/user/' . base64_encode(Auth::user()->id) . '.png') : url('images/user/1.png') }}"
+                            src="{{ file_exists($profile->picture) ? url($profile->picture) : url('images/user/1.png') }}"
                             alt="Profile">
                         <table class="table table-profile">
                             <tbody>

@@ -62,8 +62,9 @@ class ProfileController extends Controller
 
         if ($request->File('imgFile') != null) {
             $file = $request->file('imgFile');
-            $filename = base64_encode(Auth::user()->id) . '.png';
+            $filename = time() . '.' . $file->extension();
             $file->move(public_path('images/user/'), $filename);
+            $validatedData['picture'] = 'images/user/' . $filename;
         }
 
         User::where('id', $user->id)->update($validatedData);
