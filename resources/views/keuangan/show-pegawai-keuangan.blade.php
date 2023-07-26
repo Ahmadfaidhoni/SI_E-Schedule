@@ -28,11 +28,14 @@
         <div class="col-12">
             <div class="card">
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered zero-configuration">
+                    <table class="table table-striped table-bordered zero-configuration" id="table">
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Kegiatan</th>
+                                <th>Tipe Jadwal</th>
+                                <th>Jumlah JP</th>
+                                <th>Tanggal Kegiatan</th>
+                                <th>Jam</th>
                                 <th>Biaya</th>
                             </tr>
                         </thead>
@@ -40,37 +43,15 @@
                             @foreach ($keuangan as $kn)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $kn->nama_kegiatan ?? '-' }}</td>
-                                    <td>{{ $kn->biaya }}</td>
+                                    <td>{{ $kn->tipe_jadwal == 1 ? 'Mengajar' : 'Perjalanan Dinas' }}</td>
+                                    <td>{{ $kn->jp ?? 0 }}</td>
+                                    <td>{{ date('d-m-Y', strtotime($kn->waktu_mulai)) }}</td>
+                                    <td>{{ date('H:i', strtotime($kn->waktu_mulai)) }} -
+                                        {{ date('H:i', strtotime($kn->waktu_selesai)) }}</td>
+                                    <td>{{ $kn->biaya ?? 0 }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
-                        {{-- <tbody>
-                        @foreach ($pegawai as $pgw)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $pgw->nip }}</td>
-                            <td>{{ $pgw->name }}</td>
-                            <td>{{ $pgw->jabatan }}</td>
-                            <td>{{ isset($pgw->golongan)?$pgw->golongan->nama_pangkat:'- ' }} - {{ isset($pgw->golongan)?$pgw->golongan->jenis_golongan:'- ' }}/{{ isset($pgw->golongan)?$pgw->golongan->ruang:' -' }}</td>
-                            <td>{{ isset($pgw->email)?$pgw->email:'-' }}</td>
-                            <td class="text-center">
-                                @if ($pgw->status_anggota == 1)
-                                    <button type="button" class="btn btn-success btn-sm text-white">Aktif</button>
-                                @else
-                                    <button type="button" class="btn btn-danger btn-sm text-white">Tidak Aktif</button>
-                                @endif
-                            </td>
-                            <td>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <a href="data-keuangan-pegawai-{{ $pgw->nip }}"><button type="button" class="btn btn-sm mb-1 btn-primary"><i class="bi bi-eye"></i> Lihat</button></a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody> --}}
                     </table>
                 </div>
             </div>
@@ -78,5 +59,20 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
+    </script>
+@endsection
+@section('page_script')
+    <script>
+        $(document).ready(function() {
+            $('#table').DataTable({
+                dom: 'Bfrtip',
+                destroy: true,
+                buttons: [{
+                    extend: 'excelHtml5',
+                    text: 'Export to Excel',
+                    title: 'Data Export',
+                }]
+            });
+        });
     </script>
 @endsection
