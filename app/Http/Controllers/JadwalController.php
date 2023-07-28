@@ -368,7 +368,7 @@ class JadwalController extends Controller
         }
 
         $checking = DB::table('users')->orderBy('name', 'ASC')->where('status_anggota', true)
-            // ->where('id', '!=', '1')->whereNotIn('id', $arr_user_id)
+            ->whereNotIn('id', $arr_user_id)
             ->get();
 
         // $select = array(["id" => '', "text" => 'Select Schedule']);
