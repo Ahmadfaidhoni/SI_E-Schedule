@@ -12,6 +12,7 @@ use App\Mail\NotificationEmail;
 use App\Models\Config;
 use App\Models\Keuangan;
 use App\Models\Ruangan;
+use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -94,9 +95,23 @@ class JadwalController extends Controller
             $validatedData['angkatan'] = null;
             $validatedData['jp'] = $config_max_jp->value ?? 15;
             $validatedData['waktu_mulai'] = $validatedData['tanggal'] . " 00:00:00";
-            $validatedData['waktu_selesai'] = $validatedData['tanggal'] . " 23:59:00";
+            $validatedData['waktu_selesai'] = $validatedData['tanggal_akhir'] . " 23:59:00";
 
             $biaya = $request->biaya;
+
+            // if (!is_numeric($validatedData['user_id'])) {
+            $getUserName = $validatedData['user_id'];
+            $getId = User::where('id', $getUserName)->first()->id;
+
+            $validatedData['user_id'] = $getId;
+            // }
+
+            $jadwal =  Jadwal::create($validatedData);
+
+            Keuangan::create([
+                'jadwal_id' => $jadwal->id,
+                'biaya' => $biaya
+            ]);
         } else {
             $validatedData = $request->validate([
                 'tipe_jadwal' => 'required',
@@ -112,30 +127,48 @@ class JadwalController extends Controller
                 'ruangan_id' => ''
             ]);
 
-            $validatedData['waktu_mulai'] = $validatedData['tanggal'] . " " . $validatedData['waktu_mulai'];
-            $validatedData['waktu_selesai'] = $validatedData['tanggal'] . " " . $validatedData['waktu_selesai'];
-
 
             $config_biaya = Config::where('key', 'BIAYA_JP')->first();
 
             $biaya = ($config_biaya->value ?? 45000) * $validatedData['jp'];
+
+            // if (!is_numeric($validatedData['user_id'])) {
+            $getUserName = $validatedData['user_id'];
+            $getId = User::where('id', $getUserName)->first()->id;
+
+            $validatedData['user_id'] = $getId;
+            // }
+
+            $dates = CarbonPeriod::create($validatedData['tanggal'], $validatedData['tanggal_akhir']);
+            // dd($dates);
+            foreach ($dates as $date) {
+                $validatedDataCopy = $validatedData;
+                $dateFormatted = $date->format('Y-m-d');
+                // dd($date->format('Y-m-d'));
+                // $validatedData['tanggal'] = $date->format('Y-m-d');
+
+                $validatedDataCopy['waktu_mulai'] = $dateFormatted . " " . $validatedData['waktu_mulai'];
+                $validatedDataCopy['waktu_selesai'] = $dateFormatted  . " " . $validatedData['waktu_selesai'];
+
+
+                $jadwal = Jadwal::create($validatedDataCopy);
+
+                Keuangan::create([
+                    'jadwal_id' => $jadwal->id,
+                    'biaya' => $biaya
+                ]);
+            }
+            // $jadwal =  Jadwal::create($validatedData);
+
+            // Keuangan::create([
+            //     'jadwal_id' => $jadwal->id,
+            //     'biaya' => $biaya
+            // ]);
         }
 
-        unset($validatedData['tanggal']);
+        // unset($validatedData['tanggal']);
 
-        // if (!is_numeric($validatedData['user_id'])) {
-        $getUserName = $validatedData['user_id'];
-        $getId = User::where('id', $getUserName)->first()->id;
 
-        $validatedData['user_id'] = $getId;
-        // }
-
-        $jadwal =  Jadwal::create($validatedData);
-
-        Keuangan::create([
-            'jadwal_id' => $jadwal->id,
-            'biaya' => $biaya
-        ]);
 
         Alert::success('Congrats', 'Jadwal Berhasil dibuat!');
 
