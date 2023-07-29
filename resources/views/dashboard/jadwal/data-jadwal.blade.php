@@ -82,6 +82,7 @@
                                     <th>Tanggal Kegiatan</th>
                                     <th>Jam</th>
                                     <th>Angkatan</th>
+                                    <th>Ruangan</th>
                                     <th>Aksi</th>
 
                                 </tr>
@@ -117,6 +118,7 @@
                                         <td>{{ date('H:i', strtotime($jdwl->waktu_mulai)) }} -
                                             {{ date('H:i', strtotime($jdwl->waktu_selesai)) }}</td>
                                         <td>{{ isset($jdwl->angkatan) ? $jdwl->angkatan : '-' }}</td>
+                                        <td>{{ isset($jdwl->ruangan_id) ? $jdwl->ruangan->nama_ruangan : '-' }}</td>
                                         <td>
                                             @if (Auth::user()->level == 'Admin')
                                                 <div class="row">

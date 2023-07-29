@@ -22,4 +22,9 @@ class Jadwal extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function ruangan()
+    {
+        return $this->belongsTo(Ruangan::class, 'ruangan_id');
+    }
 }

@@ -32,7 +32,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div id="form_date" class="col-md-4 mt-2">
+                                <div id="form_date" class="col-md-3 mt-2">
                                     <label for="pengajar">Tanggal</label> <span class="text-danger">*</span>
                                     <div class="input-group">
                                         <input type="date" class="form-control @error('tanggal') is-invalid @enderror"
@@ -45,7 +45,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div id="form_date_end" class="col-md-4 mt-2">
+                                <div id="form_date_end" class="col-md-3 mt-2">
                                     <label for="pengajar">Tanggal Akhir</label> <span class="text-danger">*</span>
                                     <div class="input-group">
                                         <input type="date"
@@ -59,7 +59,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div id="form_mulai" class="col-md-4 mt-2">
+                                <div id="form_mulai" class="col-md-3 mt-2">
                                     <label for="mulai" class="m-t-20">Jam Mulai</label> <span
                                         class="text-danger">*</span>
                                     <input type="time" class="form-control @error('waktu_mulai') is-invalid @enderror"
@@ -71,13 +71,27 @@
                                         </div>
                                     @enderror
                                 </div>
-                                <div id="form_selesai" class="col-md-4 mt-2">
+                                <div id="form_selesai" class="col-md-3 mt-2">
                                     <label for="selesai" class="m-t-20">Jam Selesai</label> <span
                                         class="text-danger">*</span>
                                     <input type="time" class="form-control @error('waktu_selesai') is-invalid @enderror"
                                         id="selesai" name="waktu_selesai" placeholder="Check time"
                                         value="{{ old('waktu_selesai') }}">
                                     @error('waktu_selesai')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div id="form_ruangan" class="col-md-12 mt-2">
+                                    <label for="ruangan" class="m-t-20">Ruangan</label>
+                                    <select class="select form-control" id="ruangan" name="ruangan_id">
+                                        <option value="" selected>Data Ruangan</option>
+                                        @foreach ($ruangan as $r)
+                                            <option value="{{ $r->id }}">{{ $r->nama_ruangan }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('ruangan')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -94,7 +108,8 @@
                                             list="list-pengajar" id="user_id" autocomplete="off">
                                         <datalist id="list-pengajar">
                                         </datalist> --}}
-                                        <select class="form-control select2" id="user_id" name="user_id">
+                                        <select class="form-control select2" id="user_id" name="user_id"
+                                            style="height: 1000px;">
                                         </select>
                                     </div>
                                 </div>
@@ -117,20 +132,6 @@
                                         placeholder="Angkatan" id="angkatan" name="angkatan"
                                         value="{{ old('angkatan') }}">
                                     @error('angkatan')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div id="form_ruangan" class="col-md-6 mt-2">
-                                    <label for="ruangan" class="m-t-20">Ruangan</label>
-                                    <select class="select2 form-control" id="ruangan" name="ruangan">
-                                        <option value="" selected>Data Ruangan</option>
-                                        @foreach ($ruangan as $r)
-                                            <option value="{{ $r->id }}">{{ $r->nama_ruangan }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('ruangan')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -179,6 +180,7 @@
                 var tipe_jadwal = document.getElementById("tanggal").value;
                 var tipe_jadwal2 = document.getElementById("mulai").value;
                 var tipe_jadwal3 = document.getElementById("selesai").value;
+                var tipe_jadwal4 = document.getElementById("ruangan").value;
 
                 //Get startTime
                 var startTime = tipe_jadwal2;
@@ -204,7 +206,9 @@
                 var results = parseInt(strResults);
 
                 if (check_tipe == 1) {
-                    if (!tipe_jadwal || !tipe_jadwal2 || !tipe_jadwal3) {
+                    if (!tipe_jadwal || !tipe_jadwal2 || !tipe_jadwal3 || !tipe_jadwal4) {
+
+
                         var checkSpan = document.getElementById('checkSpan');
                         checkSpan.style.display = '';
                         checkSpan.classList.remove("alert-success");
@@ -255,6 +259,7 @@
                                 tanggal: tipe_jadwal,
                                 mulai: tipe_jadwal2,
                                 selesai: tipe_jadwal3,
+                                ruangan: tipe_jadwal4,
                                 jp: results,
                             },
                             dataType: "json",
@@ -266,13 +271,14 @@
                                 //     id,
                                 //     name
                                 // }) => (`<option value="${name}"></option>`)).join(''));
+                                $('#user_id').empty().trigger('change');
 
                                 $('#user_id').select2({
                                     data: data
                                 })
                             },
                             error: function(xhr) {
-                                alert('Error')
+                                // alert('Error')
                             }
                         });
                     }
@@ -315,6 +321,8 @@
                                 //     id,
                                 //     name
                                 // }) => (`<option value="${name}"></option>`)).join(''));
+                                $('#user_id').empty().trigger('change');
+
 
                                 $('#user_id').select2({
                                     data: data
