@@ -30,7 +30,7 @@ class JadwalController extends Controller
         $active_menu = 'jadwal';
         if (auth()->user()->level === "Admin") {
             return view('dashboard.jadwal.data-jadwal', compact('active_menu'), [
-                'jadwal' => Jadwal::where('request', false)->whereRaw("((STR_TO_DATE(waktu_mulai, '%Y-%m-%d') ) >= curdate())")->orderBy('waktu_mulai', 'ASC')->get()
+                'jadwal' => Jadwal::with('ruangan')->where('request', false)->whereRaw("((STR_TO_DATE(waktu_mulai, '%Y-%m-%d') ) >= curdate())")->orderBy('waktu_mulai', 'ASC')->get()
             ]);
         } else {
             return view('dashboard.jadwal.data-jadwal', compact('active_menu'), [
@@ -344,24 +344,46 @@ class JadwalController extends Controller
         $limit_max_jp = $config_max_jp->value ?? 15;
         $tanggal_mulai = $request->tanggal . ' ' . $request->mulai;
         $tanggal_selesai = $request->tanggal . ' ' . $request->selesai;
+        $ruangan = $request->ruangan;
         $jp = $request->jp;
+
+        // dd($ruangan);
 
         $arr_user_id = [];
 
-        $bentrok = DB::table('jadwals')->select('user_id')->whereRaw("
-        (waktu_mulai <= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND waktu_selesai >= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i')) OR
-        (waktu_mulai <= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i') AND waktu_selesai >= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i')) OR 
-        (waktu_mulai >= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND waktu_selesai <= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i'))
-        ")->get()->toArray();
-        foreach ($bentrok as $item) {
-            $arr_user_id[] = $item->user_id;
+        $bentrok = DB::table('jadwals')
+            ->select('user_id', 'ruangan_id')
+            ->whereRaw("
+            (waktu_mulai <= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND (waktu_selesai - INTERVAL 1 MINUTE) >= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i')) OR
+            (waktu_mulai <= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i') AND (waktu_selesai - INTERVAL 1 MINUTE) >= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i')) OR 
+            (waktu_mulai >= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND (waktu_selesai - INTERVAL 1 MINUTE) <= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i')) ")
+            // ->where('ruangan_id', $ruangan)
+            ->get()
+            ->toArray();
+
+        // dd($bentrok);  
+        $temp = [];
+
+        foreach ($bentrok as $items) {
+            // dd($items->ruangan_id);
+            if ($items->ruangan_id == $ruangan) {
+                $temp[] = $items->user_id;
+            }
         }
+
+        // dd($temp);
+        foreach ($temp as $item) {
+            $arr_user_id[] = $item;
+        }
+
+        // dd($arr_user_id);
 
         $max_jp = DB::table('jadwals')
             ->select('user_id')
             ->whereRaw("waktu_mulai >= STR_TO_DATE('$request->tanggal 00:00:00', '%Y-%m-%d %H:%i:%s') AND waktu_selesai <= STR_TO_DATE('$request->tanggal 23:59:59', '%Y-%m-%d %H:%i:%s')")
             ->groupBy('user_id')
             ->having(DB::raw("(SUM(jp)+$jp)"), '>', $limit_max_jp)
+            ->where('ruangan_id', $ruangan)
             ->get()->toArray();
         foreach ($max_jp as $item) {
             $arr_user_id[] = $item->user_id;
