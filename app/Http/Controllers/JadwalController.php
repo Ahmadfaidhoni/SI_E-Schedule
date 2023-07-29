@@ -363,12 +363,17 @@ class JadwalController extends Controller
 
         // dd($bentrok);  
         $temp = [];
-
+        $all = DB::table('users')->pluck('id');
+        // dd($all);
         foreach ($bentrok as $items) {
             // dd($items->ruangan_id);
             if ($items->ruangan_id == $ruangan) {
                 $temp[] = $items->user_id;
             }
+        }
+
+        if (count($temp) > 0) {
+            $temp = $all;
         }
 
         // dd($temp);
