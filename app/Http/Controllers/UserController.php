@@ -156,6 +156,13 @@ class UserController extends Controller
             $validatedData['phone'] = null;
         }
 
+        if ($request->File('imgFile') != null) {
+            $file = $request->file('imgFile');
+            $filename = time() . '.' . $file->extension();
+            $file->move(public_path('images/user/'), $filename);
+            $validatedData['picture'] = 'images/user/' . $filename;
+        }
+
         User::where('id', $pegawai->id)->update($validatedData);
 
         Alert::success('Congrats', 'Data Pegawai Berhasil diubah!');

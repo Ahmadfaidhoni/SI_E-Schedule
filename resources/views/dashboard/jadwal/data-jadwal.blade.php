@@ -82,6 +82,7 @@
                                     <th>Tanggal Kegiatan</th>
                                     <th>Jam</th>
                                     <th>Angkatan</th>
+                                    <th>Ruangan</th>
                                     <th>Aksi</th>
 
                                 </tr>
@@ -105,11 +106,19 @@
                                                 Full Day
                                             @endif
                                         </td>
-                                        <td>{{ date('d-m-Y', strtotime($jdwl->waktu_mulai)) }}</td>
+                                        <td>
+                                            @if ($jdwl->tipe_jadwal == 2)
+                                                {{ date('d-m-Y', strtotime($jdwl->waktu_mulai)) . ' - ' . date('d-m-Y', strtotime($jdwl->waktu_selesai)) }}
+                                            @else
+                                                {{ date('d-m-Y', strtotime($jdwl->waktu_mulai)) }}
+                                            @endif
+                                        </td>
+
 
                                         <td>{{ date('H:i', strtotime($jdwl->waktu_mulai)) }} -
                                             {{ date('H:i', strtotime($jdwl->waktu_selesai)) }}</td>
                                         <td>{{ isset($jdwl->angkatan) ? $jdwl->angkatan : '-' }}</td>
+                                        <td>{{ isset($jdwl->ruangan_id) ? $jdwl->ruangan->nama_ruangan : '-' }}</td>
                                         <td>
                                             @if (Auth::user()->level == 'Admin')
                                                 <div class="row">

@@ -60,6 +60,13 @@ class ProfileController extends Controller
             $validatedData['phone'] = null;
         }
 
+        if ($request->File('imgFile') != null) {
+            $file = $request->file('imgFile');
+            $filename = time() . '.' . $file->extension();
+            $file->move(public_path('images/user/'), $filename);
+            $validatedData['picture'] = 'images/user/' . $filename;
+        }
+
         User::where('id', $user->id)->update($validatedData);
 
         Alert::success('Congrats', 'Data Profile Berhasil diubah!');

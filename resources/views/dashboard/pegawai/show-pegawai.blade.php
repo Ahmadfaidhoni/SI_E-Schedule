@@ -10,6 +10,9 @@
                     Data Pegawai {{ $user->name }}
                 </div>
                 <div class="card-body">
+                    <img id="imgProfil" height="181" class="mb-3"
+                        src="{{ file_exists($user->picture) ? url($user->picture) : url('images/user/1.png') }}"
+                        alt="Profile">
                     <div class="float-right">
                         <ul class="list-inline mb-3">
                             <li class="list-inline-item">

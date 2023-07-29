@@ -5,9 +5,26 @@
             <div class="card">
                 <div class="card-body">
                     <div class="form-validation">
-                        <form class="form-valide" action="data-pegawai.{{ $pegawai->id }}" method="post">
+                        <form class="form-valide" action="data-pegawai.{{ $pegawai->id }}" method="post"
+                            enctype="multipart/form-data">
                             @method('patch')
                             @csrf
+                            <div class="form-group form-input">
+                                <label for="profileImage">Profile Image</label>
+                                <div class="col-md-2 col-lg-2 ml-3 d-flex justify-content-center">
+                                    <img id="imgProfil" height="181"
+                                        src="{{ file_exists($pegawai->picture) ? url($pegawai->picture) : url('images/user/1.png') }}"
+                                        alt="Profile">
+                                    <div class="text-center pt-1 ml-3">
+                                        <a href="#" class="btn btn-primary " title="Ganti profil image"
+                                            onclick="chooseImg()">
+                                            <i class="bi bi-image"></i>
+                                        </a>
+                                        <input type="file" name="imgFile" id="imgFile" style="display:none"
+                                            accept='image/*' onchange="previewImg(this)" />
+                                    </div>
+                                </div>
+                            </div>
                             <div class="form-group row">
                                 <label class="col-lg-4 col-form-label" for="nip">NIP <span class="text-danger">*</span>
                                 </label>
@@ -198,4 +215,18 @@
             </div>
         </div>
     </div>
+@endsection
+@section('page_script')
+    <script>
+        function chooseImg() {
+            document.getElementById('imgFile').click();
+        }
+
+        function previewImg(obj) {
+            document.getElementById('imgProfil').src = URL.createObjectURL(obj.files[0]);
+        }
+
+        let elemento = document.querySelectorAll(".msg")
+        elemento.forEach(e => e.dataset.text = e.textContent)
+    </script>
 @endsection

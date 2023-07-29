@@ -44,6 +44,7 @@
     <!-- summernote -->
     <link rel="stylesheet" href="./template/plugins/summernote/summernote-bs4.min.css">
 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 </head>
 
@@ -167,7 +168,8 @@
                     <li class="icons dropdown mr-3">
                         <div class="user-img c-pointer position-relative" data-toggle="dropdown">
                             <span class="activity active"></span>
-                            <img src="images/user/1.png" height="40" width="40" alt="">
+                            <img src="{{ file_exists(auth()->user()->picture) ? url(auth()->user()->picture) : url('images/user/1.png') }}"
+                                height="40" width="40" alt="" class="rounded-circle">
                         </div>
                         <div class="drop-down dropdown-profile   dropdown-menu">
                             <div class="dropdown-content-body">
@@ -508,7 +510,6 @@
     <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.colVis.min.js"></script>
 
-
     <!-- Clock Plugin JavaScript -->
     <script src="./plugins/clockpicker/dist/jquery-clockpicker.min.js"></script>
 
@@ -562,6 +563,9 @@
     <script src="./template/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="./template/plugins/datatables-buttons/js/buttons.print.min.js"></script>
     <script src="./template/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 
 
     @yield('page_script')
