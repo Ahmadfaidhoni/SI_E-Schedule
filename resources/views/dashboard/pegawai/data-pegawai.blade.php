@@ -2,8 +2,8 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <div class="card">
-                <h4 class="card-header">Data Pegawai</h4>
+            <h4 class="mx-3">Data Pegawai</h4>
+            <div class="card mt-3 mx-3">
                 <div class="card-body">
 
                     @if (session()->has('success'))
@@ -12,7 +12,7 @@
                         </div>
                     @endif
 
-                    <div class="mx-4">
+                    <div class="">
                         <a href="/add-pegawai"><button type="button" class="btn btn-primary"><i class="bi bi-person-plus"></i>
                                 Tambah Pegawai</button></a>
                     </div>
@@ -51,7 +51,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <div class="row">
+                                            <div class="row text-center">
                                                 <div class="col-lg-12">
                                                     <a href="data-pegawai-{{ $pgw->nip }}"><button type="button"
                                                             class="btn btn-sm mb-1 btn-primary"><i class="bi bi-eye"></i>

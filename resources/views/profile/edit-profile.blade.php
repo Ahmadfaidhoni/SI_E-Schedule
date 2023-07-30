@@ -2,6 +2,7 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-lg-12">
+            <h4 class="mx-3"> Edit Profile </h4>
             <div class="card">
                 <div class="card-body">
                     @can('admin')
@@ -14,7 +15,7 @@
                                     <label for="profileImage">Profile Image</label>
                                     <div class="col-md-2 col-lg-2 ml-3 d-flex justify-content-center">
                                         <img id="imgProfil" height="181"
-                                            src="{{ file_exists($user->picture) ? url($user->picture) : url('images/user/1.png') }}"
+                                            src="{{ file_exists($user->picture) ? url($user->picture) : url('images/user/user.png') }}"
                                             alt="Profile">
                                         <div class="text-center pt-1 ml-3">
                                             <a href="#" class="btn btn-primary " title="Ganti profil image"
@@ -221,7 +222,7 @@
                                     <label for="profileImage">Profile Image</label>
                                     <div class="col-md-2 col-lg-2 ml-3 d-flex justify-content-center">
                                         <img id="imgProfil" height="181"
-                                            src="{{ file_exists($user->picture) ? url($user->picture) : url('images/user/1.png') }}"
+                                            src="{{ file_exists($user->picture) ? url($user->picture) : url('images/user/user.png') }}"
                                             alt="Profile">
                                         <div class="text-center pt-1 ml-3">
                                             <a href="#" class="btn btn-primary " title="Ganti profil image"

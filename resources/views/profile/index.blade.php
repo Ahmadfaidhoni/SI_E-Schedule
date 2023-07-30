@@ -3,7 +3,7 @@
     {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"> --}}
 
-    @if (session()->has('success'))
+    {{-- @if (session()->has('success'))
         <div class="alert alert-success my-3 mx-2 col-lg-8">
             {{ session('success') }}
         </div>
@@ -12,24 +12,27 @@
         <div class="alert alert-success my-3 mx-2 col-lg-8">
             {{ session('successPassword') }}
         </div>
-    @endif
+    @endif --}}
+
     <div class="row justify-content-center">
         <div class="col-12">
             @foreach ($profiles as $profile)
-                <div class="card">
+            <h4 class="mx-3"> My Profile </h4>
+                <div class="card mt-3 mx-3">
                     <div class="card-header">
-                        My Profile
                         <div class="float-right">
                             <a href="editProfile">
-                                <button type="button" class="btn btn-warning btn-sm text-white"><i
+                                <button type="button" class="btn btn-warning btn-sm"><i
                                         class="bi bi-pencil-square"></i> Edit Profile</button>
                             </a>
                         </div>
                     </div>
                     <div class="card-body">
-                        <img id="imgProfil" height="181" class="mb-3"
-                            src="{{ file_exists($profile->picture) ? url($profile->picture) : url('images/user/1.png') }}"
-                            alt="Profile">
+                        <div class="text-center">
+                            <img class="rounded-circle mb-5" id="imgProfil" height="181"
+                                src="{{ file_exists($profile->picture) ? url($profile->picture) : url('images/user/user.png') }}"
+                                alt="Profile">
+                        </div>
                         <table class="table table-profile">
                             <tbody>
                                 <tr>
@@ -77,11 +80,9 @@
                 </div>
             @endforeach
         </div>
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    Change My Password
-                </div>
+        <div class="col-12 mt-3">
+            <h4 class="mx-3"> Change My Password</h4>
+            <div class="card mt-3 mx-3">
                 <div class="card-body">
                     <div class="form-validation">
                         <form class="form-validate" action="{{ route('change.password') }}" method="post">

@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\GolonganController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
@@ -81,12 +80,12 @@ Route::group(['middleware' => 'admin'], function () {
     Route::delete('data-kegiatan.{kegiatan}', [KegiatanController::class, 'destroy']);
 
     //golongan
-    Route::get('/data-golongan', [GolonganController::class, 'index']);
-    Route::get('/add-golongan', [GolonganController::class, 'create']);
-    Route::post('/add-golongan', [GolonganController::class, 'store']);
-    Route::get('editGolongan-{golongan:nama_pangkat}', [GolonganController::class, 'edit']);
-    Route::patch('data-golongan.{golongan}', [GolonganController::class, 'update']);
-    Route::delete('data-golongan.{golongan}', [GolonganController::class, 'destroy']);
+    // Route::get('/data-golongan', [GolonganController::class, 'index']);
+    // Route::get('/add-golongan', [GolonganController::class, 'create']);
+    // Route::post('/add-golongan', [GolonganController::class, 'store']);
+    // Route::get('editGolongan-{golongan:nama_pangkat}', [GolonganController::class, 'edit']);
+    // Route::patch('data-golongan.{golongan}', [GolonganController::class, 'update']);
+    // Route::delete('data-golongan.{golongan}', [GolonganController::class, 'destroy']);
 
     // ruangan
     Route::get('/data-ruangan', [RuanganController::class, 'index']);

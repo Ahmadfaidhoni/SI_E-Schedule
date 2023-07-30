@@ -2,17 +2,20 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-lg-12">
-            <div class="card">
+            <h4 class="mx-3"> Edit Ruangan {{ $ruangan->nama_ruangan }}</h4>
+            <div class="card mt-3 mx-3">
                 <div class="card-body">
                     <div class="form-validation">
                         <form class="form-valide" action="data-ruangan.{{ $ruangan->id }}" method="post">
                             @method('patch')
                             @csrf
-                            <div class="row form-material">
-                                <div id="form_ruangan" class="col-md-4 mt-2">
-                                    <label for="ruangan" class="m-t-20">Ruangan </label> <span class="text-danger">*</span>
+                            <div class="form-group row">
+                                <label class="col-lg-4 col-form-label" for="ruangan">Nama Ruangan
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div id="form_ruangan" class="col-md-6">
                                     <input type="text" class="form-control @error('nama_ruangan') is-invalid @enderror"
-                                        placeholder="ruangan" id="ruangan" name="nama_ruangan"
+                                        placeholder="Masukkan Ruangan..." id="ruangan" name="nama_ruangan"
                                         value="{{ old('nama_ruangan', $ruangan->nama_ruangan) }}">
                                     @error('nama_ruangan')
                                         <div class="invalid-feedback">
@@ -20,43 +23,54 @@
                                         </div>
                                     @enderror
                                 </div>
-                                <div id="form_kapasitas" class="col-md-4 mt-2">
-                                    <label for="kapasitas" class="m-t-20">Kapasitas </label> <span
-                                        class="text-danger">*</span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="kapasitas" class="col-lg-4 col-form-label">Kapasitas
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div id="form_kapasitas" class="col-md-6">
                                     <input type="number" class="form-control @error('kapasitas') is-invalid @enderror"
                                         placeholder="Masukkan Kapasitas..." id="kapasitas" name="kapasitas"
-                                        value="{{ old('kapasitas', $ruangan->kapasitas) }}">
+                                        value="{{ old('nama_ruangan', $ruangan->kapasitas) }}">
                                     @error('kapasitas')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
                                     @enderror
                                 </div>
-                                <div id="form_gedung" class="col-md-4 mt-2">
-                                    <label for="gedung" class="m-t-20">Nama Gedung </label> <span
-                                        class="text-danger">*</span>
+                            </div>
+                            <div class="form-group row">
+                                <label for="gedung" class="col-lg-4 col-form-label">Nama Gedung
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div id="form_gedung" class="col-md-6">
                                     <input type="text" class="form-control @error('gedung') is-invalid @enderror"
                                         placeholder="Masukkan Gedung..." id="gedung" name="gedung"
-                                        value="{{ old('gedung', $ruangan->gedung) }}">
+                                        value="{{ old('nama_ruangan', $ruangan->gedung) }}">
                                     @error('gedung')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
                                     @enderror
                                 </div>
-                                <div id="form_lantai" class="col-md-4 mt-2">
-                                    <label for="lantai" class="m-t-20">Nama Lantai </label> <span
-                                        class="text-danger">*</span>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-4 col-form-label" for="nama_kegiatan">Nama Lantai
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <div id="form_lantai" class="col-md-6">
                                     <input type="text" class="form-control @error('lantai') is-invalid @enderror"
                                         placeholder="Masukkan Lantai..." id="lantai" name="lantai"
-                                        value="{{ old('lantai', $ruangan->lantai) }}">
+                                        value="{{ old('nama_ruangan', $ruangan->lantai) }}">
                                     @error('lantai')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
                                     @enderror
                                 </div>
-                                <div id="form_submit" class="col-12 mt-3">
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-8 ml-auto">
                                     <button type="submit" class="btn btn-primary">Simpan</button>
                                 </div>
                             </div>

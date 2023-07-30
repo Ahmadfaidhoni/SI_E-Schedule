@@ -28,7 +28,8 @@ class KegiatanController extends Controller
      */
     public function create()
     {
-        return view('dashboard.kegiatan.add-kegiatan', [
+        $active_menu = 'data-kegiatan';
+        return view('dashboard.kegiatan.add-kegiatan', compact('active_menu'), [
             "kegiatan" => Kegiatan::orderBy('kode_kegiatan', 'ASC')->get()
         ]);
     }
@@ -73,7 +74,8 @@ class KegiatanController extends Controller
      */
     public function edit(Kegiatan $kegiatan)
     {
-        return view('dashboard.kegiatan.edit-kegiatan', [
+        $active_menu = 'data-kegiatan';
+        return view('dashboard.kegiatan.edit-kegiatan', compact('active_menu'), [
             "kegiatan" => $kegiatan
         ]);
     }

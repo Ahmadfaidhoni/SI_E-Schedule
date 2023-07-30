@@ -2,34 +2,23 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <h4 class="">Data Jadwal</h4>
-            <div class="card">
+            <h4 class="mx-3">Data Jadwal</h4>
+            <div class="card mt-3 mx-3">
                 <div class="card-body">
-
-                    {{-- @if (session()->has('success'))
-                        <div class="alert alert-success my-3 mx-4 col-lg-8">
-                            {{ session('success') }}
-                        </div>
-                    @elseif(session()->has('error'))
-                        <div class="alert alert-danger my-3 mx-4 col-lg-8">
-                            {{ session('error') }}
-                        </div>
-                    @endif --}}
-
                     @can('admin')
-                        <div class="ml-4" style="display: inline-block">
+                        <div class="" style="display: inline-block">
                             <a href="/add-jadwal"><button type="button" class="btn btn-primary"><i
-                                        class="bi bi-calendar-plus"></i> Buat Jadwal</button></a>
+                                        class="bi bi-calendar-plus"></i> Tambah Jadwal</button></a>
                         </div>
                     @endcan
                     <div class="mx-2" style="display: inline-block">
                         <a href="/history-jadwal"><button type="button" class="btn btn-info"><i
                                     class="bi bi-calendar2-week"></i> History</button></a>
                     </div>
-                    <div class="mx-2" style="display: inline-block">
+                    <div class="" style="display: inline-block">
                         @can('admin')
-                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
-                                Export
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal"><i class="bi bi-file-earmark-pdf"></i>
+                                Export to PDF
                             </button>
                         @endcan
                     </div>
@@ -76,7 +65,7 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Kegiatan</th>
+                                    <th class="text-align-center">Kegiatan</th>
                                     <th>Pegawai</th>
                                     <th>Jumlah JP</th>
                                     <th>Tanggal Kegiatan</th>
@@ -121,7 +110,7 @@
                                         <td>{{ isset($jdwl->ruangan_id) ? $jdwl->ruangan->nama_ruangan : '-' }}</td>
                                         <td>
                                             @if (Auth::user()->level == 'Admin')
-                                                <div class="row">
+                                                <div class="row text-center">
                                                     <div class="col-lg-12" style="white-space: nowrap">
                                                         <a href="data-jadwal-{{ $jdwl->id }}"><button type="button"
                                                                 class="btn btn-sm mb-1 btn-primary"><i

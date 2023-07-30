@@ -168,7 +168,7 @@
                     <li class="icons dropdown mr-3">
                         <div class="user-img c-pointer position-relative" data-toggle="dropdown">
                             <span class="activity active"></span>
-                            <img src="{{ file_exists(auth()->user()->picture) ? url(auth()->user()->picture) : url('images/user/1.png') }}"
+                            <img src="{{ file_exists(auth()->user()->picture) ? url(auth()->user()->picture) : url('images/user/user.png') }}"
                                 height="40" width="40" alt="" class="rounded-circle">
                         </div>
                         <div class="drop-down dropdown-profile   dropdown-menu">

@@ -2,7 +2,8 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-lg-12">
-            <div class="card">
+            <h4 class="mx-3"> Edit Pegawai {{ $pegawai->name }}</h4>
+            <div class="card mt-3 mx-3">
                 <div class="card-body">
                     <div class="form-validation">
                         <form class="form-valide" action="data-pegawai.{{ $pegawai->id }}" method="post"
@@ -13,7 +14,7 @@
                                 <label for="profileImage">Profile Image</label>
                                 <div class="col-md-2 col-lg-2 ml-3 d-flex justify-content-center">
                                     <img id="imgProfil" height="181"
-                                        src="{{ file_exists($pegawai->picture) ? url($pegawai->picture) : url('images/user/1.png') }}"
+                                        src="{{ file_exists($pegawai->picture) ? url($pegawai->picture) : url('images/user/user.png') }}"
                                         alt="Profile">
                                     <div class="text-center pt-1 ml-3">
                                         <a href="#" class="btn btn-primary " title="Ganti profil image"

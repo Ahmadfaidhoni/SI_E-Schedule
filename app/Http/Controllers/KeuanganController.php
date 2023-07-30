@@ -18,11 +18,12 @@ class KeuanganController extends Controller
 
     public function show(User $user)
     {
+        $active_menu = 'keuangan';
         $keuangan = Keuangan::join('jadwals', 'keuangans.jadwal_id', '=', 'jadwals.id')
             ->leftJoin('kegiatans', 'jadwals.kegiatan_id', '=', 'kegiatans.id')
             ->where('jadwals.user_id', $user->id)
             ->get();
-        return view('keuangan.show-pegawai-keuangan', [
+        return view('keuangan.show-pegawai-keuangan', compact('active_menu'), [
             "user" => $user,
             "keuangan" => $keuangan
         ]);
