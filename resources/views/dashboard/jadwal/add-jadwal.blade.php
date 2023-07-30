@@ -45,7 +45,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div id="form_date_end" class="col-md-3 mt-2">
+                                <div id="form_date_end" class="col-md-3 mt-2" style="display: none">
                                     <label for="pengajar">Tanggal Akhir</label> <span class="text-danger">*</span>
                                     <div class="input-group">
                                         <input type="date"
@@ -345,6 +345,8 @@
                 var style_biaya = this.value == 1 ? 'none' : '';
                 var styleClass = this.value == 1 ? 'col-md-4 mt-1' : 'col-md-6 mt-1';
 
+                var style1 = this.value == 1 ? 'none' : '';
+
                 var btnSubmit = document.getElementById('btnSubmit');
                 btnSubmit = this.value == 1 ? btnSubmit.classList.remove('pull-right') : btnSubmit.classList
                     .add('pull-right');
@@ -352,6 +354,7 @@
                 document.getElementById('form_kegiatan').style.display = style;
                 document.getElementById('form_mulai').style.display = style;
                 document.getElementById('form_selesai').style.display = style;
+                document.getElementById('form_date_end').style.display = style1;
                 document.getElementById('form_jamPelajaran').style.display = style;
                 document.getElementById('form_angkatan').style.display = style;
                 document.getElementById('form_ruangan').style.display = style;

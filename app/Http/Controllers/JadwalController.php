@@ -118,7 +118,7 @@ class JadwalController extends Controller
                 'kegiatan_id' => 'required',
                 'user_id' => 'required',
                 'tanggal' => 'required',
-                'tanggal_akhir' => 'required',
+                'tanggal_akhir' => '',
                 'waktu_mulai' => 'required',
                 'waktu_selesai' => 'required',
                 'jp' => 'required',
@@ -139,6 +139,8 @@ class JadwalController extends Controller
             $validatedData['user_id'] = $getId;
             // }
 
+
+            $validatedData['tanggal_akhir'] = $validatedData['tanggal'];
             $dates = CarbonPeriod::create($validatedData['tanggal'], $validatedData['tanggal_akhir']);
             // dd($dates);
             foreach ($dates as $date) {
