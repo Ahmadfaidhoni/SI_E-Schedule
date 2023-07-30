@@ -2,7 +2,8 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-lg-12">
-            <div class="card">
+            <h4 class="mx-3">Tambah Jadwal</h4>
+            <div class="card mt-3 mx-3">
                 <div class="card-body">
                     <div class="form-validation">
                         <form class="form-valide" action="/add-jadwal" method="post">
@@ -343,7 +344,7 @@
 
                 var style = this.value == 1 ? '' : 'none';
                 var style_biaya = this.value == 1 ? 'none' : '';
-                var styleClass = this.value == 1 ? 'col-md-4 mt-1' : 'col-md-6 mt-1';
+                var styleClass = this.value == 1 ? 'col-md-4 mt-2' : 'col-md-6 mt-2';
 
                 var style1 = this.value == 1 ? 'none' : '';
 

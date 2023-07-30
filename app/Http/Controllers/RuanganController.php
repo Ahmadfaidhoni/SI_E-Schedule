@@ -28,7 +28,8 @@ class RuanganController extends Controller
      */
     public function create()
     {
-        return view('dashboard.ruangan.add-ruangan', [
+        $active_menu = 'data-ruangan';
+        return view('dashboard.ruangan.add-ruangan', compact('active_menu'), [
             "ruangan" => Ruangan::all()
         ]);
     }
@@ -75,7 +76,8 @@ class RuanganController extends Controller
      */
     public function edit(Ruangan $ruangan)
     {
-        return view('dashboard.ruangan.edit-ruangan', [
+        $active_menu = 'data-ruangan';
+        return view('dashboard.ruangan.edit-ruangan', compact('active_menu'), [
             "ruangan" => $ruangan
         ]);
     }

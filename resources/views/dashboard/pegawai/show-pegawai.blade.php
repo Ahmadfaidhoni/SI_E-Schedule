@@ -5,46 +5,48 @@
 
     <div class="row">
         <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    Data Pegawai {{ $user->name }}
-                </div>
+            <h4 class="mx-3">  Detail Pegawai {{ $user->name }} </h4>
+            <div class="card mt-3 mx-3">
                 <div class="card-body">
-                    <img id="imgProfil" height="181" class="mb-3"
-                        src="{{ file_exists($user->picture) ? url($user->picture) : url('images/user/1.png') }}"
-                        alt="Profile">
-                    <div class="float-right">
-                        <ul class="list-inline mb-3">
-                            <li class="list-inline-item">
-                                <a href="editPegawai-{{ $user->nip }}">
-                                    <button type="button" class="btn btn-warning text-white btn-sm"><i
-                                            class="bi bi-pencil-square"></i> Edit Data</button>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                {{-- <a href="editPegawai-{{ $user->nip }}">
-                                    <button type="button" class="btn btn-warning text-white btn-sm"><i
-                                            class="bi bi-pencil-square"></i> Edit Data</button>
-                                </a> --}}
-                                {{-- <form action="/reset-password/{{ $user->id }}" method="post">
-                                    <button type="submit" class="btn btn-warning text-white btn-sm"><i
-                                            class="bi bi-repeat"></i> Reset Password</button>
-                                </form> --}}
-                                {{-- <form action="/reset-password/{{ $user->id }}" method="post"> --}}
-                                <button class="btn btn-danger btn-sm" onclick="reset()">Reset
-                                    Password</button>
-                                {{-- </form> --}}
-                            </li>
-                            <li class="list-inline-item">
-                                <form action="data-pegawai.{{ $user->id }}" method="post"
-                                    onclick="return confirm('Menghapus pegawai ini akan menghapus jadwalnya juga!');">
-                                    @method('delete')
-                                    @csrf
-                                    <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i>
-                                        Hapus</button>
-                                </form>
-                            </li>
-                        </ul>
+                    <div class="mb-5">
+                        <div class="float-right">
+                            <ul class="list-inline mb-3">
+                                <li class="list-inline-item">
+                                    <a href="editPegawai-{{ $user->nip }}">
+                                        <button type="button" class="btn btn-warning btn-sm"><i
+                                                class="bi bi-pencil-square"></i> Edit Data</button>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    {{-- <a href="editPegawai-{{ $user->nip }}">
+                                        <button type="button" class="btn btn-warning text-white btn-sm"><i
+                                                class="bi bi-pencil-square"></i> Edit Data</button>
+                                    </a> --}}
+                                    {{-- <form action="/reset-password/{{ $user->id }}" method="post">
+                                        <button type="submit" class="btn btn-warning text-white btn-sm"><i
+                                                class="bi bi-repeat"></i> Reset Password</button>
+                                    </form> --}}
+                                    {{-- <form action="/reset-password/{{ $user->id }}" method="post"> --}}
+                                    <button class="btn btn-danger btn-sm" onclick="reset()"><i class="bi bi-wrench-adjustable"></i>
+                                         Reset Password</button>
+                                    {{-- </form> --}}
+                                </li>
+                                <li class="list-inline-item">
+                                    <form action="data-pegawai.{{ $user->id }}" method="post"
+                                        onclick="return confirm('Menghapus pegawai ini akan menghapus jadwalnya juga!');">
+                                        @method('delete')
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i>
+                                            Hapus</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <img id="imgProfil" height="181" class="mb-4"
+                            src="{{ file_exists($user->picture) ? url($user->picture) : url('images/user/user.png') }}"
+                            alt="Profile">
                     </div>
                     <table class="table table-profile">
                         <tbody>

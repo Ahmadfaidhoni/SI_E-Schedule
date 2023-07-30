@@ -2,8 +2,8 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <h4 class="">Perubahan Jadwal</h4>
-            <div class="card">
+            <h4 class="mx-3">Perubahan Jadwal</h4>
+            <div class="card mt-3 mx-3">
                 <div class="card-body">
                     <div class="mx-2" style="display: inline-block">
                         <a href="/history-perubahan-jadwal"><button type="button" class="btn btn-info"><i
@@ -88,7 +88,7 @@
                                                     </div>
                                                 </div>
                                             @elseif(Auth::user()->level == 'User' || Auth::user()->level == 'Keuangan')
-                                                <button type="button" class="btn btn-sm mb-1 btn-warning text-white"
+                                                <button type="button" class="btn btn-sm mb-1 btn-warning"
                                                     style="pointer-events: none">Dalam Pengecekan</button>
                                             @endif
                                         </td>

@@ -2,17 +2,15 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <div class="card">
-                <h4 class="card-header">Data Kegiatan</h4>
+            <h4 class="mx-3">Data Kegiatan</h4>
+            <div class="card mt-3 mx-3">
                 <div class="card-body">
-
-                    @if (session()->has('success'))
+                    {{-- @if (session()->has('success'))
                         <div class="alert alert-success my-3 mx-4 col-lg-8">
                             {{ session('success') }}
                         </div>
-                    @endif
-
-                    <div class="mx-4">
+                    @endif --}}
+                    <div class="">
                         <a href="/add-kegiatan"><button type="button" class="btn btn-primary"><i
                                     class="bi bi-bookmark-plus"></i> Tambah Kegiatan</button></a>
                     </div>
@@ -33,10 +31,10 @@
                                         <td>{{ $keg->kode_kegiatan }}</td>
                                         <td>{{ $keg->nama_kegiatan }}</td>
                                         <td>
-                                            <div class="row">
+                                            <div class="row text-center">
                                                 <div class="col-lg-12">
                                                     <a href="editKegiatan-{{ $keg->kode_kegiatan }}"><button type="button"
-                                                            class="btn btn-sm mb-1 btn-warning text-white"><i
+                                                            class="btn btn-sm mb-1 btn-warning"><i
                                                                 class="bi bi-pencil-square"></i> Edit</button></a>
                                                     <form action="data-kegiatan.{{ $keg->id }}" method="post"
                                                         class="d-inline"

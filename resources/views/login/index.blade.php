@@ -4,23 +4,15 @@
 <style>
     body {
         font-family: "Helvetica Neue", "Open sans", sans-serif;
-        background-color: gray;
-        background-image: -webkit-linear-gradient(top left, #5e02e0, #b43ec6);
-        color: white;
-
+        background: #BE93C5;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #7BC6CC, #BE93C5);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #7BC6CC, #BE93C5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     }
 
     .gradient-custom-2 {
-        /* fallback for old browsers */
-        background: #fccb90;
-
-        /* Chrome 10-25, Safari 5.1-6 */
-        /* background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593); */
-        background: -webkit-linear-gradient(top left, #8f61bb, #b44598);
-
-        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-        /* background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593); */
-        background: linear-gradient(to right, #5d58c2, #b44598);
+        background: #BE93C5;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #7BC6CC, #BE93C5);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #7BC6CC, #BE93C5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     }
 
     @media (min-width: 768px) {
@@ -64,67 +56,6 @@
     <!--*******************
         Preloader end
     ********************-->
-
-    {{-- <div class="login-form-bg h-100">
-        <div class="container h-100">
-            <div class="row justify-content-center h-100">
-                <div class="col-xl-6">
-                    <div class="form-input-content">
-                        <div class="card login-form mb-0">
-                            <div class="card-body pt-5">
-                                <div class="text-center">
-                                    <h4>Login Form</h4>
-                                    <img src="images/logo/logo.png" width="200px" height="200px">
-                                </div>
-                                @if (session()->has('success'))
-                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                        {{ session('success') }}
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                @endif
-                                @if (session()->has('loginError'))
-                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        {{ session('loginError') }}
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                @endif
-                                <form action="/login" method="post" class="mt-4 mb-4 login-input">
-                                    @csrf
-                                    <div class="form-group">
-                                        <input type="login" name="login" id="login"
-                                            class="form-control @error('login') is-invalid @enderror"
-                                            placeholder="Email or NIP" value="{{ old('login') }}" autofocus required>
-                                        @error('login')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="password" name="password" id="password"
-                                            class="form-control @error('password') is-invalid @enderror"
-                                            placeholder="Password" required>
-                                        @error('password')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
-                                    </div>
-                                    <button class="btn login-form__btn submit w-100 mt-2">Sign In</button>
-                                </form>
-                                <p class="mt-5 login-form__footer">Dont have account? <a href="/register"
-                                        class="text-primary">Sign Up</a> now</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-xl-11">
@@ -132,15 +63,7 @@
                     <div class="row g-0">
                         <div class="col-lg-7 d-flex align-items-center gradient-custom-2">
                             <div class="text-white px-3 py-4 p-md-5 mx-md-4">
-                                {{-- <h4 class="mb-4">We are more than just a company</h4>
-                                <p class="small mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                                    do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                    quis nostrud
-                                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p> --}}
-                                <div class="card">
-                                    <img src="images/logo/logo1.png" width="400" height="400">
-                                </div>
+                                <img src="images/logo/logo1.png" width="400" height="400">
                             </div>
                         </div>
                         <div class="col-lg-5">
@@ -216,7 +139,7 @@
                     <p class="text-center font-weight-bold">Contact admin to reset your password </p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary text-white" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

@@ -34,8 +34,9 @@ class RubahJadwalController extends Controller
 
     public function history_perubahan()
     {
+        $active_menu = 'perubahan-jadwal';
         $perubahan_jadwal = HistoryPerubahanJadwal::get();
-        return view('dashboard.jadwal.history-perubahan-jadwal', [
+        return view('dashboard.rubah-jadwal.history-perubahan-jadwal', compact('active_menu'), [
             'jadwal' => $perubahan_jadwal
         ]);
     }
@@ -65,7 +66,8 @@ class RubahJadwalController extends Controller
      */
     public function show(Jadwal $jadwal)
     {
-        return view('dashboard.rubah-jadwal.show-ubah-jadwal', [
+        $active_menu = 'perubahan-jadwal';
+        return view('dashboard.rubah-jadwal.show-ubah-jadwal', compact('active_menu'), [
             'jadwal' => $jadwal,
         ]);
     }
@@ -78,7 +80,8 @@ class RubahJadwalController extends Controller
      */
     public function edit(Jadwal $jadwal)
     {
-        return view('dashboard.rubah-jadwal.edit-jadwal', [
+        $active_menu = 'perubahan-jadwal';
+        return view('dashboard.rubah-jadwal.edit-jadwal', compact('active_menu'), [
             "kegiatan" => Kegiatan::all(),
             "pegawai" => User::all(),
             "jadwal" => $jadwal
@@ -126,7 +129,7 @@ class RubahJadwalController extends Controller
             }
 
             Alert::success('Congrats', 'Permintaan Berhasil Terkirim!');
-            return redirect('/');
+            return redirect('/perubahan-jadwal');
         } else {
             return abort(403);
         }

@@ -2,8 +2,8 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <div class="card">
-                <h4 class="card-header">Data Keuangan Pegawai</h4>
+            <h4 class="mx-3">Data Keuangan Pegawai</h4>
+            <div class="card mt-3 mx-3">
                 <div class="card-body">
 
                     @if (session()->has('success'))

@@ -2,8 +2,8 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <h4 class="">History Jadwal</h4>
-            <div class="card">
+            <h4 class="mx-3">History Jadwal</h4>
+            <div class="card mt-3 mx-3">
                 <div class="card-body">
 
                     @if (session()->has('success'))
@@ -16,7 +16,7 @@
                         </div>
                     @endif
 
-                    <div class="ml-4" style="display: inline-block">
+                    <div class="" style="display: inline-block">
                         <a href="/perubahan-jadwal"><button type="button" class="btn btn-primary"><i
                                     class="bi bi-arrow-bar-left"></i>
                                 Back to Jadwal</button></a>

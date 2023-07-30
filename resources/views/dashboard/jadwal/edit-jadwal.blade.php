@@ -2,8 +2,8 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-lg-12">
-            <div class="card">
-                <h4 class="card-header">Data Jadwal {{ $jadwal->user->name }}</h4>
+            <h4 class="mx-3">Data Jadwal {{ $jadwal->user->name }}</h4>
+            <div class="card mt-3 mx-3">
                 <div class="card-body">
                     <div class="form-validation">
                         <form class="form-valide" action="data-jadwal.{{ $jadwal->id }}" method="post">

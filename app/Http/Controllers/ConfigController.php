@@ -11,7 +11,7 @@ class ConfigController extends Controller
     {
         $active_menu = 'config';
         $config = Config::get();
-        return view('config.index', compact('active_menu', 'config'));
+        return view('dashboard.config.index', compact('active_menu', 'config'));
     }
 
     public function update(Request $request)

@@ -6,8 +6,8 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <h3>Config</h3>
-            <div class="card mt-3">
+            <h4 class="mx-3">Config</h4>
+            <div class="card mt-3 mx-3">
                 <div class="card-body">
                     @if (session()->has('success'))
                         <div class="alert alert-success col-lg-12">
@@ -38,9 +38,10 @@
                                     <th scope="row">{{ $value->key }}</th>
                                     <td>{{ $value->value }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-primary" data-key="{{ $value->key }}"
+                                        <button type="button" class="btn btn-warning" data-key="{{ $value->key }}"
                                             data-value="{{ $value->value }}" data-id="{{ $value->id }}"
-                                            onclick="editConfig($(this))" data-toggle="modal" data-target="#modal-edit">
+                                            onclick="editConfig($(this))" data-toggle="modal" data-target="#modal-edit"><i
+                                            class="bi bi-pencil-square"></i>
                                             Edit
                                         </button>
                                     </td>
@@ -71,7 +72,7 @@
                         </div>
                         <div class="form-group">
                             <label for="message-text" class="col-form-label">Value</label>
-                            <input type="text" class="form-control" id="value" name="value">
+                            <input type="number" class="form-control" id="value" name="value">
                         </div>
                     </div>
                     <div class="modal-footer">

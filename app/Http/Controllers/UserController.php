@@ -33,7 +33,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('dashboard.pegawai.add-pegawai', [
+        $active_menu = 'data-pegawai';
+        return view('dashboard.pegawai.add-pegawai', compact('active_menu'), [
             "pegawai" => User::all(),
             "golongan" => Golongan::orderBy('jenis_golongan', 'ASC')->orderBy('ruang', 'ASC')->get()
         ]);
@@ -95,7 +96,8 @@ class UserController extends Controller
      */
     public function show(User $user, Jadwal $jadwal)
     {
-        return view('dashboard.pegawai.show-pegawai', [
+        $active_menu = 'data-pegawai';
+        return view('dashboard.pegawai.show-pegawai', compact('active_menu'), [
             "user" => $user,
             'jadwal' => $jadwal
         ]);
@@ -109,7 +111,8 @@ class UserController extends Controller
      */
     public function edit(User $pegawai)
     {
-        return view('dashboard.pegawai.edit-pegawai', [
+        $active_menu = 'data-pegawai';
+        return view('dashboard.pegawai.edit-pegawai', compact('active_menu'), [
             "pegawai" => $pegawai,
             "golongan" => Golongan::orderBy('jenis_golongan', 'ASC')->orderBy('ruang', 'ASC')->get()
         ]);

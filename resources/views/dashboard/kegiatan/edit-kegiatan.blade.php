@@ -2,7 +2,8 @@
 @section('content')
 <div class="row justify-content-center">
     <div class="col-lg-12">
-        <div class="card">
+        <h4 class="mx-3"> Edit Kegiatan {{ $kegiatan->nama_kegiatan }}</h4>
+        <div class="card mt-3 mx-3">
             <div class="card-body">
                 <div class="form-validation">
                     <form class="form-valide" action="data-kegiatan.{{ $kegiatan->id }}" method="post">

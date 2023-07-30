@@ -5,16 +5,14 @@
 
     <div class="row">
         <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    Data Jadwal
-                </div>
+            <h4 class="mx-3">Detail Jadwal</h4>
+            <div class="card mt-3 mx-3">
                 <div class="card-body">
                     <div class="float-right">
                         <ul class="list-inline mb-3">
                             <li class="list-inline-item">
                                 <a href="editJadwal-{{ $jdwl->id }}">
-                                    <button type="button" class="btn btn-warning text-white btn-sm"><i
+                                    <button type="button" class="btn btn-warning btn-sm"><i
                                             class="bi bi-pencil-square"></i> Edit Data</button>
                                 </a>
                             </li>
