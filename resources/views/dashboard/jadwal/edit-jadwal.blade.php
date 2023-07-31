@@ -54,13 +54,13 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="col-md-6 mt-4">
-                                    <label for="pengajar">Tanggal akhir</label> <span class="text-danger">*</span>
+                                <div id="form_date_end" class="col-md-3 mt-2" style="display: none">
+                                    <label for="pengajar">Tanggal Akhir</label> <span class="text-danger">*</span>
                                     <div class="input-group">
                                         <input type="date"
                                             class="form-control @error('tanggal_akhir') is-invalid @enderror"
-                                            id="tanggal_akhir" name="tanggal_akhir" placeholder="tanggal_akhir Kegiatan"
-                                            value="{{ old('tanggal_akhir', $jadwal->tanggal_akhir) }}">
+                                            id="tanggal_akhir" name="tanggal_akhir" placeholder="Tanggal_akhir Kegiatan"
+                                            value="{{ old('tanggal_akhir') }}">
                                         @error('tanggal_akhir')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -108,6 +108,13 @@
                                         <datalist id="list-pengajar">
                                         </datalist> --}}
                                         <select class="form-control select2" id="user_id" name="user_id">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="form_ruangan" class="col-md-6 mt-2">
+                                    <label for="ruangan">Ruangan</label> <span class="text-danger">*</span>
+                                    <div class="input-group">
+                                        <select class="form-control select2" id="ruangan_id" name="ruangan_id">
                                         </select>
                                     </div>
                                 </div>
@@ -161,160 +168,176 @@
     <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
     <script>
-        $('#btn_checkJadwalUpdate').on('click', () => {
-            var check_tipe = document.getElementById("tipe_jadwal").value
-            var tipe_jadwal = document.getElementById("tanggal").value;
-            var tipe_jadwal2 = document.getElementById("mulai").value;
-            var tipe_jadwal3 = document.getElementById("selesai").value;
+        $(document).ready(() => {
+            $(document).ready(function() {
+                $('.select2').select();
+            });
+            $('#btn_checkJadwalUpdate').on('click', () => {
+                var check_tipe = document.getElementById("tipe_jadwal").value
+                var tipe_jadwal = document.getElementById("tanggal").value;
+                var tipe_jadwal2 = document.getElementById("mulai").value;
+                var tipe_jadwal3 = document.getElementById("selesai").value;
+    
+                //Get startTime
+                var startTime = tipe_jadwal2;
+                var arrStart = startTime.split(':');
+                var endStartHrs = $.trim(arrStart[0]);
+                var endStartMnt = $.trim(arrStart[1]);
+    
+                //Get endTime
+                var endTime = tipe_jadwal3;
+                var arrEnd = endTime.split(':');
+                var endHoursHrs = $.trim(arrEnd[0]);
+                var endHoursMnt = $.trim(arrEnd[1]);
+    
+                //Get results
+                var getHours = endHoursHrs - endStartHrs;
+                var getMnts = endHoursMnt - endStartMnt;
+                var y = (getHours * 60) + getMnts;
+                var z = y / 45;
+                var str = z.toString();
+    
+                var arrFix = str.split('.');
+                var strResults = $.trim(arrFix[0]);
+                var results = parseInt(strResults);
+    
+                if (check_tipe == 1) {
+                    if (!tipe_jadwal || !tipe_jadwal2 || !tipe_jadwal3) {
+                        var checkSpan = document.getElementById('checkSpan');
+                        checkSpan.style.display = '';
+                        checkSpan.classList.remove("alert-success");
+                        checkSpan.classList.add("alert-danger");
+                        checkSpan.innerHTML = "Lengkapi Inputan!"
+                        setTimeout(() => {
+                            checkSpan.style.display = 'none';
+                        }, 3000);
+    
+                    } else if (results <= 0) {
+                        var checkSpan = document.getElementById('checkSpan');
+                        checkSpan.style.display = '';
+                        checkSpan.classList.remove("alert-success");
+                        checkSpan.classList.add("alert-danger");
+                        checkSpan.innerHTML = "Inputan Jam Salah!"
+                        setTimeout(() => {
+                            checkSpan.style.display = 'none';
+                        }, 3000);
+    
+                    } else if (results > ("{{ $config_max_jp->value ?? 15 }}")) {
+                        var checkSpan = document.getElementById('checkSpan');
+                        checkSpan.style.display = '';
+                        checkSpan.classList.remove("alert-success");
+                        checkSpan.classList.add("alert-danger");
+                        checkSpan.innerHTML = "Maks JP Mengajar adalah {{ $config_max_jp->value ?? 15 }}!"
+                        setTimeout(() => {
+                            checkSpan.style.display = 'none';
+                        }, 3000);
+    
+                    } else {
+    
+                        var checkSpan = document.getElementById('checkSpan');
+                        checkSpan.style.display = '';
+                        checkSpan.classList.remove("alert-danger");
+                        checkSpan.classList.add("alert-success");
+                        checkSpan.innerHTML = "Check Pegawai Berhasil!"
+                        setTimeout(() => {
+                            checkSpan.style.display = 'none';
+                        }, 3000);
+    
+                        var jp = document.getElementById('jp');
+                        jp.value = results;
+    
+                        $.ajax({
+                            type: 'GET',
+                            url: '{{ url('/get-pegawaiUpdate') }}',
+                            data: {
+                                tanggal: tipe_jadwal,
+                                mulai: tipe_jadwal2,
+                                selesai: tipe_jadwal3,
+                                jp: results,
+                                id: '{{ $jadwal->id }}',
+                            },
+                            dataType: "json",
+                            success: function({
+                                data,
+                                debug
+                            }) {
+                                console.log(debug, data);
+                                // $('#list-pengajar').html(data.map(({
+                                //     id,
+                                //     name
+                                // }) => (`<option value="${name}"></option>`)).join(''));
+    
+                                // $('#user_id').select2({
+                                //     data: data
+                                // })
+                                // $('#user_id').empty().trigger('change');
 
-            //Get startTime
-            var startTime = tipe_jadwal2;
-            var arrStart = startTime.split(':');
-            var endStartHrs = $.trim(arrStart[0]);
-            var endStartMnt = $.trim(arrStart[1]);
+                                $('#user_id').select2({
+                                    data: data.users
+                                })
 
-            //Get endTime
-            var endTime = tipe_jadwal3;
-            var arrEnd = endTime.split(':');
-            var endHoursHrs = $.trim(arrEnd[0]);
-            var endHoursMnt = $.trim(arrEnd[1]);
+                                $('#ruangan_id').empty().trigger('change');
 
-            //Get results
-            var getHours = endHoursHrs - endStartHrs;
-            var getMnts = endHoursMnt - endStartMnt;
-            var y = (getHours * 60) + getMnts;
-            var z = y / 45;
-            var str = z.toString();
-
-            var arrFix = str.split('.');
-            var strResults = $.trim(arrFix[0]);
-            var results = parseInt(strResults);
-
-            if (check_tipe == 1) {
-                if (!tipe_jadwal || !tipe_jadwal2 || !tipe_jadwal3) {
-                    var checkSpan = document.getElementById('checkSpan');
-                    checkSpan.style.display = '';
-                    checkSpan.classList.remove("alert-success");
-                    checkSpan.classList.add("alert-danger");
-                    checkSpan.innerHTML = "Lengkapi Inputan!"
-                    setTimeout(() => {
-                        checkSpan.style.display = 'none';
-                    }, 3000);
-
-                } else if (results <= 0) {
-                    var checkSpan = document.getElementById('checkSpan');
-                    checkSpan.style.display = '';
-                    checkSpan.classList.remove("alert-success");
-                    checkSpan.classList.add("alert-danger");
-                    checkSpan.innerHTML = "Inputan Jam Salah!"
-                    setTimeout(() => {
-                        checkSpan.style.display = 'none';
-                    }, 3000);
-
-                } else if (results > 15) {
-                    var checkSpan = document.getElementById('checkSpan');
-                    checkSpan.style.display = '';
-                    checkSpan.classList.remove("alert-success");
-                    checkSpan.classList.add("alert-danger");
-                    checkSpan.innerHTML = "Maks JP Mengajar adalah 15!"
-                    setTimeout(() => {
-                        checkSpan.style.display = 'none';
-                    }, 3000);
-
+                                $('#ruangan_id').select2({
+                                    data: data.ruangans
+                                })
+                            },
+                            error: function(xhr) {
+                                alert('Error')
+                            }
+                        });
+                    }
                 } else {
-
-                    var jp = document.getElementById('jp');
-                    jp.value = results;
-
-                    var checkSpan = document.getElementById('checkSpan');
-                    checkSpan.style.display = '';
-                    checkSpan.classList.remove("alert-danger");
-                    checkSpan.classList.add("alert-success");
-                    checkSpan.innerHTML = "Check Pegawai Berhasil!"
-                    setTimeout(() => {
-                        checkSpan.style.display = 'none';
-                    }, 3000);
-
-                    $.ajax({
-                        type: 'GET',
-                        url: '{{ url('/get-pegawaiUpdate') }}',
-                        data: {
-                            tanggal: tipe_jadwal,
-                            mulai: tipe_jadwal2,
-                            selesai: tipe_jadwal3,
-                            jp: results,
-                            id: '{{ $jadwal->id }}',
-                        },
-                        dataType: "json",
-                        success: function({
-                            data,
-                            debug
-                        }) {
-                            // console.log(debug, data);
-                            // $('#list-pengajar').html(data.map(({
-                            //     id,
-                            //     name
-                            // }) => (`<option value="${name}"></option>`)).join(''));
-
-                            $('#user_id').select2({
-                                data: data
-                            })
-                        },
-                        error: function(xhr) {
-                            alert('Error')
-                        }
-                    });
+                    if (!tipe_jadwal) {
+                        var checkSpan = document.getElementById('checkSpan');
+                        checkSpan.style.display = '';
+                        checkSpan.classList.remove("alert-success");
+                        checkSpan.classList.add("alert-danger");
+                        checkSpan.innerHTML = "Lengkapi Inputan!"
+                        setTimeout(() => {
+                            checkSpan.style.display = 'none';
+                        }, 3000);
+                    } else {
+                        var checkSpan = document.getElementById('checkSpan');
+                        checkSpan.style.display = '';
+                        checkSpan.classList.remove("alert-danger");
+                        checkSpan.classList.add("alert-success");
+                        checkSpan.innerHTML = "Check Pegawai Berhasil!"
+                        setTimeout(() => {
+                            checkSpan.style.display = 'none';
+                        }, 3000);
+    
+                        $.ajax({
+                            type: 'GET',
+                            url: '{{ url('/get-pegawaiUpdate') }}',
+                            data: {
+                                tanggal: tipe_jadwal,
+                                mulai: '00:00:00',
+                                selesai: '23:59:59',
+                                jp: 15,
+                            },
+                            dataType: "json",
+                            success: function({
+                                data,
+                                debug
+                            }) {
+                                // console.log(debug, data);
+                                // $('#list-pengajar').html(data.map(({
+                                //     id,
+                                //     name
+                                // }) => (`<option value="${name}"></option>`)).join(''));
+                                $('#user_id').select2({
+                                    data: data
+                                })
+                            },
+                            error: function(xhr) {
+                                alert('Error')
+                            }
+                        });
+                    }
                 }
-            } else {
-                if (!tipe_jadwal) {
-                    var checkSpan = document.getElementById('checkSpan');
-                    checkSpan.style.display = '';
-                    checkSpan.classList.remove("alert-success");
-                    checkSpan.classList.add("alert-danger");
-                    checkSpan.innerHTML = "Lengkapi Inputan!"
-                    setTimeout(() => {
-                        checkSpan.style.display = 'none';
-                    }, 3000);
-                } else {
-                    var checkSpan = document.getElementById('checkSpan');
-                    checkSpan.style.display = '';
-                    checkSpan.classList.remove("alert-danger");
-                    checkSpan.classList.add("alert-success");
-                    checkSpan.innerHTML = "Check Pegawai Berhasil!"
-                    setTimeout(() => {
-                        checkSpan.style.display = 'none';
-                    }, 3000);
-
-                    $.ajax({
-                        type: 'GET',
-                        url: '{{ url('/get-pegawaiUpdate') }}',
-                        data: {
-                            tanggal: tipe_jadwal,
-                            mulai: '00:00:00',
-                            selesai: '23:59:59',
-                            jp: 15,
-                        },
-                        dataType: "json",
-                        success: function({
-                            data,
-                            debug
-                        }) {
-                            // console.log(debug, data);
-                            // $('#list-pengajar').html(data.map(({
-                            //     id,
-                            //     name
-                            // }) => (`<option value="${name}"></option>`)).join(''));
-                            $('#user_id').select2({
-                                data: data
-                            })
-                        },
-                        error: function(xhr) {
-                            alert('Error')
-                        }
-                    });
-                }
-            }
-        });
+            });
+        })
 
         // Change Tipe Jadwal
         document.getElementById('tipe_jadwal').addEventListener('change', function() {

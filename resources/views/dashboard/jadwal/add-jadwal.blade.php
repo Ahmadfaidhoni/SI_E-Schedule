@@ -13,14 +13,14 @@
                                 <strong></strong>
                             </div>
                             <div class="row form-material">
-                                <div class="col-md-6 mt-1">
+                                <div id="form_tipe" class="col-md-6">
                                     <label for="tipe_kegiatan">Tipe Jadwal</label> <span class="text-danger">*</span>
                                     <select class="form-control" id="tipe_jadwal" name="tipe_jadwal">
                                         <option value="1" selected>Mengajar</option>
                                         <option value="2">Perjalanan Dinas</option>
                                     </select>
                                 </div>
-                                <div id="form_kegiatan" class="col-md-6 mt-1">
+                                <div id="form_kegiatan" class="col-md-6">
                                     <label for="kegiatan">Kegiatan</label> <span class="text-danger">*</span>
                                     <select class="form-control" id="kegiatan" name="kegiatan_id">
                                         @foreach ($kegiatan as $keg)
@@ -33,7 +33,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div id="form_date" class="col-md-3 mt-2">
+                                <div id="form_date" class="col-md-6 mt-2">
                                     <label for="pengajar">Tanggal</label> <span class="text-danger">*</span>
                                     <div class="input-group">
                                         <input type="date" class="form-control @error('tanggal') is-invalid @enderror"
@@ -84,20 +84,6 @@
                                         </div>
                                     @enderror
                                 </div>
-                                <div id="form_ruangan" class="col-md-12 mt-2">
-                                    <label for="ruangan" class="m-t-20">Ruangan</label>
-                                    <select class="select form-control" id="ruangan" name="ruangan_id">
-                                        <option value="" selected>Data Ruangan</option>
-                                        @foreach ($ruangan as $r)
-                                            <option value="{{ $r->id }}">{{ $r->nama_ruangan }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('ruangan')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
                                 <div class="col-md-12 mt-2">
                                     <button id="btn_check" type="button" class="btn btn-info my-2">Check</button>
                                     {{-- <span id="checkSpan" class="ml-2 text-danger" style="display: none;"></span> --}}
@@ -109,8 +95,14 @@
                                             list="list-pengajar" id="user_id" autocomplete="off">
                                         <datalist id="list-pengajar">
                                         </datalist> --}}
-                                        <select class="form-control select2" id="user_id" name="user_id"
-                                            style="height: 1000px;">
+                                        <select class="form-control select2" id="user_id" name="user_id">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="form_ruangan" class="col-md-6 mt-2">
+                                    <label for="ruangan">Ruangan</label> <span class="text-danger">*</span>
+                                    <div class="input-group">
+                                        <select class="form-control select2" id="ruangan_id" name="ruangan_id">
                                         </select>
                                     </div>
                                 </div>
@@ -173,16 +165,15 @@
     <script>
         $(document).ready(() => {
             $(document).ready(function() {
-                $('.select2').select2();
+                $('.select2').select();
             });
-
+            
             $('#btn_check').on('click', () => {
                 var check_tipe = document.getElementById("tipe_jadwal").value
                 var tipe_jadwal = document.getElementById("tanggal").value;
                 var tipe_jadwal2 = document.getElementById("mulai").value;
                 var tipe_jadwal3 = document.getElementById("selesai").value;
-                var tipe_jadwal4 = document.getElementById("ruangan").value;
-
+                
                 //Get startTime
                 var startTime = tipe_jadwal2;
                 var arrStart = startTime.split(':');
@@ -207,7 +198,7 @@
                 var results = parseInt(strResults);
 
                 if (check_tipe == 1) {
-                    if (!tipe_jadwal || !tipe_jadwal2 || !tipe_jadwal3 || !tipe_jadwal4) {
+                    if (!tipe_jadwal || !tipe_jadwal2 || !tipe_jadwal3) {
 
 
                         var checkSpan = document.getElementById('checkSpan');
@@ -260,7 +251,6 @@
                                 tanggal: tipe_jadwal,
                                 mulai: tipe_jadwal2,
                                 selesai: tipe_jadwal3,
-                                ruangan: tipe_jadwal4,
                                 jp: results,
                             },
                             dataType: "json",
@@ -268,18 +258,27 @@
                                 data,
                                 debug
                             }) {
+                                
                                 // $('#list-pengajar').html(data.map(({
                                 //     id,
                                 //     name
                                 // }) => (`<option value="${name}"></option>`)).join(''));
+                                console.log(debug, data);
+
                                 $('#user_id').empty().trigger('change');
 
                                 $('#user_id').select2({
-                                    data: data
+                                    data: data.users
+                                })
+
+                                $('#ruangan_id').empty().trigger('change');
+
+                                $('#ruangan_id').select2({
+                                    data: data.ruangans
                                 })
                             },
                             error: function(xhr) {
-                                // alert('Error')
+                                alert('Error')
                             }
                         });
                     }
@@ -310,24 +309,23 @@
                                 tanggal: tipe_jadwal,
                                 mulai: '00:00:00',
                                 selesai: '23:59:59',
-                                jp: "{{ $config_max_jp->value ?? 15 }}",
+                                // jp: "{{ $config_max_jp->value ?? 15 }}",
                             },
                             dataType: "json",
                             success: function({
                                 data,
                                 debug
                             }) {
-                                // console.log(debug, data);
+                                console.log(debug, data);
                                 // $('#list-pengajar').html(data.map(({
                                 //     id,
                                 //     name
                                 // }) => (`<option value="${name}"></option>`)).join(''));
-                                $('#user_id').empty().trigger('change');
+                                // $('#user_id').empty().trigger('change');
 
-
-                                $('#user_id').select2({
-                                    data: data
-                                })
+                                // $('#user_id').select2({
+                                //     data: users
+                                // })
                             },
                             error: function(xhr) {
                                 alert('Error')
@@ -360,7 +358,7 @@
                 document.getElementById('form_angkatan').style.display = style;
                 document.getElementById('form_ruangan').style.display = style;
                 document.getElementById('form_keterangan').classList = styleClass;
-                document.getElementById('form_date').classList = styleClass;
+                // document.getElementById('form_date').classList = styleClass;
 
                 document.getElementById('form_biaya').style.display = style_biaya;
             });

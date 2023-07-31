@@ -354,21 +354,83 @@ class JadwalController extends Controller
         $limit_max_jp = $config_max_jp->value ?? 15;
         $tanggal_mulai = $request->tanggal . ' ' . $request->mulai;
         $tanggal_selesai = $request->tanggal . ' ' . $request->selesai;
-        $ruangan = $request->ruangan;
         $jp = $request->jp;
 
-        $arr_user_id = [];
-
+        // Cari user dan ruangan yang bentrok
         $bentrok = DB::table('jadwals')
             ->select('user_id', 'ruangan_id')
             ->whereRaw("
-            (waktu_mulai <= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND (waktu_selesai - INTERVAL 1 MINUTE) >= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i')) OR
-            (waktu_mulai <= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i') AND (waktu_selesai - INTERVAL 1 MINUTE) >= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i')) OR 
-            (waktu_mulai >= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND (waktu_selesai - INTERVAL 1 MINUTE) <= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i')) ")
-            // ->where('ruangan_id', $ruangan)
+            (waktu_mulai <= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND waktu_selesai >= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i')) OR
+            (waktu_mulai <= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i') AND waktu_selesai >= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i')) OR 
+            (waktu_mulai >= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND waktu_selesai <= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i')) ")
             ->get()
             ->toArray();
 
+        $idBentrok = [];
+        $idRuangan = [];
+
+        foreach ($bentrok as $items) {
+            $idBentrok[] = $items->user_id;
+            $idRuangan[] = $items->ruangan_id;
+        }
+        
+        $max_jp = DB::table('jadwals')
+            ->select('user_id')
+            ->whereRaw("waktu_mulai >= STR_TO_DATE('$request->tanggal 00:00:00', '%Y-%m-%d %H:%i:%s') AND waktu_selesai <= STR_TO_DATE('$request->tanggal 23:59:59', '%Y-%m-%d %H:%i:%s')")
+            ->groupBy('user_id')
+            ->having(DB::raw("(SUM(jp)+$jp)"), '>', $limit_max_jp)
+            ->get()->toArray();
+            
+        foreach ($max_jp as $item) {
+            $idBentrok[] = $item->user_id;
+        }
+
+        $users = DB::table('users')
+            ->whereNotIn('id', $idBentrok)
+            ->orderBy('name', 'ASC')
+            ->get()
+            ->toArray();
+
+        $ruangans = DB::table('ruangans')
+            ->whereNotIn('id', $idRuangan)
+            ->orderBy('nama_ruangan', 'ASC')
+            ->get()
+            ->toArray();
+
+        $selectPegawai = [];
+        foreach ($users as $item) {
+            $selectPegawai[] = ["id" => $item->id, "text" => $item->name];
+        }
+
+        $selectRuangan = [];
+        foreach ($ruangans as $item) {
+            $selectRuangan[] = ["id" => $item->id, "text" => $item->nama_ruangan];
+        }
+    
+        return response()->json(["error" => false, "data" =>[
+            "users" => $selectPegawai,
+            "ruangans" => $selectRuangan
+        ]]);
+
+        
+        
+        // $ruangans = DB::table('ruangans')
+        //     ->whereNotIn('id', $idRuangan)
+        //     ->orderBy('nama_ruangan', 'ASC')
+        //     ->get()
+        //     ->toArray();
+
+        // $select = [];
+        // foreach ($users as $item) {
+        //     $select[] = ["id" => $item->id, "text" => $item->name];
+        // }
+
+        // return response()->json(["error" => false, "data" =>[
+        //      "users" => $select
+        //     // "ruangan" => $ruangans
+        // ]]);
+
+        /*
         $temp = [];
         $all = DB::table('users')->pluck('id');
         
@@ -394,7 +456,7 @@ class JadwalController extends Controller
             ->having(DB::raw("(SUM(jp)+$jp)"), '>', $limit_max_jp)
             ->where('ruangan_id', $ruangan)
             ->get()->toArray();
-
+            
         foreach ($max_jp as $item) {
             $arr_user_id[] = $item->user_id;
         }
@@ -404,11 +466,7 @@ class JadwalController extends Controller
             ->get();
 
         
-        $select = [];
-        foreach ($checking as $item) {
-            $select[] = ["id" => $item->id, "text" => $item->name];
-        }
-
+        
         return response()->json(["error" => false, "data" => $select]);
 
         // echo json_encode([
@@ -418,7 +476,7 @@ class JadwalController extends Controller
         //         'tanggal_selesai' => $tanggal_selesai,
         //         'arr_user_id' => $arr_user_id,
         //     ]
-        // ]);
+        // ]);*/
     }
 
     public function checkJadwalUpdate(Request $request)
@@ -430,15 +488,21 @@ class JadwalController extends Controller
         $id = $request->id;
         $jp = $request->jp;
 
-        $arr_user_id = [];
-        $bentrok = DB::table('jadwals')->select('user_id')->whereRaw("
-        ((waktu_mulai <= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND waktu_selesai >= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i')) OR
-        (waktu_mulai <= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i') AND waktu_selesai >= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i')) OR 
-        (waktu_mulai >= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND waktu_selesai <= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i'))) 
-        AND id != '$id'
-        ")->get()->toArray();
-        foreach ($bentrok as $item) {
-            $arr_user_id[] = $item->user_id;
+        $bentrok = DB::table('jadwals')
+            ->select('user_id', 'ruangan_id')
+            ->whereRaw("
+            ((waktu_mulai <= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND waktu_selesai >= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i')) OR
+            (waktu_mulai <= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i') AND waktu_selesai >= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i')) OR 
+            (waktu_mulai >= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND waktu_selesai <= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i'))) AND id != '$id'")
+            ->get()
+            ->toArray();
+
+        $idBentrok = [];
+        $idRuangan = [];
+
+        foreach ($bentrok as $items) {
+            $idBentrok[] = $items->user_id;
+            $idRuangan[] = $items->ruangan_id;
         }
 
         $max_jp = DB::table('jadwals')
@@ -448,28 +512,38 @@ class JadwalController extends Controller
             ->groupBy('user_id')
             ->having(DB::raw("(SUM(jp)+$jp)"), '>', $limit_max_jp)
             ->get()->toArray();
+
         foreach ($max_jp as $item) {
-            $arr_user_id[] = $item->user_id;
+            $idBentrok[] = $item->user_id;
         }
 
-        // $checking = DB::table('users')->orderBy('name', 'ASC')->where('status_anggota', true)->where('id', '!=', '1')->whereNotIn('id', $arr_user_id)->get();
+        $users = DB::table('users')
+            ->whereNotIn('id', $idBentrok)
+            ->orderBy('name', 'ASC')
+            ->get()
+            ->toArray();
+        
+        $ruangans = DB::table('ruangans')
+            ->whereNotIn('id', $idRuangan)
+            ->orderBy('nama_ruangan', 'ASC')
+            ->get()
+            ->toArray();
 
-        // echo json_encode([
-        //     'data' => $checking,
-        //     'debug' => [
-        //         'tanggal_mulai' => $tanggal_mulai,
-        //         'tanggal_selesai' => $tanggal_selesai,
-        //         'arr_user_id' => $arr_user_id,
-        //     ]
-        // ]);
-
-        $checking = DB::table('users')->orderBy('name', 'ASC')->where('status_anggota', true)->where('id', '!=', '1')->whereNotIn('id', $arr_user_id)->get();
-        $select = [];
-        foreach ($checking as $item) {
-            $select[] = ["id" => $item->id, "text" => $item->name];
+        $selectPegawai = [];
+        foreach ($users as $item) {
+            $selectPegawai[] = ["id" => $item->id, "text" => $item->name];
         }
 
-        return response()->json(["error" => false, "data" => $select]);
+        $selectRuangan = [];
+        foreach ($ruangans as $item) {
+            $selectRuangan[] = ["id" => $item->id, "text" => $item->nama_ruangan];
+        }
+    
+        return response()->json(["error" => false, "data" =>[
+            "users" => $selectPegawai,
+            "ruangans" => $selectRuangan
+        ]]);
+
     }
 
     public function export_jadwal($awal, $akhir)
