@@ -18,6 +18,8 @@ class DashboardController extends Controller
         $ruangan = Ruangan::all()->count();
 
         $perubahan = Jadwal::where('user_id', Auth::user()->id)->where('request', '!=', 0)->count();
+        $all_perubahan = Jadwal::where('request', '!=', 0)->count();
+
 
         $jadwal_pribadi = Jadwal::where('user_id', Auth::user()->id)
             ->select('k.id as kid', 'jadwals.*')
@@ -29,6 +31,12 @@ class DashboardController extends Controller
 
         $jadwal_next_from_today = Jadwal::where('user_id', Auth::user()->id)
             ->select('k.id as kid', 'jadwals.*')
+            ->leftJoin('keuangans as k', 'k.jadwal_id', '=', 'jadwals.id')
+            ->whereRaw("DATE(waktu_mulai) > CURDATE()")
+            ->orderBy('waktu_mulai', 'ASC')
+            ->get();
+
+        $all_jadwal_next_from_today = Jadwal::select('k.id as kid', 'jadwals.*')
             ->leftJoin('keuangans as k', 'k.jadwal_id', '=', 'jadwals.id')
             ->whereRaw("DATE(waktu_mulai) > CURDATE()")
             ->orderBy('waktu_mulai', 'ASC')
@@ -52,6 +60,18 @@ class DashboardController extends Controller
         $active_menu = 'dashboard';
 
 
-        return view('dashboard.dashboard', compact('pegawai', 'kegiatan', 'ruangan', 'perubahan', 'jadwal_pribadi', 'jadwal_semua', 'active_menu', 'akumulasi_biaya', 'jadwal_next_from_today'));
+        return view('dashboard.dashboard', compact(
+            'pegawai',
+            'kegiatan',
+            'ruangan',
+            'perubahan',
+            'jadwal_pribadi',
+            'jadwal_semua',
+            'active_menu',
+            'akumulasi_biaya',
+            'jadwal_next_from_today',
+            'all_jadwal_next_from_today',
+            'all_perubahan'
+        ));
     }
 }

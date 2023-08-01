@@ -22,7 +22,7 @@
                             <div class="col-lg-4 col-6">
                                 <div class="small-box bg-primary">
                                     <div class="inner">
-                                        <h4> {{ $jadwal_pribadi->count() }}</h4>
+                                        <h4> {{ $jadwal_semua->count() }}</h4>
 
                                         <p>Jadwal Terlaksana Hari ini</p>
                                     </div>
@@ -36,7 +36,7 @@
                             <div class="col-lg-4 col-6">
                                 <div class="small-box bg-info">
                                     <div class="inner">
-                                        <h4>{{ $jadwal_next_from_today->count() }}</h4>
+                                        <h4>{{ $all_jadwal_next_from_today->count() }}</h4>
 
                                         <p>Jadwal Yang Akan Datang</p>
                                     </div>
@@ -50,7 +50,7 @@
                             <div class="col-lg-4 col-6">
                                 <div class="small-box bg-danger">
                                     <div class="inner">
-                                        <h4>{{ $perubahan }}</h4>
+                                        <h4>{{ $all_perubahan }}</h4>
 
                                         <p>Perubahan Jadwal</p>
                                     </div>
@@ -128,9 +128,9 @@
                         </div>
                     </div>
                 </div>
-            {{-- END ADMIN DASHBOARD --}}
+                {{-- END ADMIN DASHBOARD --}}
             @else
-            {{-- USER DASHBOARD --}}
+                {{-- USER DASHBOARD --}}
                 <div class="card-body">
                     <div class="row align-items-stretch">
                         <div class="col-lg-3 col-6">
@@ -188,9 +188,9 @@
                         </div>
                     </div>
                 </div>
-            {{-- END USER DASHBOARD --}}
+                {{-- END USER DASHBOARD --}}
             @endif
-            
+
             {{-- START TABLE ALL PEGAWAI --}}
             @if (auth()->user()->can('admin'))
                 <div class="card mt-3 mx-3">
@@ -283,8 +283,8 @@
                                             <div class="row justify-content-center">
                                                 <div class="" style="white-space: nowrap">
                                                     <a href="data-jadwal-{{ $jdpr->id }}"><button type="button"
-                                                            class="btn btn-sm mb-1 btn-primary"><i
-                                                                class="bi bi-eye"></i> Lihat</button></a>
+                                                            class="btn btn-sm mb-1 btn-primary"><i class="bi bi-eye"></i>
+                                                            Lihat</button></a>
                                                 </div>
                                             </div>
                                         </td>
