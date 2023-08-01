@@ -32,14 +32,14 @@ class RubahJadwalController extends Controller
         }
     }
 
-    public function history_perubahan()
-    {
-        $active_menu = 'perubahan-jadwal';
-        $perubahan_jadwal = HistoryPerubahanJadwal::get();
-        return view('dashboard.rubah-jadwal.history-perubahan-jadwal', compact('active_menu'), [
-            'jadwal' => $perubahan_jadwal
-        ]);
-    }
+    // public function history_perubahan()
+    // {
+    //     $active_menu = 'perubahan-jadwal';
+    //     $perubahan_jadwal = HistoryPerubahanJadwal::get();
+    //     return view('dashboard.rubah-jadwal.history-perubahan-jadwal', compact('active_menu'), [
+    //         'jadwal' => $perubahan_jadwal
+    //     ]);
+    // }
 
 
     public function create()
@@ -108,25 +108,25 @@ class RubahJadwalController extends Controller
 
             $getIdUser = $jadwal['user_id'];
 
-            $getEmail = User::find($getIdUser)->email;
+            // $getEmail = User::find($getIdUser)->email;
             $emailAdmin = User::where('level', 'Admin')->where('email', '!=', null)->get();
 
-            $arr_email = [];
-            foreach ($emailAdmin as $item) {
-                $arr_email[] = $item->email;
-            }
+            // $arr_email = [];
+            // foreach ($emailAdmin as $item) {
+            //     $arr_email[] = $item->email;
+            // }
 
-            if ($getEmail != null) {
-                Mail::to($getEmail)->send(new NotifEditJadwal($validatedData));
+            // if ($getEmail != null) {
+            //     Mail::to($getEmail)->send(new NotifEditJadwal($validatedData));
 
-                if ($arr_email != null) {
-                    Mail::to($arr_email)->send(new NotifAdmin($validatedData));
-                }
-            } else {
-                if ($arr_email != null) {
-                    Mail::to($arr_email)->send(new NotifAdmin($validatedData));
-                }
-            }
+            //     if ($arr_email != null) {
+            //         Mail::to($arr_email)->send(new NotifAdmin($validatedData));
+            //     }
+            // } else {
+            //     if ($arr_email != null) {
+            //         Mail::to($arr_email)->send(new NotifAdmin($validatedData));
+            //     }
+            // }
 
             Alert::success('Congrats', 'Permintaan Berhasil Terkirim!');
             return redirect('/perubahan-jadwal');

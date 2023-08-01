@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Jadwal;
+use App\Mail\NotifAccJadwal;
 use App\Mail\NotifEdit;
-use App\Models\Kegiatan;
 use App\Mail\NotifJadwal;
-use Illuminate\Http\Request;
+use App\Mail\NotifGantiPegawai;
 use App\Mail\NotificationEmail;
+use App\Models\Kegiatan;
+use Illuminate\Http\Request;
 use App\Models\Config;
 use App\Models\Keuangan;
 use App\Models\Ruangan;
@@ -17,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Models\HistoryPerubahanJadwal;
 
 class JadwalController extends Controller
 {
@@ -77,7 +80,6 @@ class JadwalController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         $checkTipeJadwal = $request->tipe_jadwal;
         $config_max_jp = Config::where('key', 'MAX_JP')->first();
 
@@ -87,7 +89,7 @@ class JadwalController extends Controller
                 'tipe_jadwal' => 'required',
                 'user_id' => 'required',
                 'tanggal' => 'required',
-                'tanggal_akhir' => 'required',
+                'tanggal_akhir' => '',
                 'keterangan' => '',
             ]);
 
@@ -101,10 +103,10 @@ class JadwalController extends Controller
             $biaya = $request->biaya;
 
             // if (!is_numeric($validatedData['user_id'])) {
-            $getUserName = $validatedData['user_id'];
-            $getId = User::where('id', $getUserName)->first()->id;
+            // $getUserName = $validatedData['user_id'];
+            // $getId = User::where('id', $getUserName)->first()->id;
 
-            $validatedData['user_id'] = $getId;
+            $validatedData['user_id'] = $validatedData['user_id'];
             // }
 
             $jadwal =  Jadwal::create($validatedData);
@@ -134,10 +136,10 @@ class JadwalController extends Controller
             $biaya = ($config_biaya->value ?? 45000) * $validatedData['jp'];
 
             // if (!is_numeric($validatedData['user_id'])) {
-            $getUserName = $validatedData['user_id'];
-            $getId = User::where('id', $getUserName)->first()->id;
+            // $getUserName = $validatedData['user_id'];
+            // $getId = User::where('id', $getUserName)->first()->id;
 
-            $validatedData['user_id'] = $getId;
+            $validatedData['user_id'] = $validatedData['user_id'];
             // }
 
 
@@ -251,33 +253,39 @@ class JadwalController extends Controller
      */
     public function update(Request $request, Jadwal $jadwal)
     {
+        
         $checkTipeJadwal = $request->tipe_jadwal;
-        $checkRequest = $jadwal->request;
-        $config_max_jp = Config::where('key', 'MAX_JP')->first();
 
+        // Cek request an atau bukan
+        $checkRequest = $jadwal->request;
+        $userIdBefore = $jadwal->user_id;
+        $getEmailBefore = User::find($userIdBefore)->email;
+
+        $config_max_jp = Config::where('key', 'MAX_JP')->first();
 
         if ($checkTipeJadwal != 1) {
             $validatedData = $request->validate([
                 'tipe_jadwal' => 'required',
                 'user_id' => 'required',
                 'tanggal' => 'required',
-                'tanggal_akhir' => 'required',
+                'tanggal_akhir' => '',
                 'keterangan' => ''
             ]);
-
 
             $validatedData['kegiatan_id'] = null;
             $validatedData['angkatan'] = null;
             $validatedData['jp'] = $config_max_jp->value ?? 15;
             $validatedData['waktu_mulai'] = $validatedData['tanggal'] . " 00:00:00";
             $validatedData['waktu_selesai'] = $validatedData['tanggal'] . " 23:59:00";
+            // $validatedData['tanggal_akhir'] = $validatedData['tanggal'];
+
         } else {
             $validatedData = $request->validate([
                 'tipe_jadwal' => 'required',
                 'kegiatan_id' => 'required',
                 'user_id' => 'required',
                 'tanggal' => 'required',
-                'tanggal_akhir' => 'required',
+                'tanggal_akhir' => '',
                 'waktu_mulai' => 'required',
                 'waktu_selesai' => 'required',
                 'jp' => 'required',
@@ -287,35 +295,48 @@ class JadwalController extends Controller
 
             $validatedData['waktu_mulai'] = $validatedData['tanggal'] . " " . $validatedData['waktu_mulai'];
             $validatedData['waktu_selesai'] = $validatedData['tanggal'] . " " . $validatedData['waktu_selesai'];
+
+            $validatedData['tanggal_akhir'] = $validatedData['tanggal'];
         }
 
         unset($validatedData['tanggal']);
 
-        // if (!is_numeric($validatedData['user_id'])) {
-        //     $getUserName = $validatedData['user_id'];
-        //     $getId = User::where('name', $getUserName)->first()->id;
+        // $getUserName = $validatedData['user_id'];
+        // $getId = User::where('id', $getUserName)->first()->id;
 
-        //     $validatedData['user_id'] = $getId;
-        // }
-
-        $getUserName = $validatedData['user_id'];
-        $getId = User::where('id', $getUserName)->first()->id;
-
-        $validatedData['user_id'] = $getId;
-
-
-        if ($checkRequest == true) {
-            $validatedData['request'] = false;
-            $validatedData['alasan'] = null;
-        }
-
+        $validatedData['user_id'] = $validatedData['user_id'];
         $getIdUser = $validatedData['user_id'];
+        $getEmail = User::find($getIdUser)->email;
+        
+        if ($checkRequest == true) {
+            if($userIdBefore == $getIdUser ){
+                if ($getEmailBefore != null) {
+                    Mail::to($getEmailBefore)->send(new NotifAccJadwal($validatedData));
+                }
+            } else {
+                if ($getEmail != null) {
+                    Mail::to($getEmail)->send(new NotifJadwal($validatedData));
+                }
 
-        // $getEmail = User::find($getIdUser)->email;
+                if ($getEmailBefore != null) {
+                    Mail::to($getEmailBefore)->send(new NotifGantiPegawai($validatedData));
+                }
 
-        // if ($getEmail != null) {
-        //     Mail::to($getEmail)->send(new NotifEdit($validatedData));
-        // }
+                // HistoryPerubahanJadwal::create([
+                //     'jadwal_id' => $jadwal->id,
+                //     'status' => 'disapproved',
+                //     'comment' => 'Ganti Pegawai'
+                // ]);
+            }
+        } else {
+            if ($getEmail != null) {
+                Mail::to($getEmail)->send(new NotifEdit($validatedData));
+            }
+        }
+        
+
+        $validatedData['request'] = false;
+        $validatedData['alasan'] = null;
 
         Jadwal::where('id', $jadwal->id)->update($validatedData);
 
