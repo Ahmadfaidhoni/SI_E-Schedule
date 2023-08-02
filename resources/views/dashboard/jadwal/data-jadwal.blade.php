@@ -17,7 +17,8 @@
                     </div>
                     <div class="" style="display: inline-block">
                         @can('admin')
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal"><i class="bi bi-file-earmark-pdf"></i>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal"><i
+                                    class="bi bi-file-earmark-pdf"></i>
                                 Export to PDF
                             </button>
                         @endcan
@@ -50,7 +51,17 @@
                                         <input type="date"id="date-akhir" class="form-control"
                                             aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                                     </div>
-
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">User</span>
+                                        </div>
+                                        <select name="user_filter" id="user_filter" class="form-control select2">
+                                            <option value="all">Semua User</option>
+                                            @foreach ($users as $user)
+                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button onclick="myFunction()" class="btn btn-primary">Export</button>
@@ -139,8 +150,9 @@
             // get value from date
             var date_awal = document.getElementById('date-awal').value;
             var date_akhir = document.getElementById('date-akhir').value;
+            var user = document.getElementById('user_filter').value;
             // window.location.href = '/export-jadwal/' + date_awal + '/' + date_akhir, '_blank';
-            window.open('/export-jadwal/' + date_awal + '/' + date_akhir, '_blank');
+            window.open('/export-jadwal/' + date_awal + '/' + date_akhir + '/' + user, '_blank');
 
         }
     </script>
