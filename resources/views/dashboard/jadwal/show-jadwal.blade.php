@@ -90,7 +90,9 @@
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Ya, Hapus!'
             }).then((result) => {
-                $('#hapus-form').submit();
+                if (result.isConfirmed) {
+                    $('#hapus-form').submit();
+                }
             })
         }
     </script>
