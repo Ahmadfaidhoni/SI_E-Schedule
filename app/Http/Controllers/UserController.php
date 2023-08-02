@@ -74,6 +74,13 @@ class UserController extends Controller
 
         $validatedData['password'] = Hash::make($validatedData['password']);
 
+        if ($request->File('imgFile') != null) {
+            $file = $request->file('imgFile');
+            $filename = time() . '.' . $file->extension();
+            $file->move(public_path('images/user/'), $filename);
+            $validatedData['picture'] = 'images/user/' . $filename;
+        }
+
         User::create($validatedData);
 
         $email = $request->email;
