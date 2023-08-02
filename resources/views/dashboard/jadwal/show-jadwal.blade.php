@@ -12,16 +12,19 @@
                         <ul class="list-inline mb-3">
                             <li class="list-inline-item">
                                 <a href="editJadwal-{{ $jdwl->id }}">
-                                    <button type="button" class="btn btn-warning btn-sm"><i
-                                            class="bi bi-pencil-square"></i> Edit Data</button>
+                                    <button type="button" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i>
+                                        Edit Data</button>
                                 </a>
                             </li>
                             <li class="list-inline-item">
+                                {{-- <form action="data-jadwal.{{ $jdwl->id }}" method="post" class="d-inline"
+                                    onclick="return confirm('Apakah anda yakin ingin menghapus jadwal ini?');"> --}}
                                 <form action="data-jadwal.{{ $jdwl->id }}" method="post" class="d-inline"
-                                    onclick="return confirm('Apakah anda yakin ingin menghapus jadwal ini?');">
+                                    id="hapus-form">
                                     @method('delete')
                                     @csrf
-                                    <button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i>
+                                    <button type="button" class="btn btn-sm btn-danger" onclick="hapus()"><i
+                                            class="bi bi-trash"></i>
                                         Hapus</button>
                                 </form>
                             </li>
@@ -66,6 +69,10 @@
                                 <th scope="row">Biaya:</th>
                                 <td>{{ isset($jdwl->biaya) ? number_format($jdwl->biaya) : '-' }}</td>
                             </tr>
+                            <tr>
+                                <th scope="row">Dibuat oleh:</th>
+                                <td>{{ isset($jdwl->created_by) ? $jdwl->created_by : '-' }}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -76,4 +83,21 @@
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="sweetalert2.min.js"></script>
+    <script>
+        function hapus() {
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: "Apakah anda yakin ingin menghapus jadwal ini?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#hapus-form').submit();
+                }
+            })
+        }
+    </script>
 @endsection

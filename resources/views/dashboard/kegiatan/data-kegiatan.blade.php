@@ -37,12 +37,11 @@
                                                             class="btn btn-sm mb-1 btn-warning"><i
                                                                 class="bi bi-pencil-square"></i> Edit</button></a>
                                                     <form action="data-kegiatan.{{ $keg->id }}" method="post"
-                                                        class="d-inline"
-                                                        onclick="return confirm('Apakah anda yakin ingin menghapus kegiatan ini?');">
+                                                        class="d-inline" id="hapus-form">
                                                         @method('delete')
                                                         @csrf
-                                                        <button type="submit" class="btn btn-sm mb-1 btn-danger"><i
-                                                                class="bi bi-trash"></i> Hapus</button>
+                                                        <button type="button" class="btn btn-sm mb-1 btn-danger"
+                                                            onclick="hapus()"><i class="bi bi-trash"></i> Hapus</button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -56,4 +55,21 @@
             </div>
         </div>
     </div>
+    <script>
+        function hapus() {
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: "Apakah anda yakin ingin menghapus Kegiatan ini?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#hapus-form').submit();
+                }
+            })
+        }
+    </script>
 @endsection

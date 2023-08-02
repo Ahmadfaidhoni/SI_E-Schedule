@@ -3,6 +3,7 @@
     <style>
 
     </style>
+@endsection
 @section('content')
     <div class="row">
         <div class="col-12">
@@ -41,7 +42,7 @@
                                         <button type="button" class="btn btn-warning" data-key="{{ $value->key }}"
                                             data-value="{{ $value->value }}" data-id="{{ $value->id }}"
                                             onclick="editConfig($(this))" data-toggle="modal" data-target="#modal-edit"><i
-                                            class="bi bi-pencil-square"></i>
+                                                class="bi bi-pencil-square"></i>
                                             Edit
                                         </button>
                                     </td>

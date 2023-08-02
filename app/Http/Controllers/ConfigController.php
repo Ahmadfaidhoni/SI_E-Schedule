@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Config;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ConfigController extends Controller
 {
@@ -21,9 +22,13 @@ class ConfigController extends Controller
                 'value' => $request->value,
             ]);
 
-            return redirect()->back()->with('success', 'Data berhasil diubah');
+            // return redirect()->back()->with('success', 'Data berhasil diubah');
+            Alert::success('Congrats', 'Data berhasil diubah');
+            return redirect('/config');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            // return redirect()->back()->with('error', $e->getMessage());
+            Alert::error('Error', $e->getMessage());
+            return redirect('/config');
         }
     }
 }
