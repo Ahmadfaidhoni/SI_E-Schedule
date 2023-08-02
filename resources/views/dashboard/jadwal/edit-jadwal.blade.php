@@ -16,7 +16,7 @@
                             <div class="row form-material">
                                 <div class="col-md-6 mt-4">
                                     <label for="tipe_kegiatan">Tipe Jadwal</label> <span class="text-danger">*</span>
-                                    <select class="form-control" id="tipe_jadwal" name="tipe_jadwal">
+                                    <select class="form-control" id="tipe_jadwal" name="tipe_jadwal" disabled>
                                         <option value="1"
                                             {{ old('tipe_jadwal', $jadwal->tipe_jadwal) == '1' ? 'selected' : '' }}>
                                             Mengajar
@@ -54,13 +54,13 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div id="form_date_end" class="col-md-3 mt-2" style="display: none">
+                                <div id="form_date_end" class="col-md-3 mt-2" style="display:{{ $jadwal->tipe_jadwal == '1' ? 'none' : '' }}">
                                     <label for="pengajar">Tanggal Akhir</label> <span class="text-danger">*</span>
                                     <div class="input-group">
                                         <input type="date"
                                             class="form-control @error('tanggal_akhir') is-invalid @enderror"
                                             id="tanggal_akhir" name="tanggal_akhir" placeholder="Tanggal_akhir Kegiatan"
-                                            value="{{ old('tanggal_akhir') }}">
+                                            value="{{ old('waktu_selesai', date('Y-m-d', strtotime($jadwal->waktu_selesai))) }}">
                                         @error('tanggal_akhir')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -107,11 +107,11 @@
                                             value="{{ old('pengajar', $jadwal->user->name) }}">
                                         <datalist id="list-pengajar">
                                         </datalist> --}}
-                                        <select class="form-control select2" id="user_id" name="user_id">
+                                        <select class="form-control select2" id="user_id" name="user_id" required>
                                         </select>
                                     </div>
                                 </div>
-                                <div id="form_ruangan" class="col-md-6 mt-2">
+                                <div id="form_ruangan" class="col-md-6 mt-2" style="display:{{ $jadwal->tipe_jadwal == '2' ? 'none' : '' }}">
                                     <label for="ruangan">Ruangan</label> <span class="text-danger">*</span>
                                     <div class="input-group">
                                         <select class="form-control select2" id="ruangan_id" name="ruangan_id">
@@ -175,6 +175,7 @@
             $('#btn_checkJadwalUpdate').on('click', () => {
                 var check_tipe = document.getElementById("tipe_jadwal").value
                 var tipe_jadwal = document.getElementById("tanggal").value;
+                var tipe_jadwal1 = document.getElementById("tanggal_akhir").value;
                 var tipe_jadwal2 = document.getElementById("mulai").value;
                 var tipe_jadwal3 = document.getElementById("selesai").value;
     
@@ -288,7 +289,7 @@
                         });
                     }
                 } else {
-                    if (!tipe_jadwal) {
+                    if (!tipe_jadwal || !tipe_jadwal1) {
                         var checkSpan = document.getElementById('checkSpan');
                         checkSpan.style.display = '';
                         checkSpan.classList.remove("alert-success");
@@ -309,19 +310,20 @@
     
                         $.ajax({
                             type: 'GET',
-                            url: '{{ url('/get-pegawaiUpdate') }}',
+                            url: '{{ url('/get-pegawaiDinasUpdate') }}',
                             data: {
                                 tanggal: tipe_jadwal,
+                                tanggal_akhir: tipe_jadwal1,
                                 mulai: '00:00:00',
                                 selesai: '23:59:59',
-                                jp: 15,
+                                id: '{{ $jadwal->id }}'
                             },
                             dataType: "json",
                             success: function({
                                 data,
                                 debug
                             }) {
-                                // console.log(debug, data);
+                                console.log(debug, data);
                                 // $('#list-pengajar').html(data.map(({
                                 //     id,
                                 //     name

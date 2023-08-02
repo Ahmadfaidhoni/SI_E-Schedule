@@ -97,7 +97,7 @@
                                         </td>
                                         <td>
                                             @if ($jdwl->tipe_jadwal == 2)
-                                                {{ date('d-m-Y', strtotime($jdwl->waktu_mulai)) . ' - ' . date('d-m-Y', strtotime($jdwl->waktu_selesai)) }}
+                                                {{ date('d-m-Y', strtotime($jdwl->waktu_mulai)) . ' s/d ' . date('d-m-Y', strtotime($jdwl->waktu_selesai)) }}
                                             @else
                                                 {{ date('d-m-Y', strtotime($jdwl->waktu_mulai)) }}
                                             @endif
@@ -108,7 +108,7 @@
                                             {{ date('H:i', strtotime($jdwl->waktu_selesai)) }}</td>
                                         <td>{{ isset($jdwl->angkatan) ? $jdwl->angkatan : '-' }}</td>
                                         <td>{{ isset($jdwl->ruangan_id) ? $jdwl->ruangan->nama_ruangan : '-' }}</td>
-                                        <td>
+                                        <td class="text-center">
                                             @if (Auth::user()->level == 'Admin')
                                                 <div class="row text-center">
                                                     <div class="col-lg-12" style="white-space: nowrap">

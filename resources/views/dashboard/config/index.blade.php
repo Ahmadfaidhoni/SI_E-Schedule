@@ -73,7 +73,7 @@
                         </div>
                         <div class="form-group">
                             <label for="message-text" class="col-form-label">Value</label>
-                            <input type="number" class="form-control" id="value" name="value">
+                            <input type="number" class="form-control" id="value" name="value" required>
                         </div>
                     </div>
                     <div class="modal-footer">

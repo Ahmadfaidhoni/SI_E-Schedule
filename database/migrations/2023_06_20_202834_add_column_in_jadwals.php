@@ -14,7 +14,7 @@ class AddColumnInJadwals extends Migration
     public function up()
     {
         Schema::table('jadwals', function (Blueprint $table) {
-            $table->integer('ruangan_id')->nullable();
+            $table->foreignId('ruangan_id', 10)->after('user_id')->nullable();
         });
     }
 

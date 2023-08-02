@@ -3,7 +3,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-12">
             <h4 class="mx-3"> Edit Profile </h4>
-            <div class="card">
+            <div class="card mt-3 mx-3">
                 <div class="card-body">
                     @can('admin')
                         <div class="form-validation">
@@ -33,7 +33,7 @@
                                     <div class="col-lg-6">
                                         <input type="text" class="form-control @error('nip') is-invalid @enderror"
                                             id="nip" name="nip" placeholder="Masukan NIP Pengajar.."
-                                            value="{{ old('nip', $user->nip) }}">
+                                            value="{{ old('nip', $user->nip) }}" required>
                                         @error('nip')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -48,7 +48,7 @@
                                     <div class="col-lg-6">
                                         <input type="text" class="form-control @error('name') is-invalid @enderror"
                                             id="name" name="name" placeholder="Masukan Nama Pengajar.."
-                                            value="{{ old('name', $user->name) }}">
+                                            value="{{ old('name', $user->name) }}" required>
                                         @error('name')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -65,7 +65,7 @@
                                             id="jabatan" name="jabatan" placeholder="Masukan Nama Pengajar.."
                                             value="{{ old('jabatan', $user->jabatan) }}"> --}}
                                         <select class="form-control @error('jabatan') is-invalid @enderror" id="jabatan"
-                                            name="jabatan">
+                                            name="jabatan" required>
                                             <optgroup label="Golongan IV">
                                                 <option value="Pembina Utama IV-e"
                                                     @if (old('jabatan', $user->jabatan) == 'Pembina Utama IV-e') selected @endif>Pembina Utama IV-e
@@ -126,24 +126,6 @@
                                         @enderror
                                     </div>
                                 </div>
-                                {{-- <div id="" class="form-group row">
-                                    <label class="col-lg-4 col-form-label" for="golongan_id">Golongan <span
-                                            class="text-danger">*</span>
-                                    </label>
-                                    <div class="col-lg-6">
-                                        <select class="form-control @error('golongan_id') is-invalid @enderror" id="golongan_id"
-                                            name="golongan_id">
-                                            <option value="{{ old('golongan_id', $user->golongan_id) }}" selected disabled>
-                                                {{ isset($user->golongan) ? $user->golongan->nama_pangkat : '- ' }} -
-                                                {{ isset($user->golongan) ? $user->golongan->jenis_golongan : '- ' }}/{{ isset($user->golongan) ? $user->golongan->ruang : ' -' }}
-                                            </option>
-                                            @foreach ($golongan as $gol)
-                                                <option value="{{ $gol->id }}">{{ $gol->nama_pangkat }} -
-                                                    {{ $gol->jenis_golongan }}/{{ $gol->ruang }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div> --}}
                                 <div class="form-group row">
                                     <label class="col-lg-4 col-form-label" for="email">Email
                                     </label>

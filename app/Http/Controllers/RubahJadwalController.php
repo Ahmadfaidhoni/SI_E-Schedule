@@ -173,29 +173,21 @@ class RubahJadwalController extends Controller
         // return redirect('/')->with('success', 'Jadwal Berhasil dihapus.');
     }
 
-    public function tolakJadwal(Request $request)
+    public function tolakJadwal(Jadwal $jadwal)
     {
-        // dd($request->all());
         $data = [];
         $data['request'] = false;
         $data['alasan'] = null;
 
-        $jadwal = Jadwal::where('id', $request->id)->first();
-        $jadwal->update($data);
-
-        HistoryPerubahanJadwal::create([
-            'jadwal_id' => $request->id,
-            'status' => 'disapproved',
-            'comment' => $request->comment
-        ]);
+        Jadwal::where('id', $jadwal->id)->update($data);
 
         $getIdUser = $jadwal->user_id;
 
         $getEmail = User::find($getIdUser)->email;
 
-        if ($getEmail != null) {
-            Mail::to($getEmail)->send(new NotifTolak($data));
-        }
+        // if ($getEmail != null) {
+        //     Mail::to($getEmail)->send(new NotifTolak($data));
+        // }
 
         Alert::success('Congrats', 'Jadwal ditolak!');
         return redirect('/perubahan-jadwal');

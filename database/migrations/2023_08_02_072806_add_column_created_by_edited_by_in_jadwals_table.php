@@ -14,8 +14,8 @@ class AddColumnCreatedByEditedByInJadwalsTable extends Migration
     public function up()
     {
         Schema::table('jadwals', function (Blueprint $table) {
-            $table->string('created_by')->nullable();
-            $table->string('edited_by')->nullable();
+            $table->string('created_by')->after('request')->nullable();
+            $table->string('edited_by')->after('created_by')->nullable();
         });
     }
 

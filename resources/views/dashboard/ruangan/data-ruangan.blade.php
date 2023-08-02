@@ -49,10 +49,11 @@
                                                                 class="bi bi-trash"></i> Hapus</button>
                                                     </form> --}}
                                                     <form action="data-ruangan.{{ $rng->id }}" method="post"
-                                                        class="d-inline" onsubmit="return confirmDelete(event)">
+                                                        class="d-inline" id="hapus-form">
                                                         @method('delete')
                                                         @csrf
-                                                        <button type="submit" class="btn btn-sm mb-1 btn-danger"><i
+                                                        <button type="button" class="btn btn-sm mb-1 btn-danger" 
+                                                            onclick="hapus()"><i
                                                                 class="bi bi-trash"></i> Hapus</button>
                                                     </form>
                                                 </div>
@@ -68,23 +69,21 @@
         </div>
     </div>
 @endsection
-@section('page_script')
-    <script>
-        function confirmDelete(event) {
-            event.preventDefault(); // Prevent form submission
-            Swal.fire({
-                title: "Apakah Anda yakin ingin menghapus Ruangan ini?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#dc3545",
-                confirmButtonText: "Hapus",
-                cancelButtonText: "Batal",
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    event.target.submit(); // Submit the form if confirmed
-                }
-            });
-        }
-    </script>
-@endsection
+<script>
+    function hapus() {
+        Swal.fire({
+            title: 'Apakah anda yakin?',
+            text: "Apakah anda yakin ingin menghapus Ruangan ini?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Hapus!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $('#hapus-form').submit();
+            }
+        })
+    }
+</script>
+

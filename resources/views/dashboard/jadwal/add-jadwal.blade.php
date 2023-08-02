@@ -8,7 +8,7 @@
                     <div class="form-validation">
                         <form class="form-valide" action="/add-jadwal" method="post">
                             @csrf
-                            <div class="alert alert-danger alert-block" id="checkSpan" style="display: none">
+                            <div class="alert alert-danger alert-block col-md-3" id="checkSpan" style="display: none">
                                 <button type="button" class="close" data-dismiss="alert">×</button>
                                 <strong></strong>
                             </div>
@@ -95,7 +95,7 @@
                                             list="list-pengajar" id="user_id" autocomplete="off">
                                         <datalist id="list-pengajar">
                                         </datalist> --}}
-                                        <select class="form-control select2" id="user_id" name="user_id">
+                                        <select class="form-control select2" id="user_id" name="user_id" required>
                                         </select>
                                     </div>
                                 </div>
@@ -133,7 +133,7 @@
                                 <div id="form_biaya" class="col-md-6 mt-2" style="display: none;">
                                     <label for="biaya" class="m-t-20">Biaya</label>
                                     <input type="number" class="form-control @error('biaya') is-invalid @enderror"
-                                        placeholder="biaya" id="biaya" name="biaya" value="{{ old('biaya') }}">
+                                        placeholder="Masukkan Biaya Dinas" id="biaya" name="biaya" value="{{ old('biaya') }}">
                                     @error('biaya')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -171,6 +171,7 @@
             $('#btn_check').on('click', () => {
                 var check_tipe = document.getElementById("tipe_jadwal").value
                 var tipe_jadwal = document.getElementById("tanggal").value;
+                var tipe_jadwal1 = document.getElementById("tanggal_akhir").value;
                 var tipe_jadwal2 = document.getElementById("mulai").value;
                 var tipe_jadwal3 = document.getElementById("selesai").value;
                 
@@ -283,7 +284,7 @@
                         });
                     }
                 } else {
-                    if (!tipe_jadwal) {
+                    if (!tipe_jadwal || !tipe_jadwal1) {
                         var checkSpan = document.getElementById('checkSpan');
                         checkSpan.style.display = '';
                         checkSpan.classList.remove("alert-success");
@@ -304,12 +305,12 @@
 
                         $.ajax({
                             type: 'GET',
-                            url: '{{ url('/get-pegawai') }}',
+                            url: '{{ url('/get-pegawaiDinas') }}',
                             data: {
                                 tanggal: tipe_jadwal,
+                                tanggal_akhir: tipe_jadwal1,
                                 mulai: '00:00:00',
                                 selesai: '23:59:59',
-                                // jp: "{{ $config_max_jp->value ?? 15 }}",
                             },
                             dataType: "json",
                             success: function({
@@ -321,11 +322,11 @@
                                 //     id,
                                 //     name
                                 // }) => (`<option value="${name}"></option>`)).join(''));
-                                // $('#user_id').empty().trigger('change');
+                                $('#user_id').empty().trigger('change');
 
-                                // $('#user_id').select2({
-                                //     data: users
-                                // })
+                                $('#user_id').select2({
+                                    data: data
+                                })
                             },
                             error: function(xhr) {
                                 alert('Error')

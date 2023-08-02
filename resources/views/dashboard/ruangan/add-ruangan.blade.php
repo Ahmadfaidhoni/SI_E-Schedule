@@ -15,7 +15,7 @@
                                 <div id="form_ruangan" class="col-md-6">
                                     <input type="text" class="form-control @error('nama_ruangan') is-invalid @enderror"
                                         placeholder="Masukkan Ruangan..." id="ruangan" name="nama_ruangan"
-                                        value="{{ old('ruangan') }}">
+                                        value="{{ old('ruangan') }}" required>
                                     @error('nama_ruangan')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -30,7 +30,7 @@
                                 <div id="form_kapasitas" class="col-md-6">
                                     <input type="number" class="form-control @error('kapasitas') is-invalid @enderror"
                                         placeholder="Masukkan Kapasitas..." id="kapasitas" name="kapasitas"
-                                        value="{{ old('kapasitas') }}">
+                                        value="{{ old('kapasitas') }}" required>
                                     @error('kapasitas')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -45,7 +45,7 @@
                                 <div id="form_gedung" class="col-md-6">
                                     <input type="text" class="form-control @error('gedung') is-invalid @enderror"
                                         placeholder="Masukkan Gedung..." id="gedung" name="gedung"
-                                        value="{{ old('gedung') }}">
+                                        value="{{ old('gedung') }}" required>
                                     @error('gedung')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -60,7 +60,7 @@
                                 <div id="form_lantai" class="col-md-6">
                                     <input type="text" class="form-control @error('lantai') is-invalid @enderror"
                                         placeholder="Masukkan Lantai..." id="lantai" name="lantai"
-                                        value="{{ old('lantai') }}">
+                                        value="{{ old('lantai') }}" required>
                                     @error('lantai')
                                         <div class="invalid-feedback">
                                             {{ $message }}

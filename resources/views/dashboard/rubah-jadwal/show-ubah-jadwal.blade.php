@@ -5,15 +5,15 @@
 
 <div class="row">
     <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                Perubahan Jadwal {{ $jadwal->user->name }}
-            </div>
+        <h4 class="mx-3">
+            Permintaan Perubahan Jadwal {{ $jadwal->user->name }}
+        </h4>
+        <div class="card mt-3 mx-3">
             <div class="card-body">
                 <div class="float-right">
                     <ul class="list-inline mb-3">
                         <li class="list-inline-item">
-                            <a href="editJadwal-{{ $jadwal->id }}"><button type="button" class="btn btn-sm mb-1 btn-warning text-white"><i class="bi bi-pencil-square"></i> Edit</button></a>
+                            <a href="editJadwal-{{ $jadwal->id }}"><button type="button" class="btn btn-sm mb-1 btn-warning"><i class="bi bi-pencil-square"></i> Edit</button></a>
                         </li>
                         <li class="list-inline-item">
                             <form action="data-jadwal.{{ $jadwal->id }}" method="post" class="d-inline" onclick="return confirm('Apakah anda yakin ingin menghapus jadwal ini');">

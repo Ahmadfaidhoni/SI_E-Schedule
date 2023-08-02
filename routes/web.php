@@ -53,7 +53,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('editProfile', [ProfileController::class, 'edit']);
     Route::patch('profile.{user}', [ProfileController::class, 'update']);
     Route::post('change-password', [ProfileController::class, 'changePassword'])->name('change.password');
-    Route::post('reset-password/{id}', [ProfileController::class, 'reset']);
+    
 });
 
 Route::group(['middleware' => 'keuangan'], function () {
@@ -70,6 +70,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('editPegawai-{pegawai:nip}', [UserController::class, 'edit']);
     Route::patch('data-pegawai.{pegawai}', [UserController::class, 'update']);
     Route::delete('data-pegawai.{pegawai}', [UserController::class, 'destroy']);
+    Route::post('reset-password/{id}', [ProfileController::class, 'reset']);
 
     //kegiatan
     Route::get('/data-kegiatan', [KegiatanController::class, 'index']);
@@ -79,14 +80,6 @@ Route::group(['middleware' => 'admin'], function () {
     Route::patch('data-kegiatan.{kegiatan}', [KegiatanController::class, 'update']);
     Route::delete('data-kegiatan.{kegiatan}', [KegiatanController::class, 'destroy']);
 
-    //golongan
-    // Route::get('/data-golongan', [GolonganController::class, 'index']);
-    // Route::get('/add-golongan', [GolonganController::class, 'create']);
-    // Route::post('/add-golongan', [GolonganController::class, 'store']);
-    // Route::get('editGolongan-{golongan:nama_pangkat}', [GolonganController::class, 'edit']);
-    // Route::patch('data-golongan.{golongan}', [GolonganController::class, 'update']);
-    // Route::delete('data-golongan.{golongan}', [GolonganController::class, 'destroy']);
-
     // ruangan
     Route::get('/data-ruangan', [RuanganController::class, 'index']);
     Route::get('/add-ruangan', [RuanganController::class, 'create']);
@@ -95,9 +88,9 @@ Route::group(['middleware' => 'admin'], function () {
     Route::patch('data-ruangan.{ruangan}', [RuanganController::class, 'update']);
     Route::delete('data-ruangan.{ruangan}', [RuanganController::class, 'destroy']);
 
+    //config
     Route::get('/config', [ConfigController::class, 'index']);
     Route::post('/update_config', [ConfigController::class, 'update']);
-
 
     //jadwal
     Route::get('/add-jadwal', [JadwalController::class, 'create']);
@@ -111,11 +104,13 @@ Route::group(['middleware' => 'admin'], function () {
     //ajax
     Route::get('/get-pegawai', [JadwalController::class, 'checkJadwal']);
     Route::get('/get-pegawaiUpdate', [JadwalController::class, 'checkJadwalUpdate']);
+    Route::get('/get-pegawaiDinas', [JadwalController::class, 'checkJadwalDinas']);
+    Route::get('/get-pegawaiDinasUpdate', [JadwalController::class, 'checkJadwalDinasUpdate']);
 
     //perubahan jadwal
     Route::get('ubah-jadwal-{jadwal:id}', [RubahJadwalController::class, 'show']);
-    Route::put('tolak-jadwal', [RubahJadwalController::class, 'tolakJadwal']);
-    Route::patch('acc-jadwal.{jadwal}', [RubahJadwalController::class, 'AccRequest']);
+    Route::patch('tolak-jadwal.{jadwal}', [RubahJadwalController::class, 'tolakJadwal']);
+    // Route::patch('acc-jadwal.{jadwal}', [RubahJadwalController::class, 'AccRequest']);
 });
 
 // login
