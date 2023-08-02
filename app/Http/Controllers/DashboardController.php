@@ -22,7 +22,7 @@ class DashboardController extends Controller
 
 
         $jadwal_pribadi = Jadwal::where('user_id', Auth::user()->id)
-            ->select('k.id as kid', 'jadwals.*')
+            ->select('k.id as kid', 'jadwals.*', 'k.biaya')
             ->leftjoin('keuangans as k', 'k.jadwal_id', '=', 'jadwals.id')
             ->where('request', false)
             ->whereRaw("DATE(waktu_mulai) = CURDATE()")
@@ -51,7 +51,7 @@ class DashboardController extends Controller
             ->sum();
 
         $jadwal_semua = Jadwal::where('request', false)
-            ->select('k.id as kid', 'jadwals.*')
+            ->select('k.id as kid', 'jadwals.*', 'k.biaya')
             ->leftJoin('keuangans as k', 'k.jadwal_id', '=', 'jadwals.id')
             ->whereRaw("DATE(waktu_mulai) = CURDATE()")
             ->orderBy('waktu_mulai', 'ASC')
