@@ -29,7 +29,7 @@
                                 <div class="col-lg-6">
                                     <input type="text" class="form-control @error('nip') is-invalid @enderror"
                                         id="np" name="nip" placeholder="Masukan NIP Pegawai.."
-                                        value="{{ old('nip') }}">
+                                        value="{{ old('nip') }}" required>
                                     @error('nip')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -44,7 +44,7 @@
                                 <div class="col-lg-6">
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
                                         id="name" name="name" placeholder="Masukan Nama Pegawai.."
-                                        value="{{ old('name') }}">
+                                        value="{{ old('name') }}" required>
                                     @error('name')
                                         <div class="invalid-feedback">
                                             {{ $message }}

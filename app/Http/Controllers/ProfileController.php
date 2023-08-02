@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Golongan;
 use App\Models\User;
 use App\Rules\MatchOldPassword;
 use Illuminate\Support\Facades\Hash;
@@ -25,7 +24,6 @@ class ProfileController extends Controller
         $user = User::find($auth->id);
         return view('profile.edit-profile', [
             "user" => $user,
-            // "golongan" => Golongan::orderBy('jenis_golongan', 'ASC')->orderBy('ruang', 'ASC')->get()
         ]);
     }
 
@@ -34,7 +32,6 @@ class ProfileController extends Controller
         $rules = [
             'name' => 'required',
             'jabatan' => '',
-            'golongan_id' => '',
             'status_anggota' => ''
         ];
 

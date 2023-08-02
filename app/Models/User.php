@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Golongan;
 use App\Models\Jadwal;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -47,8 +46,4 @@ class User extends Authenticatable
         return $this->hasMany(Jadwal::class);
     }
 
-    public function golongan()
-    {
-        return $this->belongsTo(Golongan::class);
-    }
 }

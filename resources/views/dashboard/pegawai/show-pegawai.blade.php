@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <img id="imgProfil" height="181" class="mb-4"
+                        <img id="imgProfil" height="181" class="mb-4 rounded-circle"
                             src="{{ file_exists($user->picture) ? url($user->picture) : url('images/user/user.png') }}"
                             alt="Profile">
                     </div>

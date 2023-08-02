@@ -14,7 +14,7 @@ class AddPictureInUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('picture')->nullable();
+            $table->string('picture')->after('password')->nullable();
         });
     }
 

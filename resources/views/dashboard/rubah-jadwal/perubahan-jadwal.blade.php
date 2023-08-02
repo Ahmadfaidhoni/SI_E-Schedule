@@ -5,10 +5,6 @@
             <h4 class="mx-3">Perubahan Jadwal</h4>
             <div class="card mt-3 mx-3">
                 <div class="card-body">
-                    <div class="mx-2" style="display: inline-block">
-                        <a href="/history-perubahan-jadwal"><button type="button" class="btn btn-info"><i
-                                    class="bi bi-calendar2-week"></i> History</button></a>
-                    </div>
                     @if (session()->has('success'))
                         <div class="alert alert-success my-3 mx-4 col-lg-8">
                             {{ session('success') }}
@@ -32,6 +28,7 @@
                                     <th>Tanggal Kegiatan</th>
                                     <th>Jam</th>
                                     <th>Angkatan</th>
+                                    <th>Ruangan</th>
                                     <th>Aksi</th>
 
                                 </tr>
@@ -57,33 +54,30 @@
                                                 Full Day
                                             @endif
                                         </td>
-                                        <td>{{ date('d-m-Y', strtotime($jdwl->waktu_mulai)) }}</td>
+                                        <td>{{ date('d-m-Y', strtotime($jdwl->waktu_mulai)) }} s/d {{ date('d-m-Y', strtotime($jdwl->waktu_selesai)) }} </td>
                                         <td>{{ date('H:i', strtotime($jdwl->waktu_mulai)) }} -
                                             {{ date('H:i', strtotime($jdwl->waktu_selesai)) }}</td>
                                         <td>{{ isset($jdwl->angkatan) ? $jdwl->angkatan : '-' }}</td>
-                                        <td>
+                                        <td>{{ isset($jdwl->ruangan) ? $jdwl->ruangan->nama_ruangan : '-' }}</td>
+                                        <td class="text-center">
                                             @if (Auth::user()->level == 'Admin')
                                                 <div class="row">
                                                     <div class="col-lg-12" style="white-space: nowrap">
                                                         <a href="ubah-jadwal-{{ $jdwl->id }}"><button type="button"
                                                                 class="btn btn-sm mb-1 btn-primary"><i
                                                                     class="bi bi-eye"></i> Lihat</button></a>
-                                                        {{-- <button type="submit"
-                                                                class="btn btn-sm mb-1 btn-warning text-white"
-                                                                onclick="return confirm('Apakah anda yakin ingin menolak jadwal ini?');"><i
-                                                                    class="bi bi-dash-circle"></i> Tolak</button> --}}
+                                                        <form action="tolak-jadwal.{{ $jdwl->id }}" method="post" class="d-inline">
+                                                            @method('patch')
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-sm mb-1 btn-danger" onclick="return confirm('Apakah anda yakin ingin menolak jadwal ini?');"><i class="bi bi-dash-circle"></i> Tolak</button>
+                                                        </form>
 
                                                         {{-- button to open modal --}}
-                                                        <button type="button"
+                                                        {{-- <button type="button"
                                                             class="btn btn-sm mb-1 btn-warning text-white"
                                                             data-toggle="modal" data-target="#modal-tolak">
                                                             <i class="bi bi-dash-circle"></i> Tolak
-                                                        </button>
-
-                                                        {{-- <a href="#" data-toggle="modal" data-target="#exampleModal">
-                                                            Forgot Password
-                                                        </a> --}}
-
+                                                        </button> --}}
 
                                                     </div>
                                                 </div>
@@ -102,7 +96,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modal-tolak" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {{-- <div class="modal fade" id="modal-tolak" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -126,5 +120,5 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> --}}
 @endsection

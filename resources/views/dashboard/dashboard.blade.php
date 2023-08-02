@@ -24,7 +24,7 @@
                                     <div class="inner">
                                         <h4> {{ $jadwal_semua->count() }}</h4>
 
-                                        <p>Jadwal Terlaksana Hari ini</p>
+                                        <p>Jadwal Yang Sedang Dilaksanakan</p>
                                     </div>
                                     <div class="icon">
                                         <i class="bi bi-calendar-event" style="font-size: 4rem;"></i>
@@ -41,7 +41,7 @@
                                         <p>Jadwal Yang Akan Datang</p>
                                     </div>
                                     <div class="icon">
-                                        <i class="ion ion-calendar"></i>
+                                        <i class="bi bi-calendar-week" style="font-size: 4rem;"></i>
                                     </div>
                                     <a href="/jadwal" class="small-box-footer">More info <i
                                             class="fas fa-arrow-circle-right"></i></a>
@@ -55,7 +55,7 @@
                                         <p>Perubahan Jadwal</p>
                                     </div>
                                     <div class="icon">
-                                        <i class="ion ion-clock"></i>
+                                        <i class="bi bi-clock" style="font-size: 4rem;"></i>
                                     </div>
                                     <a href="/perubahan-jadwal" class="small-box-footer">More info <i
                                             class="fas fa-arrow-circle-right"></i></a>
@@ -138,10 +138,10 @@
                                 <div class="inner">
                                     <h4> {{ $jadwal_pribadi->count() }}</h4>
 
-                                    <p>Jadwal Terlaksana Hari ini</p>
+                                    <p>Jadwal Yang Sedang Dilaksanakan</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="bi bi-calendar-event"></i>
+                                    <i class="bi bi-calendar-event" style="font-size: 4rem;"></i>
                                 </div>
                                 <a href="/jadwal" class="small-box-footer">More info <i
                                         class="fas fa-arrow-circle-right"></i></a>
@@ -155,7 +155,7 @@
                                     <p>Jadwal Yang Akan Datang</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="ion ion-calendar"></i>
+                                    <i class="bi bi-calendar-week" style="font-size: 4rem;"></i>
                                 </div>
                                 <a href="/jadwal" class="small-box-footer">More info <i
                                         class="fas fa-arrow-circle-right"></i></a>
@@ -169,7 +169,7 @@
                                     <p>Perubahan Jadwal</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="ion ion-clock"></i>
+                                    <i class="bi bi-clock" style="font-size: 4rem;"></i>
                                 </div>
                                 <a href="/perubahan-jadwal" class="small-box-footer">More info <i
                                         class="fas fa-arrow-circle-right"></i></a>
@@ -182,7 +182,7 @@
                                     <p>Pendapatan Bulan ini</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="ion ion-pie-graph"></i>
+                                    <i class="bi bi-currency-dollar" style="font-size: 4rem;"></i>
                                 </div>
                             </div>
                         </div>
@@ -228,14 +228,12 @@
                                             <td>{{ date('H:i', strtotime($jdsm->waktu_mulai)) }} -
                                                 {{ date('H:i', strtotime($jdsm->waktu_selesai)) }}</td>
                                             <td>{{ $jdsm->angkatan }}</td>
-                                            <td>
-                                                <div class="row">
-                                                    <div class="" style="white-space: nowrap">
-                                                        <a href="data-jadwal-{{ $jdsm->id }}"><button type="button"
-                                                                class="btn btn-sm mb-1 btn-primary"><i
-                                                                    class="bi bi-eye"></i> Lihat</button></a>
-                                                    </div>
-                                                </div>
+                                            <td class="text-center">
+                                                <div class="" style="white-space: nowrap">
+                                                    <a href="data-jadwal-{{ $jdsm->id }}"><button type="button"
+                                                        class="btn btn-sm mb-1 btn-primary"><i
+                                                        class="bi bi-eye"></i> Lihat</button></a>
+                                               </div>
                                             </td>
 
                                             {{-- <td>{{ $jdsm->biaya }}</td> --}}
@@ -259,6 +257,7 @@
                                     <th>Jumlah JP</th>
                                     <th>Jam</th>
                                     <th>Angkatan</th>
+                                    <th>Ruangan</th>
                                     {{-- <th>Biaya</th> --}}
                                     <th>Aksi</th>
                                 </tr>
@@ -279,7 +278,23 @@
                                         <td>{{ date('H:i', strtotime($jdpr->waktu_mulai)) }} -
                                             {{ date('H:i', strtotime($jdpr->waktu_selesai)) }}</td>
                                         <td>{{ isset($jdpr->angkatan) ? $jdpr->angkatan : '-' }}</td>
-                                        <td>
+                                        <td>{{ isset($jdpr->ruangan) ? $jdpr->ruangan->nama_ruangan : '-' }}</td>
+                                        <td class="text-center">
+                                            @if (Auth::user()->level == 'Admin')
+                                                <div class="row text-center">
+                                                    <div class="col-lg-12" style="white-space: nowrap">
+                                                        <a href="data-jadwal-{{ $jdpr->id }}"><button type="button"
+                                                                class="btn btn-sm mb-1 btn-primary"><i
+                                                                    class="bi bi-eye"></i> Lihat</button></a>
+                                                    </div>
+                                                </div>
+                                            @elseif(Auth::user()->level == 'User' || Auth::user()->level == 'Keuangan')
+                                                <a href="{{ $jdpr->id }}.editJadwal"><button type="button"
+                                                        class="btn btn-sm mb-1 btn-danger text-white">Request Ubah
+                                                        Jadwal</button></a>
+                                            @endif
+                                        </td>
+                                        {{-- <td>
                                             <div class="row justify-content-center">
                                                 <div class="" style="white-space: nowrap">
                                                     <a href="data-jadwal-{{ $jdpr->id }}"><button type="button"
@@ -287,7 +302,7 @@
                                                             Lihat</button></a>
                                                 </div>
                                             </div>
-                                        </td>
+                                        </td> --}}
                                         {{-- <td>{{ $jdpr->biaya }}</td> --}}
                                     </tr>
                                 @endforeach

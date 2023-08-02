@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Jadwal;
 use App\Mail\NotifUser;
-use App\Models\Golongan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -35,8 +34,7 @@ class UserController extends Controller
     {
         $active_menu = 'data-pegawai';
         return view('dashboard.pegawai.add-pegawai', compact('active_menu'), [
-            "pegawai" => User::all(),
-            "golongan" => Golongan::orderBy('jenis_golongan', 'ASC')->orderBy('ruang', 'ASC')->get()
+            "pegawai" => User::all()
         ]);
     }
 
@@ -120,8 +118,7 @@ class UserController extends Controller
     {
         $active_menu = 'data-pegawai';
         return view('dashboard.pegawai.edit-pegawai', compact('active_menu'), [
-            "pegawai" => $pegawai,
-            "golongan" => Golongan::orderBy('jenis_golongan', 'ASC')->orderBy('ruang', 'ASC')->get()
+            "pegawai" => $pegawai
         ]);
     }
 
@@ -139,7 +136,6 @@ class UserController extends Controller
             'nip' => 'required',
             'name' => 'required',
             'jabatan' => 'required',
-            'golongan_id' => '',
             'level' => 'required',
             'status_anggota' => 'required'
         ];

@@ -10,7 +10,7 @@
                         @method('patch')
                         @csrf
                         <div class="row form-material">
-                            <div class="col-md-6 mt-4">
+                            <div class="col-md-4 mt-4">
                                 <label for="tipe_kegiatan">Tipe Jadwal</label> <span class="text-danger">*</span>
                                 <select class="form-control" id="tipe_jadwal" name="tipe_jadwal" disabled>
                                     @if ($jadwal->kegiatan_id != null)
@@ -22,7 +22,7 @@
                                     @endif
                                 </select>
                             </div>
-                            <div id="form_kegiatan" class="col-md-6 mt-4" style="display:{{ $jadwal->tipe_jadwal == '2' ? 'none' : '' }}">
+                            <div id="form_kegiatan" class="col-md-4 mt-4" style="display:{{ $jadwal->tipe_jadwal == '2' ? 'none' : '' }}">
                                 <label for="kegiatan">Kegiatan</label> <span class="text-danger">*</span>
                                 <select class="form-control" id="kegiatan" name="kegiatan_id" disabled>
                                     @foreach($kegiatan as $keg)
@@ -34,8 +34,8 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-6 mt-4">
-                                <label for="pengajar">Tanggal</label>
+                            <div class="col-md-4 mt-4">
+                                <label for="pengajar">Tanggal</label><span class="text-danger">*</span>
                                 <div class="input-group">
                                     <input type="date" class="form-control @error('tanggal') is-invalid @enderror" id="tanggal" name="tanggal" placeholder="Tanggal Kegiatan" value="{{ old('waktu_mulai', date('Y-m-d', strtotime($jadwal->waktu_mulai))) }}" disabled>
                                     @error('tanggal')
@@ -45,7 +45,18 @@
                                 @enderror
                                 </div>
                             </div>
-                            <div id="form_mulai" class="col-md-3 mt-4" style="display:{{ $jadwal->tipe_jadwal == '2' ? 'none' : '' }}">
+                            <div class="col-md-4 mt-4" style="display:{{ $jadwal->tipe_jadwal == '1' ? 'none' : '' }}">
+                                <label for="pengajar">Tanggal Akhir</label><span class="text-danger">*</span>
+                                <div class="input-group">
+                                    <input type="date" class="form-control @error('tanggal') is-invalid @enderror" id="tanggal" name="tanggal" placeholder="Tanggal Kegiatan" value="{{ old('waktu_mulai', date('Y-m-d', strtotime($jadwal->waktu_mulai))) }}" disabled>
+                                    @error('tanggal')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                                </div>
+                            </div>
+                            <div id="form_mulai" class="col-md-4 mt-4" style="display:{{ $jadwal->tipe_jadwal == '2' ? 'none' : '' }}">
                                 <label for="mulai" class="m-t-20">Jam Mulai</label> <span class="text-danger">*</span>
                                 <input type="time" class="form-control @error('waktu_mulai') is-invalid @enderror" id="mulai" name="waktu_mulai" placeholder="Check time" value="{{ old('waktu_mulai', date('H:i', strtotime($jadwal->waktu_mulai))) }}" disabled>
                                 @error('waktu_mulai')
@@ -54,7 +65,7 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div id="form_selesai" class="col-md-3 mt-4" style="display:{{ $jadwal->tipe_jadwal == '2' ? 'none' : '' }}">
+                            <div id="form_selesai" class="col-md-4 mt-4" style="display:{{ $jadwal->tipe_jadwal == '2' ? 'none' : '' }}">
                                 <label for="selesai" class="m-t-20">Jam Selesai</label> <span class="text-danger">*</span>
                                 <input type="time" class="form-control @error('waktu_selesai') is-invalid @enderror" id="selesai" name="waktu_selesai" placeholder="Check time" value="{{ old('waktu_selesai', date('H:i', strtotime($jadwal->waktu_selesai))) }}" disabled>
                                 @error('waktu_selesai')
@@ -63,7 +74,7 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div id="form_alasan" class="col-md-6 mt-4">
+                            <div id="form_alasan" class="col-md-4 mt-4">
                                 <label for="angkatan" class="m-t-20">Alasan</label> <span class="text-danger">*</span>
                                 <textarea class="form-control @error('alasan') is-invalid @enderror" placeholder="Masukkan Alasan Perubahan Jadwal..." id="alasan" name="alasan" rows="3">{{ old('alasan', $jadwal->alasan) }}</textarea>
                                 @error('alasan')

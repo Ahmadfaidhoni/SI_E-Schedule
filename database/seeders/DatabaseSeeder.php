@@ -5,7 +5,9 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Kegiatan;
-use App\Models\Golongan;
+use App\Models\Config;
+use App\Models\Ruangan;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -19,12 +21,31 @@ class DatabaseSeeder extends Seeder
         User::create([
             'name' => 'Admin',
             'nip' => '00000000',
-            'email' => '',
+            'email' => null,
             'password' => bcrypt('admin123'),
             'jabatan' => 'Super Admin',
-            'golongan_id' => 1,
             'level' => 'Admin',
             'phone' => '085465258965'
+        ]);
+
+        User::create([
+            'name' => 'Keuangan Test',
+            'nip' => '1234567812',
+            'email' => null,
+            'password' => bcrypt('1234567812'),
+            'jabatan' => 'Testing',
+            'level' => 'Keuangan',
+            'phone' => '085465258961'
+        ]);
+
+        User::create([
+            'name' => 'User Test',
+            'nip' => '12345678',
+            'email' => null,
+            'password' => bcrypt('12345678'),
+            'jabatan' => 'Testing',
+            'level' => 'User',
+            'phone' => '085465258962'
         ]);
 
         Kegiatan::create([
@@ -35,6 +56,39 @@ class DatabaseSeeder extends Seeder
         Kegiatan::create([
             'kode_kegiatan' => 'PKA',
             'nama_kegiatan' => 'Pelatihan Keanggotaan'
+        ]);
+
+        Ruangan::create([
+            'nama_ruangan' => 'Ruang 1',
+            'kapasitas' => '50',
+            'gedung' => 'Gunung Kidul',
+            'lantai' => '2'
+        ]);
+
+        Ruangan::create([
+            'nama_ruangan' => 'Ruang 2',
+            'kapasitas' => '50',
+            'gedung' => 'Gunung Kidul',
+            'lantai' => '2'
+        ]);
+
+        Ruangan::create([
+            'nama_ruangan' => 'Ruang 3',
+            'kapasitas' => '50',
+            'gedung' => 'Gunung Kidul',
+            'lantai' => '2'
+        ]);
+
+        Config::create([
+            'key' => 'BIAYA_JP',
+            'value' => '45000',
+            'group' => 'KEUANGAN',
+        ]);
+
+        Config::create([
+            'key' => 'MAX_JP',
+            'value' => '15',
+            'group' => 'JADWAL',
         ]);
     }
 }

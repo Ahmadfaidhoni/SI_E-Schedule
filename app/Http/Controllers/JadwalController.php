@@ -89,10 +89,9 @@ class JadwalController extends Controller
                 'tipe_jadwal' => 'required',
                 'user_id' => 'required',
                 'tanggal' => 'required',
-                'tanggal_akhir' => '',
+                'tanggal_akhir' => 'required',
                 'keterangan' => '',
             ]);
-
 
             $validatedData['kegiatan_id'] = null;
             $validatedData['angkatan'] = null;
@@ -102,19 +101,8 @@ class JadwalController extends Controller
 
             $biaya = $request->biaya;
 
-            // if (!is_numeric($validatedData['user_id'])) {
-            // $getUserName = $validatedData['user_id'];
-            // $getId = User::where('id', $getUserName)->first()->id;
-
             $validatedData['user_id'] = $validatedData['user_id'];
-            // }
-
-            // $jadwal =  Jadwal::create($validatedData);
-
-            // Keuangan::create([
-            //     'jadwal_id' => $jadwal->id,
-            //     'biaya' => $biaya
-            // ]);
+            
         } else {
             $validatedData = $request->validate([
                 'tipe_jadwal' => 'required',
@@ -141,9 +129,6 @@ class JadwalController extends Controller
 
             $validatedData['user_id'] = $validatedData['user_id'];
             // }
-
-
-            $validatedData['tanggal_akhir'] = $validatedData['tanggal'];
 
             $validatedData['waktu_mulai'] = $validatedData['tanggal'] . " " . $validatedData['waktu_mulai'];
             $validatedData['waktu_selesai'] = $validatedData['tanggal']  . " " . $validatedData['waktu_selesai'];
@@ -256,8 +241,8 @@ class JadwalController extends Controller
     public function update(Request $request, Jadwal $jadwal)
     {
 
-        $checkTipeJadwal = $request->tipe_jadwal;
-
+        $checkTipeJadwal = $jadwal->tipe_jadwal;
+        
         // Cek request an atau bukan
         $checkRequest = $jadwal->request;
         $userIdBefore = $jadwal->user_id;
@@ -266,28 +251,26 @@ class JadwalController extends Controller
         $config_max_jp = Config::where('key', 'MAX_JP')->first();
 
         if ($checkTipeJadwal != 1) {
+
+            $tanggal_akhir = $request->tanggal_akhir;
             $validatedData = $request->validate([
-                'tipe_jadwal' => 'required',
                 'user_id' => 'required',
                 'tanggal' => 'required',
-                'tanggal_akhir' => '',
                 'keterangan' => ''
             ]);
 
+            $validatedData['tipe_jadwal'] = $checkTipeJadwal;
             $validatedData['kegiatan_id'] = null;
             $validatedData['angkatan'] = null;
             $validatedData['jp'] = $config_max_jp->value ?? 15;
             $validatedData['waktu_mulai'] = $validatedData['tanggal'] . " 00:00:00";
-            $validatedData['waktu_selesai'] = $validatedData['tanggal'] . " 23:59:00";
-            // $validatedData['tanggal_akhir'] = $validatedData['tanggal'];
-
+            $validatedData['waktu_selesai'] = $tanggal_akhir . " 23:59:00";
+            
         } else {
             $validatedData = $request->validate([
-                'tipe_jadwal' => 'required',
                 'kegiatan_id' => 'required',
                 'user_id' => 'required',
                 'tanggal' => 'required',
-                'tanggal_akhir' => '',
                 'waktu_mulai' => 'required',
                 'waktu_selesai' => 'required',
                 'jp' => 'required',
@@ -295,10 +278,9 @@ class JadwalController extends Controller
                 'keterangan' => ''
             ]);
 
+            $validatedData['tipe_jadwal'] = $checkTipeJadwal;
             $validatedData['waktu_mulai'] = $validatedData['tanggal'] . " " . $validatedData['waktu_mulai'];
             $validatedData['waktu_selesai'] = $validatedData['tanggal'] . " " . $validatedData['waktu_selesai'];
-
-            $validatedData['tanggal_akhir'] = $validatedData['tanggal'];
         }
 
         unset($validatedData['tanggal']);
@@ -339,6 +321,8 @@ class JadwalController extends Controller
 
         $validatedData['request'] = false;
         $validatedData['alasan'] = null;
+
+        $validatedData['edited_by'] = Auth::user()->name;
 
         Jadwal::where('id', $jadwal->id)->update($validatedData);
 
@@ -383,9 +367,9 @@ class JadwalController extends Controller
         $bentrok = DB::table('jadwals')
             ->select('user_id', 'ruangan_id')
             ->whereRaw("
-            (waktu_mulai <= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND waktu_selesai >= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i')) OR
-            (waktu_mulai <= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i') AND waktu_selesai >= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i')) OR 
-            (waktu_mulai >= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND waktu_selesai <= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i')) ")
+            ((waktu_mulai < STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND waktu_selesai > STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i')) OR
+            (waktu_mulai < STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i') AND waktu_selesai > STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i')) OR 
+            (waktu_mulai >= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND waktu_selesai <= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i'))) AND tipe_jadwal = '1' ")
             ->get()
             ->toArray();
 
@@ -514,9 +498,9 @@ class JadwalController extends Controller
         $bentrok = DB::table('jadwals')
             ->select('user_id', 'ruangan_id')
             ->whereRaw("
-            ((waktu_mulai <= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND waktu_selesai >= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i')) OR
-            (waktu_mulai <= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i') AND waktu_selesai >= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i')) OR 
-            (waktu_mulai >= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND waktu_selesai <= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i'))) AND id != '$id'")
+            ((waktu_mulai < STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND waktu_selesai > STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i')) OR
+            (waktu_mulai < STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i') AND waktu_selesai > STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i')) OR 
+            (waktu_mulai >= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND waktu_selesai <= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i'))) AND id != '$id' AND tipe_jadwal = '1'")
             ->get()
             ->toArray();
 
@@ -566,6 +550,77 @@ class JadwalController extends Controller
             "users" => $selectPegawai,
             "ruangans" => $selectRuangan
         ]]);
+    }
+
+    public function checkJadwalDinas(Request $request)
+    {
+        $jp = Config::where('key', 'MAX_JP')->first();
+        $tanggal_mulai = $request->tanggal . ' ' . $request->mulai;
+        $tanggal_selesai = $request->tanggal_akhir . ' ' . $request->selesai;
+        
+        // Cari user
+        $bentrok = DB::table('jadwals')
+            ->select('user_id')
+            ->whereRaw("
+            waktu_mulai BETWEEN STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i') AND
+            waktu_selesai BETWEEN STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i') AND tipe_jadwal = '1'")
+            ->get()
+            ->toArray();
+        
+        $idBentrok = [];
+        
+        foreach ($bentrok as $items) {
+            $idBentrok[] = $items->user_id;
+        }
+
+        $users = DB::table('users')
+            ->whereNotIn('id', $idBentrok)
+            ->orderBy('name', 'ASC')
+            ->get()
+            ->toArray();
+
+        $selectPegawai = [];
+        foreach ($users as $item) {
+            $selectPegawai[] = ["id" => $item->id, "text" => $item->name];
+        }
+
+        return response()->json(["error" => false, "data" => $selectPegawai]);
+    }
+
+    public function checkJadwalDinasUpdate(Request $request)
+    {
+        $jp = Config::where('key', 'MAX_JP')->first();
+        $tanggal_mulai = $request->tanggal . ' ' . $request->mulai;
+        $tanggal_selesai = $request->tanggal_akhir . ' ' . $request->selesai;
+        $id = $request->id;
+        
+        // Cari user
+        $bentrok = DB::table('jadwals')
+            ->select('user_id')
+            ->whereRaw("
+            (waktu_mulai BETWEEN STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i') AND
+            waktu_selesai BETWEEN STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i')) AND id != '$id' AND tipe_jadwal = '1'")
+            ->get()
+            ->toArray();
+        
+        $idBentrok = [];
+        
+        foreach ($bentrok as $items) {
+            $idBentrok[] = $items->user_id;
+        }
+
+        $users = DB::table('users')
+            ->whereNotIn('id', $idBentrok)
+            ->orderBy('name', 'ASC')
+            ->get()
+            ->toArray();
+
+        $selectPegawai = [];
+        foreach ($users as $item) {
+            $selectPegawai[] = ["id" => $item->id, "text" => $item->name];
+        }
+
+        return response()->json(["error" => false, "data" => $selectPegawai]);
     }
 
     public function export_jadwal($awal, $akhir)

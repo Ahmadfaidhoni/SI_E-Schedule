@@ -15,16 +15,16 @@ class CreateJadwalsTable extends Migration
     {
         Schema::create('jadwals', function (Blueprint $table) {
             $table->id();
-            $table->string('tipe_jadwal');
-            $table->foreignId('kegiatan_id')->nullable();
-            $table->foreignId('user_id');
+            $table->foreignId('kegiatan_id', 10)->nullable();
+            $table->foreignId('user_id', 10);
+            $table->string('tipe_jadwal', 1);
             $table->dateTime('waktu_mulai');
             $table->dateTime('waktu_selesai');
             $table->integer('jp');
-            $table->string('angkatan')->nullable();
+            $table->string('angkatan', 10)->nullable();
             $table->string('keterangan')->nullable();
             $table->string('alasan')->nullable();
-            $table->boolean('request')->default(false);
+            $table->boolean('request', 1)->default(false);
             $table->timestamps();
         });
     }

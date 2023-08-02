@@ -54,7 +54,6 @@ class RuanganController extends Controller
         Alert::success('Congrats', 'Ruangan Berhasil dibuat!');
 
         return redirect('/data-ruangan');
-        // return redirect('/data-golongan')->with('success', 'Golongan Berhasil dibuat.');
     }
 
     /**
@@ -103,7 +102,6 @@ class RuanganController extends Controller
         Alert::success('Congrats', 'Ruangan Berhasil diubah!');
 
         return redirect('/data-ruangan');
-        // return redirect('/data-golongan')->with('success', 'Golongan Berhasil diubah.');
     }
 
     /**
@@ -119,6 +117,5 @@ class RuanganController extends Controller
         Alert::success('Congrats', 'Ruangan Berhasil dihapus!');
 
         return redirect('/data-ruangan');
-        // return redirect('/data-golongan')->with('success', 'Golongan Berhasil dihapus.');
     }
 }
