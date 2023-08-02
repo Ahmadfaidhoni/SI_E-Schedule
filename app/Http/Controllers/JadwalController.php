@@ -109,12 +109,12 @@ class JadwalController extends Controller
             $validatedData['user_id'] = $validatedData['user_id'];
             // }
 
-            $jadwal =  Jadwal::create($validatedData);
+            // $jadwal =  Jadwal::create($validatedData);
 
-            Keuangan::create([
-                'jadwal_id' => $jadwal->id,
-                'biaya' => $biaya
-            ]);
+            // Keuangan::create([
+            //     'jadwal_id' => $jadwal->id,
+            //     'biaya' => $biaya
+            // ]);
         } else {
             $validatedData = $request->validate([
                 'tipe_jadwal' => 'required',
@@ -173,12 +173,14 @@ class JadwalController extends Controller
 
         // unset($validatedData['tanggal']);
 
-        Jadwal::create($validatedData);
+        $validatedData['created_by'] = Auth::user()->name;
 
-        // Keuangan::create([
-        //     'jadwal_id' => $jadwal->id,
-        //     'biaya' => $biaya
-        // ]);
+        $jadwal = Jadwal::create($validatedData);
+
+        Keuangan::create([
+            'jadwal_id' => $jadwal->id,
+            'biaya' => $biaya
+        ]);
 
         Alert::success('Congrats', 'Jadwal Berhasil dibuat!');
 

@@ -69,6 +69,10 @@
                                 <th scope="row">Biaya:</th>
                                 <td>{{ isset($jdwl->biaya) ? number_format($jdwl->biaya) : '-' }}</td>
                             </tr>
+                            <tr>
+                                <th scope="row">Dibuat oleh:</th>
+                                <td>{{ isset($jdwl->created_by) ? $jdwl->created_by : '-' }}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
