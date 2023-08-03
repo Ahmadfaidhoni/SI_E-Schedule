@@ -10,13 +10,16 @@
                             enctype="multipart/form-data">
                             @method('patch')
                             @csrf
-                            <div class="form-group form-input">
+                            <div class="form-group form-input text-center">
                                 <label for="profileImage">Profile Image</label>
-                                <div class="col-md-2 col-lg-2 ml-3 d-flex justify-content-center">
+                                <div class="col-md-12 col-lg-12">
                                     <img id="imgProfil" height="181"
                                         src="{{ file_exists($pegawai->picture) ? url($pegawai->picture) : url('images/user/user.png') }}"
                                         alt="Profile">
-                                    <div class="text-center pt-1 ml-3">
+
+                                </div>
+                                <div class="col-md-12 col-lg-12">
+                                    <div class="text-center pt-1">
                                         <a href="#" class="btn btn-primary " title="Ganti profil image"
                                             onclick="chooseImg()">
                                             <i class="bi bi-image"></i>
