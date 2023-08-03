@@ -628,13 +628,17 @@ class JadwalController extends Controller
         return response()->json(["error" => false, "data" => $selectPegawai]);
     }
 
-    public function export_jadwal($awal, $akhir, $user)
+    public function export_jadwal($awal, $akhir, $user, $tipe_jadwal)
     {
         $jadwal = Jadwal::with('kegiatan', 'user')
             ->whereBetween('waktu_mulai', [$awal, $akhir]);
 
         if ($user != 'all') {
             $jadwal->where('user_id', $user);
+        }
+
+        if ($tipe_jadwal != 'all') {
+            $jadwal->where('tipe_jadwal', $tipe_jadwal);
         }
 
         $jadwal = $jadwal->get();
