@@ -207,8 +207,8 @@
                                         <th>Tanggal Kegiatan</th>
                                         <th>Jam</th>
                                         <th>Angkatan</th>
+                                        <th>Biaya</th>
                                         <th>Aksi</th>
-                                        {{-- <th>Biaya</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -228,15 +228,15 @@
                                             <td>{{ date('H:i', strtotime($jdsm->waktu_mulai)) }} -
                                                 {{ date('H:i', strtotime($jdsm->waktu_selesai)) }}</td>
                                             <td>{{ $jdsm->angkatan }}</td>
+                                            <td>{{ $jdsm->biaya }}</td>
                                             <td class="text-center">
                                                 <div class="" style="white-space: nowrap">
                                                     <a href="data-jadwal-{{ $jdsm->id }}"><button type="button"
-                                                        class="btn btn-sm mb-1 btn-primary"><i
-                                                        class="bi bi-eye"></i> Lihat</button></a>
-                                               </div>
+                                                            class="btn btn-sm mb-1 btn-primary"><i class="bi bi-eye"></i>
+                                                            Lihat</button></a>
+                                                </div>
                                             </td>
 
-                                            {{-- <td>{{ $jdsm->biaya }}</td> --}}
                                         </tr>
                                     @endforeach
                             </table>
@@ -258,7 +258,7 @@
                                     <th>Jam</th>
                                     <th>Angkatan</th>
                                     <th>Ruangan</th>
-                                    {{-- <th>Biaya</th> --}}
+                                    <th>Biaya</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -279,6 +279,7 @@
                                             {{ date('H:i', strtotime($jdpr->waktu_selesai)) }}</td>
                                         <td>{{ isset($jdpr->angkatan) ? $jdpr->angkatan : '-' }}</td>
                                         <td>{{ isset($jdpr->ruangan) ? $jdpr->ruangan->nama_ruangan : '-' }}</td>
+                                        <td>{{ $jdpr->biaya }}</td>
                                         <td class="text-center">
                                             @if (Auth::user()->level == 'Admin')
                                                 <div class="row text-center">
@@ -303,7 +304,6 @@
                                                 </div>
                                             </div>
                                         </td> --}}
-                                        {{-- <td>{{ $jdpr->biaya }}</td> --}}
                                     </tr>
                                 @endforeach
                         </table>

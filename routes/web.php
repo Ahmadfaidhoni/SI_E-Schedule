@@ -36,7 +36,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/history-jadwal', [JadwalController::class, 'history']);
 
     // export
-    Route::get('/export-jadwal/{awal}/{akhir}', [JadwalController::class, 'export_jadwal']);
+    Route::get('/export-jadwal/{awal}/{akhir}/{user}', [JadwalController::class, 'export_jadwal']);
 
     //perubahan jadwal
     Route::get('/perubahan-jadwal', [RubahJadwalController::class, 'index']);
@@ -53,7 +53,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('editProfile', [ProfileController::class, 'edit']);
     Route::patch('profile.{user}', [ProfileController::class, 'update']);
     Route::post('change-password', [ProfileController::class, 'changePassword'])->name('change.password');
-    
 });
 
 Route::group(['middleware' => 'keuangan'], function () {

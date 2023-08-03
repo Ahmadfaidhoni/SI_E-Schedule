@@ -5,7 +5,7 @@
 
     <div class="row">
         <div class="col-12">
-            <h4 class="mx-3">  Detail Pegawai {{ $user->name }} </h4>
+            <h4 class="mx-3"> Detail Pegawai {{ $user->name }} </h4>
             <div class="card mt-3 mx-3">
                 <div class="card-body">
                     <div class="mb-5">
@@ -27,16 +27,17 @@
                                                 class="bi bi-repeat"></i> Reset Password</button>
                                     </form> --}}
                                     {{-- <form action="/reset-password/{{ $user->id }}" method="post"> --}}
-                                    <button class="btn btn-danger btn-sm" onclick="reset()"><i class="bi bi-wrench-adjustable"></i>
-                                         Reset Password</button>
+                                    <button class="btn btn-danger btn-sm" onclick="reset()"><i
+                                            class="bi bi-wrench-adjustable"></i>
+                                        Reset Password</button>
                                     {{-- </form> --}}
                                 </li>
                                 <li class="list-inline-item">
-                                    <form action="data-pegawai.{{ $user->id }}" method="post"
-                                        onclick="return confirm('Menghapus pegawai ini akan menghapus jadwalnya juga!');">
+                                    <form action="data-pegawai.{{ $user->id }}" method="post" id="hapus-form">
                                         @method('delete')
                                         @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i>
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="hapus()"><i
+                                                class="bi bi-trash"></i>
                                             Hapus</button>
                                     </form>
                                 </li>
@@ -142,6 +143,22 @@
                 }
 
             });
+        }
+
+        function hapus() {
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: "Menghapus pegawai ini akan menghapus jadwalnya juga!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#hapus-form').submit();
+                }
+            })
         }
     </script>
 @endsection
