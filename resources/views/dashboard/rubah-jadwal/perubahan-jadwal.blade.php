@@ -54,7 +54,8 @@
                                                 Full Day
                                             @endif
                                         </td>
-                                        <td>{{ date('d-m-Y', strtotime($jdwl->waktu_mulai)) }} s/d {{ date('d-m-Y', strtotime($jdwl->waktu_selesai)) }} </td>
+                                        <td>{{ date('d-m-Y', strtotime($jdwl->waktu_mulai)) }} s/d
+                                            {{ date('d-m-Y', strtotime($jdwl->waktu_selesai)) }} </td>
                                         <td>{{ date('H:i', strtotime($jdwl->waktu_mulai)) }} -
                                             {{ date('H:i', strtotime($jdwl->waktu_selesai)) }}</td>
                                         <td>{{ isset($jdwl->angkatan) ? $jdwl->angkatan : '-' }}</td>
@@ -66,10 +67,13 @@
                                                         <a href="ubah-jadwal-{{ $jdwl->id }}"><button type="button"
                                                                 class="btn btn-sm mb-1 btn-primary"><i
                                                                     class="bi bi-eye"></i> Lihat</button></a>
-                                                        <form action="tolak-jadwal.{{ $jdwl->id }}" method="post" class="d-inline">
+                                                        <form action="tolak-jadwal.{{ $jdwl->id }}" method="post"
+                                                            class="d-inline" id="tolak-form">
                                                             @method('patch')
                                                             @csrf
-                                                            <button type="submit" class="btn btn-sm mb-1 btn-danger" onclick="return confirm('Apakah anda yakin ingin menolak jadwal ini?');"><i class="bi bi-dash-circle"></i> Tolak</button>
+                                                            <button type="button" onclick="tolak()"
+                                                                class="btn btn-sm mb-1 btn-danger"><i
+                                                                    class="bi bi-dash-circle"></i> Tolak</button>
                                                         </form>
 
                                                         {{-- button to open modal --}}
@@ -121,4 +125,21 @@
             </div>
         </div>
     </div> --}}
+    <script>
+        function tolak() {
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: "Apakah anda yakin ingin menolak jadwal ini?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Tolak!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#tolak-form').submit();
+                }
+            })
+        }
+    </script>
 @endsection
