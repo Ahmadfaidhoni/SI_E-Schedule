@@ -228,7 +228,8 @@ class JadwalController extends Controller
         return view('dashboard.jadwal.edit-jadwal', compact('active_menu'), [
             "kegiatan" => Kegiatan::all(),
             "pegawai" => User::all(),
-            "jadwal" => $jadwal
+            "jadwal" => $jadwal,
+            "biaya" => Keuangan::where('jadwal_id', $jadwal->id)->first(),
         ]);
     }
 
@@ -257,7 +258,8 @@ class JadwalController extends Controller
             $validatedData = $request->validate([
                 'user_id' => 'required',
                 'tanggal' => 'required',
-                'keterangan' => ''
+                'keterangan' => '',
+
             ]);
 
             $validatedData['tipe_jadwal'] = $checkTipeJadwal;
@@ -266,6 +268,12 @@ class JadwalController extends Controller
             $validatedData['jp'] = $config_max_jp->value ?? 15;
             $validatedData['waktu_mulai'] = $validatedData['tanggal'] . " 00:00:00";
             $validatedData['waktu_selesai'] = $tanggal_akhir . " 23:59:00";
+
+            $biaya = $request->biaya;
+
+            Keuangan::where('jadwal_id', $jadwal->id)->update([
+                'biaya' => $biaya
+            ]);
         } else {
             $validatedData = $request->validate([
                 'kegiatan_id' => 'required',
