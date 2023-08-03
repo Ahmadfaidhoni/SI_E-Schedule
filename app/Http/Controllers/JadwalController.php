@@ -191,22 +191,19 @@ class JadwalController extends Controller
      */
     public function show(Jadwal $jadwal)
     {
-        // return $jadwal = Jadwal::find($jadwal->id)
-        //     ->select('jadwals.id as jadwal_ids', 'k.id as keuangan_id', 'k.biaya')
-        //     ->leftjoin('keuangans as k', 'k.jadwal_id', '=', 'jadwals.id')
-        //     ->first();
-
         $jadwal = DB::table('jadwals')
             ->select(
                 'jadwals.*',
                 'keuangans.id as keuangan_id',
                 'keuangans.biaya',
                 'users.name as user_name',
-                'kegiatans.nama_kegiatan'
+                'kegiatans.nama_kegiatan',
+                'ruangans.nama_ruangan'
             )
             ->leftJoin('keuangans', 'keuangans.jadwal_id', '=', 'jadwals.id')
             ->leftJoin('users', 'users.id', '=', 'jadwals.user_id')
             ->leftJoin('kegiatans', 'kegiatans.id', '=', 'jadwals.kegiatan_id')
+            ->leftJoin('ruangans', 'ruangans.id', '=', 'jadwals.kegiatan_id')
             ->where('jadwals.id', $jadwal->id)
             ->first();
 
