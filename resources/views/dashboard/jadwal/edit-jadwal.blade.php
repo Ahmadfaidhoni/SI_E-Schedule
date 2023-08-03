@@ -41,7 +41,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-6 mt-4">
+                                <div class="col-md-{{ $jadwal->tipe_jadwal == '1' ? '6' : '3' }} mt-4">
                                     <label for="pengajar">Tanggal</label> <span class="text-danger">*</span>
                                     <div class="input-group">
                                         <input type="date" class="form-control @error('tanggal') is-invalid @enderror"
@@ -54,7 +54,8 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div id="form_date_end" class="col-md-3 mt-2" style="display:{{ $jadwal->tipe_jadwal == '1' ? 'none' : '' }}">
+                                <div id="form_date_end" class="col-md-3 mt-4"
+                                    style="display:{{ $jadwal->tipe_jadwal == '1' ? 'none' : '' }}">
                                     <label for="pengajar">Tanggal Akhir</label> <span class="text-danger">*</span>
                                     <div class="input-group">
                                         <input type="date"
@@ -111,7 +112,8 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div id="form_ruangan" class="col-md-6 mt-2" style="display:{{ $jadwal->tipe_jadwal == '2' ? 'none' : '' }}">
+                                <div id="form_ruangan" class="col-md-6 mt-2"
+                                    style="display:{{ $jadwal->tipe_jadwal == '2' ? 'none' : '' }}">
                                     <label for="ruangan">Ruangan</label> <span class="text-danger">*</span>
                                     <div class="input-group">
                                         <select class="form-control select2" id="ruangan_id" name="ruangan_id">
@@ -139,6 +141,18 @@
                                         placeholder="Angkatan" id="angkatan" name="angkatan"
                                         value="{{ old('angkatan', $jadwal->angkatan) }}">
                                     @error('angkatan')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div id="form_biaya" class="col-md-6 mt-2"
+                                    style="display:{{ $jadwal->tipe_jadwal == '1' ? 'none' : '' }}">
+                                    <label for="biaya" class="m-t-20">Biaya</label>
+                                    <input type="number" class="form-control @error('biaya') is-invalid @enderror"
+                                        placeholder="Masukkan Biaya Dinas" id="biaya" name="biaya"
+                                        value="{{ $biaya->biaya }}">
+                                    @error('biaya')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -178,30 +192,30 @@
                 var tipe_jadwal1 = document.getElementById("tanggal_akhir").value;
                 var tipe_jadwal2 = document.getElementById("mulai").value;
                 var tipe_jadwal3 = document.getElementById("selesai").value;
-    
+
                 //Get startTime
                 var startTime = tipe_jadwal2;
                 var arrStart = startTime.split(':');
                 var endStartHrs = $.trim(arrStart[0]);
                 var endStartMnt = $.trim(arrStart[1]);
-    
+
                 //Get endTime
                 var endTime = tipe_jadwal3;
                 var arrEnd = endTime.split(':');
                 var endHoursHrs = $.trim(arrEnd[0]);
                 var endHoursMnt = $.trim(arrEnd[1]);
-    
+
                 //Get results
                 var getHours = endHoursHrs - endStartHrs;
                 var getMnts = endHoursMnt - endStartMnt;
                 var y = (getHours * 60) + getMnts;
                 var z = y / 45;
                 var str = z.toString();
-    
+
                 var arrFix = str.split('.');
                 var strResults = $.trim(arrFix[0]);
                 var results = parseInt(strResults);
-    
+
                 if (check_tipe == 1) {
                     if (!tipe_jadwal || !tipe_jadwal2 || !tipe_jadwal3) {
                         var checkSpan = document.getElementById('checkSpan');
@@ -212,7 +226,7 @@
                         setTimeout(() => {
                             checkSpan.style.display = 'none';
                         }, 3000);
-    
+
                     } else if (results <= 0) {
                         var checkSpan = document.getElementById('checkSpan');
                         checkSpan.style.display = '';
@@ -222,7 +236,7 @@
                         setTimeout(() => {
                             checkSpan.style.display = 'none';
                         }, 3000);
-    
+
                     } else if (results > ("{{ $config_max_jp->value ?? 15 }}")) {
                         var checkSpan = document.getElementById('checkSpan');
                         checkSpan.style.display = '';
@@ -232,9 +246,9 @@
                         setTimeout(() => {
                             checkSpan.style.display = 'none';
                         }, 3000);
-    
+
                     } else {
-    
+
                         var checkSpan = document.getElementById('checkSpan');
                         checkSpan.style.display = '';
                         checkSpan.classList.remove("alert-danger");
@@ -243,10 +257,10 @@
                         setTimeout(() => {
                             checkSpan.style.display = 'none';
                         }, 3000);
-    
+
                         var jp = document.getElementById('jp');
                         jp.value = results;
-    
+
                         $.ajax({
                             type: 'GET',
                             url: '{{ url('/get-pegawaiUpdate') }}',
@@ -267,7 +281,7 @@
                                 //     id,
                                 //     name
                                 // }) => (`<option value="${name}"></option>`)).join(''));
-    
+
                                 // $('#user_id').select2({
                                 //     data: data
                                 // })
@@ -307,7 +321,7 @@
                         setTimeout(() => {
                             checkSpan.style.display = 'none';
                         }, 3000);
-    
+
                         $.ajax({
                             type: 'GET',
                             url: '{{ url('/get-pegawaiDinasUpdate') }}',
