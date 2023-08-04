@@ -643,6 +643,8 @@ class JadwalController extends Controller
     {
         $jadwal = Jadwal::with('kegiatan', 'user')
             ->whereDate('jadwals.waktu_mulai', '=', $awal)
+            ->orwhereDate('jadwals.waktu_mulai', '=', $akhir)
+            ->orWhereBetween('jadwals.waktu_mulai', [$awal, $akhir])
             ->orwhereRaw("
             (waktu_mulai >= '$awal' AND waktu_mulai <= '$akhir')
             OR (waktu_selesai >= '$awal' AND waktu_selesai <= '$akhir')
