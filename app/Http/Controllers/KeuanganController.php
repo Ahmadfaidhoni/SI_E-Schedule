@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Keuangan;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
@@ -109,15 +110,17 @@ class KeuanganController extends Controller
             $keuangan = Keuangan::join('jadwals', 'keuangans.jadwal_id', '=', 'jadwals.id')
                 ->leftJoin('kegiatans', 'jadwals.kegiatan_id', '=', 'kegiatans.id')
                 ->leftJoin('users', 'jadwals.user_id', '=', 'users.id')
-                ->whereDate('jadwals.waktu_mulai', '=', $awal)
-                ->orwhereDate('jadwals.waktu_mulai', '=', $akhir)
-                ->orWhereBetween('jadwals.waktu_mulai', [$awal, $akhir])
-                ->orwhereRaw("
-            (waktu_mulai >= '$awal' AND waktu_mulai <= '$akhir')
-            OR (waktu_selesai >= '$awal' AND waktu_selesai <= '$akhir')
-            OR ('$awal' >= waktu_mulai AND '$awal' <= waktu_selesai)
-            OR ('$akhir' >= waktu_mulai AND '$akhir' <= waktu_selesai)
-        ");
+                ->where(function ($query) use ($awal, $akhir) {
+                    $query->whereDate('jadwals.waktu_mulai', '=', $awal)
+                        ->orWhereDate('jadwals.waktu_mulai', '=', $akhir)
+                        ->orWhereBetween('jadwals.waktu_mulai', [$awal, $akhir])
+                        ->orWhereRaw("
+                            (waktu_mulai >= '$awal' AND waktu_mulai <= '$akhir')
+                            OR (waktu_selesai >= '$awal' AND waktu_selesai <= '$akhir')
+                            OR ('$awal' >= waktu_mulai AND '$awal' <= waktu_selesai)
+                            OR ('$akhir' >= waktu_mulai AND '$akhir' <= waktu_selesai)
+                        ");
+                });
 
             if ($user != 'all') {
                 $keuangan = $keuangan->where('jadwals.user_id', $user);
@@ -128,8 +131,6 @@ class KeuanganController extends Controller
             }
 
             $keuangan = $keuangan->get();
-
-            // return $keuangan;
 
             $total_mengajar = 0;
             $total_perjalanan_dinas = 0;
