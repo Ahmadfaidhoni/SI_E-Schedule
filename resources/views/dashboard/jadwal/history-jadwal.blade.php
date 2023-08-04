@@ -27,7 +27,9 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Kegiatan</th>
-                                    <th>Pegawai</th>
+                                    @can('admin')
+                                        <th>Pegawai</th>
+                                    @endcan
                                     <th>Jumlah JP</th>
                                     <th>Tanggal Kegiatan</th>
                                     <th>Jam</th>
@@ -47,7 +49,9 @@
                                                 {{ isset($jdwl->kegiatan) ? $jdwl->kegiatan->nama_kegiatan : '-' }}
                                             @endif
                                         </td>
-                                        <td>{{ isset($jdwl->user) ? $jdwl->user->name : '-' }}</td>
+                                        @can('admin')
+                                            <td>{{ isset($jdwl->user) ? $jdwl->user->name : '-' }}</td>
+                                        @endcan
                                         <td>
                                             @if ($jdwl->jp < 15)
                                                 {{ $jdwl->jp }}

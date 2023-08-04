@@ -5,8 +5,8 @@
             <h4 class="mx-3">Data Keuangan Pegawai</h4>
             <div class="card mt-3 mx-3">
                 <div class="card-body">
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal"><i
-                            class="bi bi-file-earmark-pdf"></i>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"><i
+                            class="bi bi-file-earmark-excel"></i>
                         Export to Excel
                     </button>
                     {{-- @if (session()->has('success'))

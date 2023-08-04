@@ -91,7 +91,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th class="text-align-center">Kegiatan</th>
-                                    @can('Admin')
+                                    @can('admin')
                                         <th>Pegawai</th>
                                     @endcan
                                     <th>Jumlah JP</th>
@@ -114,7 +114,7 @@
                                                 {{ isset($jdwl->kegiatan) ? $jdwl->kegiatan->kode_kegiatan : '-' }}
                                             @endif
                                         </td>
-                                        @can('Admin')
+                                        @can('admin')
                                             <td>{{ isset($jdwl->user) ? $jdwl->user->name : '-' }}</td>
                                         @endcan
                                         <td>

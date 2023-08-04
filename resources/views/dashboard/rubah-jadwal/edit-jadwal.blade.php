@@ -48,8 +48,8 @@
                             <div class="col-md-4 mt-4" style="display:{{ $jadwal->tipe_jadwal == '1' ? 'none' : '' }}">
                                 <label for="pengajar">Tanggal Akhir</label><span class="text-danger">*</span>
                                 <div class="input-group">
-                                    <input type="date" class="form-control @error('tanggal') is-invalid @enderror" id="tanggal" name="tanggal" placeholder="Tanggal Kegiatan" value="{{ old('waktu_mulai', date('Y-m-d', strtotime($jadwal->waktu_mulai))) }}" disabled>
-                                    @error('tanggal')
+                                    <input type="date" class="form-control @error('tangga_akhir') is-invalid @enderror" id="tangga_akhir" name="tangga_akhir" placeholder="Tanggal Akhir Kegiatan" value="{{ old('waktu_selesai', date('Y-m-d', strtotime($jadwal->waktu_selesai))) }}" disabled>
+                                    @error('tangga_akhir')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>

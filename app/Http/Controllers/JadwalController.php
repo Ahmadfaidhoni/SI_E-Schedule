@@ -398,6 +398,7 @@ class JadwalController extends Controller
         }
 
         $users = DB::table('users')
+            ->where('id', '!=', '1')
             ->whereNotIn('id', $idBentrok)
             ->orderBy('name', 'ASC')
             ->get()

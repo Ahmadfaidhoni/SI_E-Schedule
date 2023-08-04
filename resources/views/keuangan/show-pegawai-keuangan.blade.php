@@ -61,18 +61,3 @@
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
     </script>
 @endsection
-@section('page_script')
-    <script>
-        $(document).ready(function() {
-            $('#table').DataTable({
-                dom: 'Bfrtip',
-                destroy: true,
-                buttons: [{
-                    extend: 'excelHtml5',
-                    text: 'Export to Excel',
-                    title: 'Data Export',
-                }]
-            });
-        });
-    </script>
-@endsection
