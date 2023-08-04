@@ -42,28 +42,31 @@
                             </tr>
                             <tr>
                                 <th scope="row">Pegawai:</th>
-                                <td>{{ $jdwl->user_name ?? '' }}</td>
+                                <td>{{ $jdwl->user->name ?? '' }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Tanggal:</th>
-                                <td>{{ date('d-m-Y', strtotime($jdwl->waktu_mulai)) . ' s/d ' . date('d-m-Y', strtotime($jdwl->waktu_selesai)) }}</td>
+                                <td>{{ date('d-m-Y', strtotime($jdwl->waktu_mulai)) . ' s/d ' . date('d-m-Y', strtotime($jdwl->waktu_selesai)) }}
+                                </td>
                             </tr>
                             <tr style="display:{{ $jdwl->tipe_jadwal == '2' ? 'none' : '' }}">
                                 <th scope="row">Waktu:</th>
                                 <td>{{ date('H:i', strtotime($jdwl->waktu_mulai)) }} -
-                                    {{ date('H:i', strtotime($jdwl->waktu_selesai)) }} ({{ $jdwl->jp}} JP)</td>
+                                    {{ date('H:i', strtotime($jdwl->waktu_selesai)) }} ({{ $jdwl->jp }} JP)</td>
                             </tr>
                             <tr style="display:{{ $jdwl->tipe_jadwal == '2' ? 'none' : '' }}">
                                 <th scope="row">Kegiatan, Ruang & Angkatan: </th>
-                                    <td>{{ isset($jdwl->nama_kegiatan) ? $jdwl->nama_kegiatan : '-' }}, {{ isset($jdwl->ruangan) ? $jdwl->ruangan->nama_ruangan : '-' }}, Angkatan {{ $jdwl->angkatan }}</td>
+                                <td>{{ isset($jdwl->kegiatan) ? $jdwl->kegiatan->nama_kegiatan : '-' }},
+                                    {{ isset($jdwl->ruangan) ? $jdwl->ruangan->nama_ruangan : '-' }}, Angkatan
+                                    {{ $jdwl->angkatan }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Biaya:</th>
+                                <td>{{ isset($biaya) ? number_format($biaya->biaya) : '-' }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Keterangan:</th>
                                 <td>{{ isset($jdwl->keterangan) ? $jdwl->keterangan : '-' }}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Biaya:</th>
-                                <td>{{ isset($jdwl->biaya) ? number_format($jdwl->biaya) : '-' }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Dibuat oleh:</th>

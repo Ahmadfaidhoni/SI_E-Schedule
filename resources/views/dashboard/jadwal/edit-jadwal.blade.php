@@ -9,7 +9,7 @@
                         <form class="form-valide" action="data-jadwal.{{ $jadwal->id }}" method="post">
                             @method('patch')
                             @csrf
-                            <div class="alert alert-danger alert-block" id="checkSpan" style="display: none">
+                            <div class="alert alert-danger alert-block col-md-3" id="checkSpan" style="display: none">
                                 <button type="button" class="close" data-dismiss="alert">×</button>
                                 <strong></strong>
                             </div>
@@ -285,7 +285,7 @@
                                 // $('#user_id').select2({
                                 //     data: data
                                 // })
-                                // $('#user_id').empty().trigger('change');
+                                $('#user_id').empty().trigger('change');
 
                                 $('#user_id').select2({
                                     data: data.users
@@ -342,6 +342,8 @@
                                 //     id,
                                 //     name
                                 // }) => (`<option value="${name}"></option>`)).join(''));
+                                $('#user_id').empty().trigger('change');
+
                                 $('#user_id').select2({
                                     data: data
                                 })

@@ -41,7 +41,7 @@
                                             @if ($jdwl->tipe_jadwal == 2)
                                                 Perjalanan Dinas
                                             @else
-                                                {{ $jdwl->kegiatan->nama_kegiatan }}
+                                                {{ $jdwl->kegiatan->kode_kegiatan }}
                                             @endif
                                         </td>
                                         @can('admin')

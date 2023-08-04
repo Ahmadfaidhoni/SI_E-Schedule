@@ -89,13 +89,9 @@ class ProfileController extends Controller
 
     public function reset($id)
     {
-        $password = "password";
-
+        
         $user = User::find($id);
-        $user->update(['password' => Hash::make($password)]);
-
-        // Alert::success('Congrats', 'Password Berhasil direset!');
-        // return redirect('/data-pegawai-' . $user->nip);
+        $user->update(['password' => Hash::make($user->nip)]);
 
         return  response()->json(['error' => false]);
     }

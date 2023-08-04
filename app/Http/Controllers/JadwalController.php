@@ -191,28 +191,19 @@ class JadwalController extends Controller
      */
     public function show(Jadwal $jadwal)
     {
-        // return $jadwal = Jadwal::find($jadwal->id)
-        //     ->select('jadwals.id as jadwal_ids', 'k.id as keuangan_id', 'k.biaya')
-        //     ->leftjoin('keuangans as k', 'k.jadwal_id', '=', 'jadwals.id')
-        //     ->first();
-
-        $jadwal = DB::table('jadwals')
+        $biaya = DB::table('jadwals')
             ->select(
-                'jadwals.*',
                 'keuangans.id as keuangan_id',
                 'keuangans.biaya',
-                'users.name as user_name',
-                'kegiatans.nama_kegiatan'
             )
             ->leftJoin('keuangans', 'keuangans.jadwal_id', '=', 'jadwals.id')
-            ->leftJoin('users', 'users.id', '=', 'jadwals.user_id')
-            ->leftJoin('kegiatans', 'kegiatans.id', '=', 'jadwals.kegiatan_id')
             ->where('jadwals.id', $jadwal->id)
             ->first();
 
         $active_menu = 'jadwal';
         return view('dashboard.jadwal.show-jadwal', compact('active_menu'), [
-            'jdwl' => $jadwal
+            'jdwl' => $jadwal,
+            'biaya' => $biaya
         ]);
     }
 
@@ -375,9 +366,12 @@ class JadwalController extends Controller
         $bentrok = DB::table('jadwals')
             ->select('user_id', 'ruangan_id')
             ->whereRaw("
-            ((waktu_mulai < STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND waktu_selesai > STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i')) OR
-            (waktu_mulai < STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i') AND waktu_selesai > STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i')) OR 
-            (waktu_mulai >= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND waktu_selesai <= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i'))) AND tipe_jadwal = '1' ")
+                (
+                    (waktu_mulai < '$tanggal_mulai' AND waktu_selesai > '$tanggal_mulai') OR
+                    (waktu_mulai < '$tanggal_selesai' AND waktu_selesai > '$tanggal_selesai') OR 
+                    (waktu_mulai >= '$tanggal_mulai' AND waktu_selesai <= '$tanggal_selesai')
+                )
+            ")
             ->get()
             ->toArray();
 
@@ -385,8 +379,11 @@ class JadwalController extends Controller
         $idRuangan = [];
 
         foreach ($bentrok as $items) {
+            if($items->ruangan_id == !null)
+            {
+                $idRuangan[] = $items->ruangan_id;
+            }
             $idBentrok[] = $items->user_id;
-            $idRuangan[] = $items->ruangan_id;
         }
 
         $max_jp = DB::table('jadwals')
@@ -506,9 +503,13 @@ class JadwalController extends Controller
         $bentrok = DB::table('jadwals')
             ->select('user_id', 'ruangan_id')
             ->whereRaw("
-            ((waktu_mulai < STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND waktu_selesai > STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i')) OR
-            (waktu_mulai < STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i') AND waktu_selesai > STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i')) OR 
-            (waktu_mulai >= STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND waktu_selesai <= STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i'))) AND id != '$id' AND tipe_jadwal = '1'")
+                (
+                    (waktu_mulai < '$tanggal_selesai' AND waktu_selesai > '$tanggal_mulai')
+                    OR (waktu_mulai < '$tanggal_selesai' AND waktu_selesai > '$tanggal_selesai')
+                    OR (waktu_mulai >= '$tanggal_mulai' AND waktu_selesai <= '$tanggal_selesai')
+                )
+                AND id != '$id'
+            ")
             ->get()
             ->toArray();
 
@@ -516,8 +517,11 @@ class JadwalController extends Controller
         $idRuangan = [];
 
         foreach ($bentrok as $items) {
+            if($items->ruangan_id == !null)
+            {
+                $idRuangan[] = $items->ruangan_id;
+            }
             $idBentrok[] = $items->user_id;
-            $idRuangan[] = $items->ruangan_id;
         }
 
         $max_jp = DB::table('jadwals')
@@ -570,11 +574,14 @@ class JadwalController extends Controller
         $bentrok = DB::table('jadwals')
             ->select('user_id')
             ->whereRaw("
-            waktu_mulai BETWEEN STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i') AND
-            waktu_selesai BETWEEN STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i') AND tipe_jadwal = '1'")
+                (waktu_mulai >= '$tanggal_mulai' AND waktu_mulai <= '$tanggal_selesai')
+                OR (waktu_selesai >= '$tanggal_mulai' AND waktu_selesai <= '$tanggal_selesai')
+                OR ('$tanggal_mulai' >= waktu_mulai AND '$tanggal_mulai' <= waktu_selesai)
+                OR ('$tanggal_selesai' >= waktu_mulai AND '$tanggal_selesai' <= waktu_selesai)
+            ")
             ->get()
             ->toArray();
-
+        
         $idBentrok = [];
 
         foreach ($bentrok as $items) {
@@ -605,12 +612,15 @@ class JadwalController extends Controller
         // Cari user
         $bentrok = DB::table('jadwals')
             ->select('user_id')
-            ->whereRaw("
-            (waktu_mulai BETWEEN STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i') AND
-            waktu_selesai BETWEEN STR_TO_DATE('$tanggal_mulai', '%Y-%m-%d %H:%i') AND STR_TO_DATE('$tanggal_selesai', '%Y-%m-%d %H:%i')) AND id != '$id' AND tipe_jadwal = '1'")
+            ->whereRaw("(
+                (waktu_mulai >= '$tanggal_mulai' AND waktu_mulai <= '$tanggal_selesai')
+                OR (waktu_selesai >= '$tanggal_mulai' AND waktu_selesai <= '$tanggal_selesai')
+                OR ('$tanggal_mulai' >= waktu_mulai AND '$tanggal_mulai' <= waktu_selesai)
+                OR ('$tanggal_selesai' >= waktu_mulai AND '$tanggal_selesai' <= waktu_selesai)) AND id != '$id'
+            ")
             ->get()
             ->toArray();
-
+        
         $idBentrok = [];
 
         foreach ($bentrok as $items) {
@@ -631,13 +641,17 @@ class JadwalController extends Controller
         return response()->json(["error" => false, "data" => $selectPegawai]);
     }
 
-    public function export_jadwal($awal, $akhir, $user)
+    public function export_jadwal($awal, $akhir, $user, $tipe_jadwal)
     {
         $jadwal = Jadwal::with('kegiatan', 'user')
             ->whereBetween('waktu_mulai', [$awal, $akhir]);
 
         if ($user != 'all') {
             $jadwal->where('user_id', $user);
+        }
+
+        if ($tipe_jadwal != 'all') {
+            $jadwal->where('tipe_jadwal', $tipe_jadwal);
         }
 
         $jadwal = $jadwal->get();

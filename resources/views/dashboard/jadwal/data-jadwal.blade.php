@@ -35,37 +35,51 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <div class="modal-body">
-                                    {{-- input date range --}}
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">Tanggal</span>
+                                <form>
+                                    <div class="modal-body">
+                                        {{-- input date range --}}
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Tanggal</span>
+                                            </div>
+                                            <input type="date" id="date-awal" class="form-control"
+                                                aria-label="Sizing example input"
+                                                aria-describedby="inputGroup-sizing-default" required>
                                         </div>
-                                        <input type="date" id="date-awal" class="form-control"
-                                            aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">Tanggal</span>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Tanggal</span>
+                                            </div>
+                                            <input type="date"id="date-akhir" class="form-control"
+                                                aria-label="Sizing example input"
+                                                aria-describedby="inputGroup-sizing-default" required>
                                         </div>
-                                        <input type="date"id="date-akhir" class="form-control"
-                                            aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-                                    </div>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">User</span>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">User</span>
+                                            </div>
+                                            <select name="user_filter" id="user_filter" class="form-control select2">
+                                                <option value="all">Semua User</option>
+                                                @foreach ($users as $user)
+                                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
-                                        <select name="user_filter" id="user_filter" class="form-control select2">
-                                            <option value="all">Semua User</option>
-                                            @foreach ($users as $user)
-                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                            @endforeach
-                                        </select>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Tipe Jadwal</span>
+                                            </div>
+                                            <select class="form-control" id="tipe_jadwal" name="tipe_jadwal">
+                                                <option value="all" selected>Semua Tipe jadwal</option>
+                                                <option value="1">Mengajar</option>
+                                                <option value="2">Perjalanan Dinas</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button onclick="myFunction()" class="btn btn-primary">Export</button>
-                                </div>
+                                    <div class="modal-footer">
+                                        <button onclick="myFunction()" class="btn btn-primary">Export</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -77,7 +91,9 @@
                                 <tr>
                                     <th>No</th>
                                     <th class="text-align-center">Kegiatan</th>
-                                    <th>Pegawai</th>
+                                    @can('Admin')
+                                        <th>Pegawai</th>
+                                    @endcan
                                     <th>Jumlah JP</th>
                                     <th>Tanggal Kegiatan</th>
                                     <th>Jam</th>
@@ -95,10 +111,12 @@
                                             @if ($jdwl->tipe_jadwal == 2)
                                                 Perjalanan Dinas
                                             @else
-                                                {{ isset($jdwl->kegiatan) ? $jdwl->kegiatan->nama_kegiatan : '-' }}
+                                                {{ isset($jdwl->kegiatan) ? $jdwl->kegiatan->kode_kegiatan : '-' }}
                                             @endif
                                         </td>
-                                        <td>{{ isset($jdwl->user) ? $jdwl->user->name : '-' }}</td>
+                                        @can('Admin')
+                                            <td>{{ isset($jdwl->user) ? $jdwl->user->name : '-' }}</td>
+                                        @endcan
                                         <td>
                                             @if ($jdwl->jp < 15)
                                                 {{ $jdwl->jp }}
@@ -147,13 +165,13 @@
 @section('page_script')
     <script>
         function myFunction() {
-            // get value from date
             var date_awal = document.getElementById('date-awal').value;
             var date_akhir = document.getElementById('date-akhir').value;
             var user = document.getElementById('user_filter').value;
-            // window.location.href = '/export-jadwal/' + date_awal + '/' + date_akhir, '_blank';
-            window.open('/export-jadwal/' + date_awal + '/' + date_akhir + '/' + user, '_blank');
-
+            var type = document.getElementById('tipe_jadwal').value;
+            if (date_awal && date_akhir && user && type) {
+                window.open('/export-jadwal/' + date_awal + '/' + date_akhir + '/' + user + '/' + type, '_blank');
+            }
         }
     </script>
 @endsection

@@ -36,7 +36,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/history-jadwal', [JadwalController::class, 'history']);
 
     // export
-    Route::get('/export-jadwal/{awal}/{akhir}/{user}', [JadwalController::class, 'export_jadwal']);
+    Route::get('/export-jadwal/{awal}/{akhir}/{user}/{tipe_jadwal}', [JadwalController::class, 'export_jadwal']);
 
     //perubahan jadwal
     Route::get('/perubahan-jadwal', [RubahJadwalController::class, 'index']);
