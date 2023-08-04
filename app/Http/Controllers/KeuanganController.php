@@ -109,7 +109,8 @@ class KeuanganController extends Controller
             $keuangan = Keuangan::join('jadwals', 'keuangans.jadwal_id', '=', 'jadwals.id')
                 ->leftJoin('kegiatans', 'jadwals.kegiatan_id', '=', 'kegiatans.id')
                 ->leftJoin('users', 'jadwals.user_id', '=', 'users.id')
-                ->whereBetween('waktu_mulai', [$awal, $akhir]);
+                ->whereDate('jadwals.waktu_mulai', '>=', $awal)
+                ->whereDate('jadwals.waktu_mulai', '<=', $akhir);
 
             if ($user != 'all') {
                 $keuangan = $keuangan->where('jadwals.user_id', $user);

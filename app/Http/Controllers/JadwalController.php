@@ -379,8 +379,7 @@ class JadwalController extends Controller
         $idRuangan = [];
 
         foreach ($bentrok as $items) {
-            if($items->ruangan_id == !null)
-            {
+            if ($items->ruangan_id == !null) {
                 $idRuangan[] = $items->ruangan_id;
             }
             $idBentrok[] = $items->user_id;
@@ -518,8 +517,7 @@ class JadwalController extends Controller
         $idRuangan = [];
 
         foreach ($bentrok as $items) {
-            if($items->ruangan_id == !null)
-            {
+            if ($items->ruangan_id == !null) {
                 $idRuangan[] = $items->ruangan_id;
             }
             $idBentrok[] = $items->user_id;
@@ -582,7 +580,7 @@ class JadwalController extends Controller
             ")
             ->get()
             ->toArray();
-        
+
         $idBentrok = [];
 
         foreach ($bentrok as $items) {
@@ -621,7 +619,7 @@ class JadwalController extends Controller
             ")
             ->get()
             ->toArray();
-        
+
         $idBentrok = [];
 
         foreach ($bentrok as $items) {
@@ -645,7 +643,8 @@ class JadwalController extends Controller
     public function export_jadwal($awal, $akhir, $user, $tipe_jadwal)
     {
         $jadwal = Jadwal::with('kegiatan', 'user')
-            ->whereBetween('waktu_mulai', [$awal, $akhir]);
+            ->whereDate('waktu_mulai', '>=', $awal)
+            ->whereDate('waktu_mulai', '<=', $akhir);
 
         if ($user != 'all') {
             $jadwal->where('user_id', $user);
