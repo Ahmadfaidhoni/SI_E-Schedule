@@ -58,6 +58,7 @@ Route::group(['middleware' => 'auth'], function () {
 Route::group(['middleware' => 'keuangan'], function () {
     Route::get('/keuangan', [KeuanganController::class, 'index']);
     Route::get('/data-keuangan-pegawai-{user:nip}', [KeuanganController::class, 'show']);
+    Route::get('/keuangan/excel/{awal}/{akhir}/{user}/{tipe_jadwal}/', [KeuanganController::class, 'export_excel']);
 });
 
 Route::group(['middleware' => 'admin'], function () {
