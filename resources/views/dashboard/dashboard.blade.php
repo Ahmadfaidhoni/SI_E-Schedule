@@ -24,7 +24,7 @@
                                     <div class="inner">
                                         <h4> {{ $jadwal_semua->count() }}</h4>
 
-                                        <p>Jadwal Yang Sedang Dilaksanakan</p>
+                                        <p>Jadwal Hari Ini</p>
                                     </div>
                                     <div class="icon">
                                         <i class="bi bi-calendar-event" style="font-size: 4rem;"></i>
@@ -107,8 +107,9 @@
                                     <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-building"></i></span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Data Ruangan</span>
-                                        {{ $ruangan }}
-                                        <span class="info-box-number"></span>
+                                        <span class="info-box-number">
+                                            {{ $ruangan }}
+                                        </span>
                                     </div>
                                 </div>
                             </a>
@@ -138,7 +139,7 @@
                                 <div class="inner">
                                     <h4> {{ $jadwal_pribadi->count() }}</h4>
 
-                                    <p>Jadwal Yang Sedang Dilaksanakan</p>
+                                    <p>Jadwal Hari Ini</p>
                                 </div>
                                 <div class="icon">
                                     <i class="bi bi-calendar-event" style="font-size: 4rem;"></i>
@@ -207,6 +208,7 @@
                                         <th>Tanggal Kegiatan</th>
                                         <th>Jam</th>
                                         <th>Angkatan</th>
+                                        <th>Ruangan</th>
                                         <th>Biaya</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -219,7 +221,7 @@
                                                 @if ($jdsm->tipe_jadwal == 2)
                                                     Perjalanan Dinas
                                                 @else
-                                                    {{ isset($jdsm->kegiatan) ? $jdsm->kegiatan->nama_kegiatan : '-' }}
+                                                    {{ isset($jdsm->kegiatan) ? $jdsm->kegiatan->kode_kegiatan : '-' }}
                                                 @endif
                                             </td>
                                             <td>{{ $jdsm->user->name ?? '-' }}</td>
@@ -228,6 +230,7 @@
                                             <td>{{ date('H:i', strtotime($jdsm->waktu_mulai)) }} -
                                                 {{ date('H:i', strtotime($jdsm->waktu_selesai)) }}</td>
                                             <td>{{ $jdsm->angkatan }}</td>
+                                            <td>{{ isset($jdsm->ruangan) ? $jdsm->ruangan->nama_ruangan : '-' }}</td>
                                             <td>{{ $jdsm->biaya }}</td>
                                             <td class="text-center">
                                                 <div class="" style="white-space: nowrap">
@@ -266,12 +269,12 @@
                                 @foreach ($jadwal_pribadi as $jdpr)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        {{-- <td>{{ isset($jdpr->kegiatan) ? $jdpr->kegiatan->nama_kegiatan : '-' }}</td> --}}
+                                        {{-- <td>{{ isset($jdpr->kegiatan) ? $jdpr->kegiatan->kode_kegiatan : '-' }}</td> --}}
                                         <td>
                                             @if ($jdpr->tipe_jadwal == 2)
                                                 Perjalanan Dinas
                                             @else
-                                                {{ isset($jdpr->kegiatan) ? $jdpr->kegiatan->nama_kegiatan : '-' }}
+                                                {{ isset($jdpr->kegiatan) ? $jdpr->kegiatan->kode_kegiatan : '-' }}
                                             @endif
                                         </td>
                                         <td>{{ $jdpr->jp }}</td>

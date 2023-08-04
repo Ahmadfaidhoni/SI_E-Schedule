@@ -20,6 +20,14 @@ class DashboardController extends Controller
         $perubahan = Jadwal::where('user_id', Auth::user()->id)->where('request', '!=', 0)->count();
         $all_perubahan = Jadwal::where('request', '!=', 0)->count();
 
+        $jadwal_next_from_today = Jadwal::where('user_id', Auth::user()->id)
+            ->whereRaw("DATE(waktu_mulai) > CURDATE()")
+            ->orderBy('waktu_mulai', 'ASC')
+            ->get();
+
+        $all_jadwal_next_from_today = Jadwal::whereRaw("DATE(waktu_mulai) > CURDATE()")
+            ->orderBy('waktu_mulai', 'ASC')
+            ->get();
 
         $jadwal_pribadi = Jadwal::where('user_id', Auth::user()->id)
             ->select('k.id as kid', 'jadwals.*', 'k.biaya')
@@ -29,16 +37,10 @@ class DashboardController extends Controller
             ->orderBy('waktu_mulai', 'ASC')
             ->get();
 
-        $jadwal_next_from_today = Jadwal::where('user_id', Auth::user()->id)
-            ->select('k.id as kid', 'jadwals.*')
+        $jadwal_semua = Jadwal::where('request', false)
+            ->select('k.id as kid', 'jadwals.*', 'k.biaya')
             ->leftJoin('keuangans as k', 'k.jadwal_id', '=', 'jadwals.id')
-            ->whereRaw("DATE(waktu_mulai) > CURDATE()")
-            ->orderBy('waktu_mulai', 'ASC')
-            ->get();
-
-        $all_jadwal_next_from_today = Jadwal::select('k.id as kid', 'jadwals.*')
-            ->leftJoin('keuangans as k', 'k.jadwal_id', '=', 'jadwals.id')
-            ->whereRaw("DATE(waktu_mulai) > CURDATE()")
+            ->whereRaw("DATE(waktu_mulai) = CURDATE()")
             ->orderBy('waktu_mulai', 'ASC')
             ->get();
 
@@ -50,15 +52,7 @@ class DashboardController extends Controller
             ->pluck('biaya')
             ->sum();
 
-        $jadwal_semua = Jadwal::where('request', false)
-            ->select('k.id as kid', 'jadwals.*', 'k.biaya')
-            ->leftJoin('keuangans as k', 'k.jadwal_id', '=', 'jadwals.id')
-            ->whereRaw("DATE(waktu_mulai) = CURDATE()")
-            ->orderBy('waktu_mulai', 'ASC')
-            ->get();
-
         $active_menu = 'dashboard';
-
 
         return view('dashboard.dashboard', compact(
             'pegawai',

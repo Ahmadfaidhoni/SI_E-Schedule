@@ -91,7 +91,9 @@
                                 <tr>
                                     <th>No</th>
                                     <th class="text-align-center">Kegiatan</th>
-                                    <th>Pegawai</th>
+                                    @can('Admin')
+                                        <th>Pegawai</th>
+                                    @endcan
                                     <th>Jumlah JP</th>
                                     <th>Tanggal Kegiatan</th>
                                     <th>Jam</th>
@@ -109,10 +111,12 @@
                                             @if ($jdwl->tipe_jadwal == 2)
                                                 Perjalanan Dinas
                                             @else
-                                                {{ isset($jdwl->kegiatan) ? $jdwl->kegiatan->nama_kegiatan : '-' }}
+                                                {{ isset($jdwl->kegiatan) ? $jdwl->kegiatan->kode_kegiatan : '-' }}
                                             @endif
                                         </td>
-                                        <td>{{ isset($jdwl->user) ? $jdwl->user->name : '-' }}</td>
+                                        @can('Admin')
+                                            <td>{{ isset($jdwl->user) ? $jdwl->user->name : '-' }}</td>
+                                        @endcan
                                         <td>
                                             @if ($jdwl->jp < 15)
                                                 {{ $jdwl->jp }}

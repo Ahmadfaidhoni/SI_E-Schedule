@@ -20,10 +20,10 @@
 
                                     </div>
                                     <div class="col-md-12 col-lg-12">
-                                        <div class="text-center pt-1">
+                                        <div class="text-center mt-2">
                                             <a href="#" class="btn btn-primary " title="Ganti profil image"
                                                 onclick="chooseImg()">
-                                                <i class="bi bi-image"></i>
+                                                <i class="bi bi-image"></i> Upload Profile
                                             </a>
                                             <input type="file" name="imgFile" id="imgFile" style="display:none"
                                                 accept='image/*' onchange="previewImg(this)" />
@@ -203,19 +203,21 @@
                                 enctype="multipart/form-data">
                                 @method('patch')
                                 @csrf
-                                <div class="form-group form-input">
+                                <div class="form-group form-input text-center">
                                     <label for="profileImage">Profile Image</label>
-                                    <div class="col-md-2 col-lg-2 ml-3 d-flex justify-content-center">
+                                    <div class="col-md-12 col-lg-12">
                                         <img id="imgProfil" height="181"
                                             src="{{ file_exists($user->picture) ? url($user->picture) : url('images/user/user.png') }}"
                                             alt="Profile">
-                                        <div class="text-center pt-1 ml-3">
-                                            <a href="#" class="btn btn-primary " title="Ganti profil image"
-                                                onclick="chooseImg()">
-                                                <i class="bi bi-image"></i>
-                                            </a>
-                                            <input type="file" name="imgFile" id="imgFile" style="display:none"
-                                                accept='image/*' onchange="previewImg(this)" />
+                                        <div class="col-md-12 col-lg-12">
+                                            <div class="text-center mt-2">
+                                                <a href="#" class="btn btn-primary " title="Ganti profil image"
+                                                    onclick="chooseImg()">
+                                                    <i class="bi bi-image"></i> Upload Profile
+                                                </a>
+                                                <input type="file" name="imgFile" id="imgFile" style="display:none"
+                                                    accept='image/*' onchange="previewImg(this)" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

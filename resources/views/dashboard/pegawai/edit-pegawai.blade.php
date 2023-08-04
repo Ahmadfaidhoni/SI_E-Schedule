@@ -20,9 +20,9 @@
                                 </div>
                                 <div class="col-md-12 col-lg-12">
                                     <div class="text-center pt-1">
-                                        <a href="#" class="btn btn-primary " title="Ganti profil image"
+                                        <a href="#" class="btn btn-primary mt-2" title="Ganti profil image"
                                             onclick="chooseImg()">
-                                            <i class="bi bi-image"></i>
+                                            <i class="bi bi-image"></i> Upload Profile
                                         </a>
                                         <input type="file" name="imgFile" id="imgFile" style="display:none"
                                             accept='image/*' onchange="previewImg(this)" />
@@ -72,13 +72,23 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <label class="col-lg-4 col-form-label" for="phone">No HP</label>
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control @error('phone') is-invalid @enderror"
+                                        id="phone" name="phone" placeholder="Masukan No HP Pengajar.."
+                                        value="{{ old('phone', $pegawai->phone) }}">
+                                    @error('phone')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                 <label class="col-lg-4 col-form-label" for="jabatan">Jabatan <span
                                         class="text-danger">*</span>
                                 </label>
                                 <div class="col-lg-6">
-                                    {{-- <input type="text" class="form-control @error('jabatan') is-invalid @enderror"
-                                        id="jabatan" name="jabatan" placeholder="Masukan Jabatan.."
-                                        value="{{ old('jabatan', $pegawai->jabatan) }}"> --}}
                                     <select class="form-control @error('jabatan') is-invalid @enderror" id="jabatan"
                                         name="jabatan">
                                         <optgroup label="Golongan IV">
@@ -141,17 +151,6 @@
                                     @enderror
                                 </div>
                             </div>
-                            {{-- <div class="form-group row">
-                            <label class="col-lg-4 col-form-label" for="golongan">Gol. Ruang <span class="text-danger">*</span></label>
-                            <div class="col-lg-6">
-                                <select class="form-control @error('golongan_id') is-invalid @enderror" id="golongan_id" name="golongan_id">
-                                    <option value="{{ old('golongan_id', $pegawai->golongan_id) }}" selected disabled>{{ isset($pegawai->golongan)?$pegawai->golongan->nama_pangkat:'- ' }} - {{ isset($pegawai->golongan)?$pegawai->golongan->jenis_golongan:'- ' }}/{{ isset($pegawai->golongan)?$pegawai->golongan->ruang:' -' }}</option>
-                                    @foreach ($golongan as $gol)
-                                        <option value="{{ $gol->id }}">{{ $gol->nama_pangkat }} - {{ $gol->jenis_golongan }}/{{ $gol->ruang }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div> --}}
                             <div class="form-group row">
                                 <label class="col-lg-4 col-form-label" for="status_anggota">Status <span
                                         class="text-danger">*</span></label>
@@ -194,20 +193,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-lg-4 col-form-label" for="phone">No HP</label>
-                                <div class="col-lg-6">
-                                    <input type="text" class="form-control @error('phone') is-invalid @enderror"
-                                        id="phone" name="phone" placeholder="Masukan No HP Pengajar.."
-                                        value="{{ old('phone', $pegawai->phone) }}">
-                                    @error('phone')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-
+                            
                             <div class="form-group row">
                                 <div class="col-lg-8 ml-auto">
                                     <button type="submit" class="btn btn-primary">Submit</button>
