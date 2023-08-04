@@ -108,6 +108,7 @@ class KeuanganController extends Controller
 
             $keuangan = Keuangan::join('jadwals', 'keuangans.jadwal_id', '=', 'jadwals.id')
                 ->leftJoin('kegiatans', 'jadwals.kegiatan_id', '=', 'kegiatans.id')
+                ->leftJoin('users', 'jadwals.user_id', '=', 'users.id')
                 ->whereBetween('waktu_mulai', [$awal, $akhir]);
 
             if ($user != 'all') {
@@ -127,16 +128,17 @@ class KeuanganController extends Controller
             foreach ($keuangan as $key => $detail) {
                 $sheet->setCellValue("A{$colIndex}", $number);
                 $sheet->setCellValue("B{$colIndex}", $detail->nama_kegiatan ?? 'Perjalanan Dinas');
-                $sheet->setCellValue("C{$colIndex}", $detail->user_id ?? '-');
-                $sheet->setCellValue("D{$colIndex}", date('Y-m-d', strtotime($detail->waktu_mulai)) ?? '-');
+                $sheet->setCellValue("C{$colIndex}", $detail->name ?? '-');
                 $sheet->setCellValue("E{$colIndex}", date('H:i:s', strtotime($detail->waktu_mulai)) ?? '-');
                 $sheet->setCellValue("F{$colIndex}", $detail->jp ?? '-');
                 $sheet->setCellValue("G{$colIndex}", $detail->biaya ?? '-');
 
                 if ($detail->tipe_jadwal == '1') {
                     $total_mengajar += $detail->biaya;
+                    $sheet->setCellValue("D{$colIndex}", date('Y-m-d', strtotime($detail->waktu_mulai)) ?? '-');
                 } else if ($detail->tipe_jadwal == '2') {
                     $total_perjalanan_dinas += $detail->biaya;
+                    $sheet->setCellValue("D{$colIndex}", (date('Y-m-d', strtotime($detail->waktu_mulai)) ?? '-') . '-' . (date('Y-m-d', strtotime($detail->waktu_selesai)) ?? '-'));
                 }
 
                 $number++;
