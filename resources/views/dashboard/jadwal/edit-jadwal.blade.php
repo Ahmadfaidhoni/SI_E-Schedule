@@ -46,7 +46,8 @@
                                     <div class="input-group">
                                         <input type="date" class="form-control @error('tanggal') is-invalid @enderror"
                                             id="tanggal" name="tanggal" placeholder="Tanggal Kegiatan"
-                                            value="{{ old('waktu_mulai', date('Y-m-d', strtotime($jadwal->waktu_mulai))) }}">
+                                            value="{{ old('waktu_mulai', date('Y-m-d', strtotime($jadwal->waktu_mulai))) }}"
+                                            min="<?= date('Y-m-d') ?>">
                                         @error('tanggal')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
