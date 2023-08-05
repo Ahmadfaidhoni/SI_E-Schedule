@@ -641,7 +641,7 @@ class JadwalController extends Controller
 
     public function export_jadwal($awal, $akhir, $user, $tipe_jadwal)
     {
-        $jadwal = Jadwal::with('kegiatan', 'user')
+        $jadwal = Jadwal::with('kegiatan', 'user', 'ruangan')
             ->where(function ($query) use ($awal, $akhir) {
                 $query->whereDate('jadwals.waktu_mulai', '=', $awal)
                     ->orWhereDate('jadwals.waktu_mulai', '=', $akhir)
@@ -663,10 +663,26 @@ class JadwalController extends Controller
         }
 
         $jadwal = $jadwal->get();
+
+        if ($tipe_jadwal == '1') {
+            $tipe_jadwal = 'Mengajar';
+        } else if ($tipe_jadwal == '2') {
+            $tipe_jadwal = 'Perjalan Dinas';
+        } else {
+            $tipe_jadwal = 'Seluruh Kegiatan';
+        }
+
+        if ($user != 'all') {
+            $user = User::find($user)->name;
+        } else {
+            $user = 'Seluruh Pegawai';
+        }
         return view('dashboard.jadwal.export-jadwal', [
             'awal' => $awal,
             'akhir' => $akhir,
-            'jadwal' => $jadwal
+            'jadwal' => $jadwal,
+            'tipe_jadwal' => $tipe_jadwal,
+            'user' => $user
         ]);
     }
 }
