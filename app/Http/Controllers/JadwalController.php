@@ -281,6 +281,14 @@ class JadwalController extends Controller
             $validatedData['tipe_jadwal'] = $checkTipeJadwal;
             $validatedData['waktu_mulai'] = $validatedData['tanggal'] . " " . $validatedData['waktu_mulai'];
             $validatedData['waktu_selesai'] = $validatedData['tanggal'] . " " . $validatedData['waktu_selesai'];
+
+            $config_biaya = Config::where('key', 'BIAYA_JP')->first();
+
+            $biaya = ($config_biaya->value ?? 45000) * $validatedData['jp'];
+
+            Keuangan::where('jadwal_id', $jadwal->id)->update([
+                'biaya' => $biaya
+            ]);
         }
 
         unset($validatedData['tanggal']);
