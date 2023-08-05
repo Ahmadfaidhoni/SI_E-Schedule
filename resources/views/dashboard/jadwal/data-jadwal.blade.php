@@ -99,6 +99,9 @@
                                     <th>Jam</th>
                                     <th>Angkatan</th>
                                     <th>Ruangan</th>
+                                    @if (Auth::user()->level != 'Admin')
+                                        <th>Biaya</th>
+                                    @endif
                                     <th>Aksi</th>
 
                                 </tr>
@@ -137,6 +140,9 @@
                                             {{ date('H:i', strtotime($jdwl->waktu_selesai)) }}</td>
                                         <td>{{ isset($jdwl->angkatan) ? $jdwl->angkatan : '-' }}</td>
                                         <td>{{ isset($jdwl->ruangan_id) ? $jdwl->ruangan->nama_ruangan : '-' }}</td>
+                                        @if (Auth::user()->level != 'Admin')
+                                            <td>{{ number_format($keuangan->biaya) ?? '-' }}</td>
+                                        @endif
                                         <td class="text-center">
                                             @if (Auth::user()->level == 'Admin')
                                                 <div class="row text-center">
