@@ -40,6 +40,7 @@ class JadwalController extends Controller
             return view('dashboard.jadwal.data-jadwal', compact('active_menu'), [
                 'jadwal' => Jadwal::where('user_id', Auth::user()->id)->where('request', false)->whereRaw("((STR_TO_DATE(waktu_mulai, '%Y-%m-%d') ) >= curdate())")->orderBy('waktu_mulai', 'ASC')->get(),
                 'users' => User::all(),
+                'keuangan' => Keuangan::where('jadwal_id', Auth::user()->id)->first(),
             ]);
         }
     }
