@@ -61,7 +61,9 @@
             width: 100%;
             max-width: 100%;
             background-color: transparent;
-            border: none;
+            border: 1px solid black;
+            font-size: 15px;
+
         }
 
         .table th {
@@ -73,6 +75,7 @@
             padding: 5px 5px 0px 0px;
             font-size: 12px;
             vertical-align: top;
+
         }
 
         .text-center {
@@ -192,49 +195,57 @@
             flex: 0 0 100%;
             max-width: 100%;
         }
+
+        .table-striped tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
     </style>
 </head>
 
 <body class="A4">
     <section class="sheet padding-10mm">
-        <div class="col-12">
-            <div class="row">
-                <div class="col-3 text-right">
-                    <img src="{{ asset('ykep.png') }}" alt="" width="60"><br>
-                </div>
-                <div class="col-6 text-center">
-                    {{-- <h2 style="font-size: 15px">FAKULTAS {{ $fac->facultyname }} UNIVERSITAS JENDRAL
-                        ACHMAD YANI <br>
-                        PROGRAM STUDI {{ $data->study_program->studyprogramname }}
-                        <hr style="border: 1px solid">
-                    </h2> --}}
-                </div>
-                <div class="col-3">
-                    {{-- <img src="{{ asset('LOGO-UNJANI.png') }}" alt="" width="80"><br> --}}
-                </div>
-            </div>
-        </div>
-        <h2 style="text-align: center; font-size: 20px; margin-top: -2px;">
-            Jadwal {{ $awal }}
-            {{ $akhir }}
+        <h2 style="text-align: center; font-size: 25px; margin-top: -2px; text-decoration: underline;">
+            Daftar Penjawalan Pegawai
         </h2>
-        <table border="3">
+        <br>
+        <br>
+        <table style="border: none">
+            <tr>
+                <td style="width: 100px">Pegawai</td>
+                <td>: {{ $user }}</td>
+            </tr>
+            <tr>
+                <td style="width: 100px">Jadwal</td>
+                <td>: {{ $tipe_jadwal }}</td>
+            </tr>
+            <tr>
+                <td style="width: 100px">Tanggal</td>
+                <td>: {{ $awal . ' - ' . $akhir }}</td>
+            </tr>
+        </table>
+        <br>
+        <br>
+        <table border="3" class="table-striped">
             <thead>
                 <th>#</th>
                 <th>Kegiatan</th>
                 <th>Pegawai</th>
-                <th>Jumlah JP</th>
                 <th>Tanggal Kegiatan</th>
                 <th>Jam</th>
                 <th>Angkatan</th>
+                <th>Ruangan</th>
+                <th>JP</th>
             </thead>
             <tbody>
                 @php
                     $i = 0;
                     $total = 0;
+                    $total_jp = 0;
+                    $total_mengajar = 0;
+                    $total_perjalanan_dinas = 0;
                 @endphp
                 @foreach ($jadwal as $jdwl)
-                    <tr>
+                    <tr class="text-center">
                         <td align="center">{{ ++$i }}.</td>
                         <td>
                             @if ($jdwl->tipe_jadwal == 2)
@@ -244,6 +255,16 @@
                             @endif
                         </td>
                         <td>{{ isset($jdwl->user) ? $jdwl->user->name : '-' }}</td>
+                        @if ($jdwl->tipe_jadwal == 1)
+                            <td>{{ date('d-m-Y', strtotime($jdwl->waktu_mulai)) }}</td>
+                        @else
+                            <td>{{ date('d-m-Y', strtotime($jdwl->waktu_mulai)) }} s/d
+                                {{ date('d-m-Y', strtotime($jdwl->waktu_selesai)) }}</td>
+                        @endif
+                        <td>{{ date('H:i', strtotime($jdwl->waktu_mulai)) }} -
+                            {{ date('H:i', strtotime($jdwl->waktu_selesai)) }}</td>
+                        <td>{{ isset($jdwl->angkatan) ? $jdwl->angkatan : '-' }}</td>
+                        <td>{{ isset($jdwl->ruangan) ? $jdwl->ruangan->nama_ruangan : '-' }}</td>
                         <td>
                             @if ($jdwl->jp < 15)
                                 {{ $jdwl->jp }}
@@ -251,40 +272,38 @@
                                 Full Day
                             @endif
                         </td>
-                        <td>{{ date('d-m-Y', strtotime($jdwl->waktu_mulai)) }}</td>
-                        <td>{{ date('H:i', strtotime($jdwl->waktu_mulai)) }} -
-                            {{ date('H:i', strtotime($jdwl->waktu_selesai)) }}</td>
-                        <td>{{ isset($jdwl->angkatan) ? $jdwl->angkatan : '-' }}</td>
                     </tr>
+
+                    @php
+                        if ($jdwl->jp < 15) {
+                            $total_jp += $jdwl->jp;
+                        }
+                        if ($jdwl->tipe_jadwal == 2) {
+                            $total_perjalanan_dinas += 1;
+                        } else {
+                            $total_mengajar += 1;
+                        }
+                        
+                    @endphp
                 @endforeach
+                <tr>
+                    <td colspan="7" style="padding-left: 1rem">Total JP Mengajar</td>
+                    <td class="text-center">{{ $total_jp }}</td>
+                </tr>
+                <tr>
+                    <td colspan="7" style="padding-left: 1rem">Total Kegiatan Mengajar</td>
+                    <td class="text-center">{{ $total_mengajar }}</td>
+                </tr>
+                <tr>
+                    <td colspan="7" style="padding-left: 1rem">Total Kegiatan Perjalan Dinas</td>
+                    <td class="text-center">{{ $total_perjalanan_dinas }}</td>
                 </tr>
             </tbody>
         </table>
-        <div class="col-12 mt-2">
-            {{-- <div class="row">
-                <div class="col-4 text-center" style="height: 25px"></div>
-                <div class="col-4 text-center" style="height: 25px"></div>
-                <div class="col-4 text-center" style="height: 25px">Cimahi, <p></p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-4 text-center">Mengetahui <br> Keuangan</div>
-                <div class="col-4 text-center">Menyetujui <br> Dosen Wali</div>
-                <div class="col-4 text-center">Mengajukan <br> Mahasiswa</div>
-
-            </div>
-            <div class="row">
-                <div class="col-4 text-center" style="height: 90px"></div>
-                <div class="col-4 text-center" style="height: 90px"></div>
-                <div class="col-4 text-center" style="height: 90px"></div>
-            </div>
-            <div class="row">
-                <div class="col-4 text-center">(..................)</div>
-                <div class="col-4 text-center">(..................)</div>
-                <div class="col-4 text-center">(..................)</div>
-            </div> --}}
-        </div>
     </section>
 </body>
 
 </html>
+<script>
+    window.print();
+</script>

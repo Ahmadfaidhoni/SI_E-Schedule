@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Mail\NotifEditJadwal;
 use App\Mail\NotifTolak;
 use App\Models\HistoryPerubahanJadwal;
+use App\Models\Keuangan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -27,7 +28,8 @@ class RubahJadwalController extends Controller
             ]);
         } else {
             return view('dashboard.rubah-jadwal.perubahan-jadwal', compact('active_menu'), [
-                'jadwal' => Jadwal::where('user_id', Auth::user()->id)->where('request', true)->get()
+                'jadwal' => Jadwal::where('user_id', Auth::user()->id)->where('request', true)->get(),
+                'keuangan' => Keuangan::where('jadwal_id', Auth::user()->id)->first(),
             ]);
         }
     }

@@ -38,7 +38,7 @@
                                     <div class="input-group">
                                         <input type="date" class="form-control @error('tanggal') is-invalid @enderror"
                                             id="tanggal" name="tanggal" placeholder="Tanggal Kegiatan"
-                                            value="{{ old('tanggal') }}">
+                                            value="{{ old('tanggal') }}" min="<?= date('Y-m-d') ?>">
                                         @error('tanggal')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -100,7 +100,8 @@
                                     </div>
                                 </div>
                                 <div id="form_angkatan" class="col-md-3 mt-2">
-                                    <label for="angkatan" class="m-t-20">Angkatan</label> <span class="text-danger">*</span>
+                                    <label for="angkatan" class="m-t-20">Angkatan</label> <span
+                                        class="text-danger">*</span>
                                     <input type="text" class="form-control @error('angkatan') is-invalid @enderror"
                                         placeholder="Angkatan" id="angkatan" name="angkatan"
                                         value="{{ old('angkatan') }}">

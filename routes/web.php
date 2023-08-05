@@ -12,6 +12,7 @@ use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\RubahJadwalController;
+use App\Http\Middleware\CheckJadwalOwner;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +42,7 @@ Route::group(['middleware' => 'auth'], function () {
     //perubahan jadwal
     Route::get('/perubahan-jadwal', [RubahJadwalController::class, 'index']);
     Route::get('/history-perubahan-jadwal', [RubahJadwalController::class, 'history_perubahan']);
-    Route::get('{jadwal}.editJadwal', [RubahJadwalController::class, 'edit']);
+    Route::get('{jadwal}.editJadwal', [RubahJadwalController::class, 'edit'])->middleware(CheckJadwalOwner::class);
     Route::patch('data-ubah-jadwal.{jadwal}', [RubahJadwalController::class, 'update']);
     // Route::get('jadwal-{jadwal:kegiatan_id}', [RubahJadwalController::class, 'show']);
 
