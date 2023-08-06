@@ -50,9 +50,8 @@ class KegiatanController extends Controller
         Kegiatan::create($validatedData);
 
         Alert::success('Congrats', 'Kegiatan Berhasil dibuat!');
-
         return redirect('/data-kegiatan');
-        // return redirect('/data-kegiatan')->with('success', 'Kegiatan Berhasil dibuat.');
+        
     }
 
     /**
@@ -97,9 +96,7 @@ class KegiatanController extends Controller
         Kegiatan::where('id', $kegiatan->id)->update($validatedData);
 
         Alert::success('Congrats', 'Kegiatan Berhasil diubah!');
-
         return redirect('/data-kegiatan');
-        // return redirect('/data-kegiatan')->with('success', 'Kegiatan Berhasil diubah.');
     }
 
     /**
@@ -113,8 +110,6 @@ class KegiatanController extends Controller
         Kegiatan::destroy($kegiatan->id);
 
         Alert::success('Congrats', 'Kegiatan Berhasil dihapus!');
-
         return redirect('/data-kegiatan');
-        // return redirect('/data-kegiatan')->with('success', 'Kegiatan Berhasil dihapus.');
     }
 }

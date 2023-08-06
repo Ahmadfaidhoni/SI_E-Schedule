@@ -83,14 +83,12 @@ class UserController extends Controller
 
         $email = $request->email;
 
-        if ($request->email != null) {
-            Mail::to($email)->send(new NotifUser($validatedData));
-        }
+        // if ($request->email != null) {
+        //     Mail::to($email)->send(new NotifUser($validatedData));
+        // }
 
         Alert::success('Congrats', 'Data Pegawai Berhasil dibuat.');
-
         return redirect('/data-pegawai');
-        // return redirect('/data-pegawai')->with('success', 'Data Pegawai Berhasil dibuat.');
     }
 
     /**
@@ -172,9 +170,7 @@ class UserController extends Controller
         User::where('id', $pegawai->id)->update($validatedData);
 
         Alert::success('Congrats', 'Data Pegawai Berhasil diubah!');
-
         return redirect('/data-pegawai');
-        // return redirect('/data-pegawai')->with('success', 'Data Pegawai Berhasil diubah.');
     }
 
     /**

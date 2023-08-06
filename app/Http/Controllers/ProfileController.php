@@ -68,12 +68,10 @@ class ProfileController extends Controller
 
         Alert::success('Congrats', 'Data Profile Berhasil diubah!');
         return redirect('/profile');
-        // return redirect('/profile')->with('success', 'Data Profile Berhasil diubah.');
     }
 
     public function changePassword(Request $request)
     {
-
         $request->validate([
             'current_password' => ['required', new MatchOldPassword],
             'new_password' => ['required'],
@@ -84,12 +82,10 @@ class ProfileController extends Controller
 
         Alert::success('Congrats', 'Password Berhasil diubah!');
         return redirect('/profile');
-        // return redirect('/profile')->with('successPassword', 'Password Berhasil diubah.');
     }
 
     public function reset($id)
     {
-        
         $user = User::find($id);
         $user->update(['password' => Hash::make($user->nip)]);
 

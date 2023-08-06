@@ -199,6 +199,7 @@
         .table-striped tr:nth-child(even) {
             background-color: #f2f2f2;
         }
+
     </style>
 </head>
 
@@ -266,26 +267,24 @@
                         <td>{{ isset($jdwl->angkatan) ? $jdwl->angkatan : '-' }}</td>
                         <td>{{ isset($jdwl->ruangan) ? $jdwl->ruangan->nama_ruangan : '-' }}</td>
                         <td>
-                            @if ($jdwl->jp < 15)
-                                {{ $jdwl->jp }}
-                            @else
-                                Full Day
-                            @endif
-                        </td>
-                    </tr>
-
-                    @php
-                        if ($jdwl->jp < 15) {
-                            $total_jp += $jdwl->jp;
-                        }
-                        if ($jdwl->tipe_jadwal == 2) {
-                            $total_perjalanan_dinas += 1;
-                        } else {
-                            $total_mengajar += 1;
-                        }
+                            @if ($jdwl->jp < $max_jp) 
+                                {{ $jdwl->jp }} 
+                            @else 
+                                Full Day 
+                            @endif 
+                        </td> 
+                    </tr> 
+                    @php 
+                        if ($jdwl->jp < $max_jp) { $total_jp +=$jdwl->jp;}
                         
+                        if ($jdwl->tipe_jadwal == 2) {
+                                $total_perjalanan_dinas += 1;
+                        } else {
+                                $total_mengajar += 1;
+                        }
                     @endphp
                 @endforeach
+                
                 <tr>
                     <td colspan="7" style="padding-left: 1rem">Total JP Mengajar</td>
                     <td class="text-center">{{ $total_jp }}</td>

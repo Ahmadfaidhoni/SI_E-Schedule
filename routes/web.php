@@ -44,8 +44,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/history-perubahan-jadwal', [RubahJadwalController::class, 'history_perubahan']);
     Route::get('{jadwal}.editJadwal', [RubahJadwalController::class, 'edit'])->middleware(CheckJadwalOwner::class);
     Route::patch('data-ubah-jadwal.{jadwal}', [RubahJadwalController::class, 'update']);
-    // Route::get('jadwal-{jadwal:kegiatan_id}', [RubahJadwalController::class, 'show']);
-
+    
     //logout
     Route::post('/logout', [LoginController::class, 'logout']);
 
@@ -111,7 +110,6 @@ Route::group(['middleware' => 'admin'], function () {
     //perubahan jadwal
     Route::get('ubah-jadwal-{jadwal:id}', [RubahJadwalController::class, 'show']);
     Route::patch('tolak-jadwal.{jadwal}', [RubahJadwalController::class, 'tolakJadwal']);
-    // Route::patch('acc-jadwal.{jadwal}', [RubahJadwalController::class, 'AccRequest']);
 });
 
 // login
