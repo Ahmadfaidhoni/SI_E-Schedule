@@ -12,6 +12,9 @@
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
     <title>APWI-Schedule</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/logo/logo.png">
     <!-- Custom Stylesheet -->
@@ -43,9 +46,6 @@
     <link rel="stylesheet" href="./template/plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="./template/plugins/summernote/summernote-bs4.min.css">
-
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
