@@ -19,13 +19,23 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         User::create([
-            'name' => 'Admin',
+            'name' => 'Admin 1',
             'nip' => '00000000',
             'email' => null,
             'password' => bcrypt('admin123'),
             'jabatan' => 'Super Admin',
             'level' => 'Admin',
             'phone' => '085465258965'
+        ]);
+
+        User::create([
+            'name' => 'Admin 2',
+            'nip' => '99999999',
+            'email' => null,
+            'password' => bcrypt('admin123'),
+            'jabatan' => 'Super Admin 2',
+            'level' => 'Admin',
+            'phone' => '085465258961'
         ]);
 
         User::create([
@@ -37,6 +47,16 @@ class DatabaseSeeder extends Seeder
             'level' => 'Keuangan',
             'phone' => '085465258961'
         ]);
+        
+        User::create([
+            'name' => 'Keuangan Test 2',
+            'nip' => '12345678121',
+            'email' => null,
+            'password' => bcrypt('12345678121'),
+            'jabatan' => 'Testing 2',
+            'level' => 'Keuangan',
+            'phone' => '0854652589611'
+        ]);
 
         User::create([
             'name' => 'User Test',
@@ -46,6 +66,16 @@ class DatabaseSeeder extends Seeder
             'jabatan' => 'Testing',
             'level' => 'User',
             'phone' => '085465258962'
+        ]);
+    
+        User::create([
+            'name' => 'User Test 2',
+            'nip' => '123456781',
+            'email' => null,
+            'password' => bcrypt('123456781'),
+            'jabatan' => 'Testing 2',
+            'level' => 'User',
+            'phone' => '0854652589621'
         ]);
 
         Kegiatan::create([

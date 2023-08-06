@@ -20,8 +20,8 @@ class LoginController extends Controller
             'password' => 'required|min:8'
         ]);
 
-        $user = User::where('email', $request['login'])->
-                        orWhere('nip', $request['login'])->first();
+        $user = User::where('email', $request['login'])
+                ->orWhere('nip', $request['login'])->first();
 
         $password = $request->input('password');
 

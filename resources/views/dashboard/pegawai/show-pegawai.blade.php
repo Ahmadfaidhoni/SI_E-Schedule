@@ -1,8 +1,5 @@
 @extends('layouts.master')
 @section('content')
-    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous"> --}}
-
     <div class="row">
         <div class="col-12">
             <h4 class="mx-3"> Detail Pegawai {{ $user->name }} </h4>
@@ -18,19 +15,9 @@
                                     </a>
                                 </li>
                                 <li class="list-inline-item">
-                                    {{-- <a href="editPegawai-{{ $user->nip }}">
-                                        <button type="button" class="btn btn-warning text-white btn-sm"><i
-                                                class="bi bi-pencil-square"></i> Edit Data</button>
-                                    </a> --}}
-                                    {{-- <form action="/reset-password/{{ $user->id }}" method="post">
-                                        <button type="submit" class="btn btn-warning text-white btn-sm"><i
-                                                class="bi bi-repeat"></i> Reset Password</button>
-                                    </form> --}}
-                                    {{-- <form action="/reset-password/{{ $user->id }}" method="post"> --}}
                                     <button class="btn btn-danger btn-sm" onclick="reset()"><i
                                             class="bi bi-wrench-adjustable"></i>
                                         Reset Password</button>
-                                    {{-- </form> --}}
                                 </li>
                                 <li class="list-inline-item">
                                     <form action="data-pegawai.{{ $user->id }}" method="post" id="hapus-form">
@@ -63,12 +50,6 @@
                                 <th scope="row">Jabatan:</th>
                                 <td>{{ $user->jabatan }}</td>
                             </tr>
-                            {{-- <tr>
-                                <th scope="row">Pangkat-Gol/Ruang:</th>
-                                <td>{{ isset($user->golongan) ? $user->golongan->nama_pangkat : '- ' }} -
-                                    {{ isset($user->golongan) ? $user->golongan->jenis_golongan : '- ' }}/{{ isset($user->golongan) ? $user->golongan->ruang : ' -' }}
-                                </td>
-                            </tr> --}}
                             <tr>
                                 <th scope="row">E-mail:</th>
                                 <td>{{ isset($user->email) ? $user->email : '-' }}</td>

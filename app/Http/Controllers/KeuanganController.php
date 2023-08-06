@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Keuangan;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 
 class KeuanganController extends Controller
@@ -37,7 +40,6 @@ class KeuanganController extends Controller
 
     public function export_excel($awal, $akhir, $user, $tipe_jadwal)
     {
-        // dd($awal, $akhir, $user, $tipe_jadwal);
         ini_set('max_execution_time', 0);
         ini_set('memory_limit', '4000M');
         $dt = date('Ymd');
@@ -58,41 +60,120 @@ class KeuanganController extends Controller
             $sheet->getDefaultColumnDimension()->setWidth(20);
 
             if ($user != 'all') {
-                $pegawai = User::where('id', $user)->first()->name;
+                $pegawai = User::where('id', $user)->first()->name ?? '';
             } else {
-                $pegawai = User::all();
+                $pegawai = 'Semua Pegawai';
             }
             if ($tipe_jadwal == '1') {
-                $tipe_jadwal = 'Mengajar';
+                $tj = 'Mengajar';
             } else if ($tipe_jadwal == '2') {
-                $tipe_jadwal = 'Perjalanan Dinas';
+                $tj = 'Perjalanan Dinas';
             } else {
-                $tipe_jadwal = 'Semua Kegiatan';
+                $tj = 'Semua Kegiatan';
             }
 
             $sheet->setCellValue('A1', 'Pegawai :');
             $sheet->setCellValue('A2', 'Tipe Jadwal :');
             $sheet->setCellValue('A3', 'Tanggal :');
 
-            $sheet->setCellValue('B1', $pegawai->count() > 1 ? $pegawai[0]->name : 'Semua');
-            $sheet->setCellValue('B2', $tipe_jadwal);
-            $sheet->setCellValue('B3', $awal . ' - ' . $akhir);
+            $sheet->setCellValue('B1', $pegawai);
+            $sheet->setCellValue('B2', $tj);
+            $sheet->setCellValue('B3', $awal . ' s/d ' . $akhir);
+
+            $sheet->setCellValue('A5', '#');
+            $sheet->setCellValue('B5', 'Kegiatan');
+            $sheet->setCellValue('C5', 'Pegawai');
+            $sheet->setCellValue('D5', 'Tanggal Kegiatan');
+            $sheet->setCellValue('E5', 'Jam');
+            $sheet->setCellValue('F5', 'JP');
+            $sheet->setCellValue('G5', 'Biaya');
+
+            $highestColumn = $sheet->getHighestColumn();
+            $highestRow = $sheet->getHighestRow();
+            $range = 'A5:' . $highestColumn . $highestRow;
+
+            // Add borders to all the data cells
+            $styleArray_border = [
+                'borders' => [
+                    'allBorders' => [
+                        'borderStyle' => Border::BORDER_THIN,
+                    ],
+                ],
+            ];
+            $sheet->getStyle($range)->applyFromArray($styleArray_border);
 
             $colIndex = 6;
             $number = 1;
 
             $keuangan = Keuangan::join('jadwals', 'keuangans.jadwal_id', '=', 'jadwals.id')
                 ->leftJoin('kegiatans', 'jadwals.kegiatan_id', '=', 'kegiatans.id')
-                // ->where('jadwals.user_id', $pegawai->count() > 1 ? $pegawai[0]->
-                ->get();
+                ->leftJoin('users', 'jadwals.user_id', '=', 'users.id')
+                ->where(function ($query) use ($awal, $akhir) {
+                    $query->whereDate('jadwals.waktu_mulai', '=', $awal)
+                        ->orWhereDate('jadwals.waktu_mulai', '=', $akhir)
+                        ->orWhereBetween('jadwals.waktu_mulai', [$awal, $akhir])
+                        ->orWhereRaw("
+                            (waktu_mulai >= '$awal' AND waktu_mulai <= '$akhir')
+                            OR (waktu_selesai >= '$awal' AND waktu_selesai <= '$akhir')
+                            OR ('$awal' >= waktu_mulai AND '$awal' <= waktu_selesai)
+                            OR ('$akhir' >= waktu_mulai AND '$akhir' <= waktu_selesai)
+                        ");
+                });
 
-            // foreach ($keuangan as $key => $detail) {
-            //     $sheet->setCellValue("A{$colIndex}", $number);
-            //     $sheet->setCellValue("B{$colIndex}", $detail->id);
+            if ($user != 'all') {
+                $keuangan = $keuangan->where('jadwals.user_id', $user);
+            }
 
-            //     $number++;
-            //     $colIndex++;
-            // }
+            if ($tipe_jadwal != 'all') {
+                $keuangan = $keuangan->where('jadwals.tipe_jadwal', $tipe_jadwal);
+            }
+
+            $keuangan = $keuangan->orderBy('waktu_mulai', 'ASC')->get();
+
+            $total_mengajar = 0;
+            $total_perjalanan_dinas = 0;
+            foreach ($keuangan as $key => $detail) {
+                $sheet->setCellValue("A{$colIndex}", $number);
+                $sheet->setCellValue("B{$colIndex}", $detail->nama_kegiatan ?? 'Perjalanan Dinas');
+                $sheet->setCellValue("C{$colIndex}", $detail->name ?? '-');
+                $sheet->setCellValue("F{$colIndex}", $detail->jp ?? '-');
+                $sheet->setCellValue("G{$colIndex}", $detail->biaya ?? '-');
+
+                if ($detail->tipe_jadwal == '1') {
+                    $total_mengajar += $detail->biaya;
+                    $sheet->setCellValue("D{$colIndex}", date('Y-m-d', strtotime($detail->waktu_mulai)) ?? '-');
+                    $sheet->setCellValue("E{$colIndex}", date('H:i', strtotime($detail->waktu_mulai)) ?? '-');
+                } else if ($detail->tipe_jadwal == '2') {
+                    $total_perjalanan_dinas += $detail->biaya;
+                    $sheet->setCellValue("D{$colIndex}", (date('Y-m-d', strtotime($detail->waktu_mulai)) ?? '-') . 's/d' . (date('Y-m-d', strtotime($detail->waktu_selesai)) ?? '-'));
+                    $sheet->setCellValue("E{$colIndex}", (date('H:i', strtotime($detail->waktu_mulai)) ?? '-') . '-' . (date('H:i', strtotime($detail->waktu_selesai)) ?? '-'));
+                }
+
+                $number++;
+                $colIndex++;
+            }
+
+
+            $sheet->setCellValue("A{$colIndex}", 'Total Pendapatan mengajar');
+            $sheet->setCellValue("G{$colIndex}", $total_mengajar);
+            // $sheet->mergeCells('A9:F9');
+            $sheet->mergeCells("A{$colIndex}" . ":" . "F{$colIndex}");
+            $styleArray = [
+                'alignment' => [
+                    'horizontal' => Alignment::HORIZONTAL_CENTER,
+                ],
+            ];
+            $sheet->getStyle("A{$colIndex}" . ":" . "F{$colIndex}")->applyFromArray($styleArray);
+            $ujung_kiri = $colIndex;
+            $colIndex++;
+            $sheet->mergeCells("A{$colIndex}" . ":" . "F{$colIndex}");
+            $sheet->getStyle("A{$colIndex}" . ":" . "F{$colIndex}")->applyFromArray($styleArray);
+            $sheet->setCellValue("A{$colIndex}", 'Total Pendapatan perjalanan dinas');
+            $sheet->setCellValue("G{$colIndex}", $total_perjalanan_dinas);
+
+            // $range = 'A5:' . $highestColumn . $highestRow;
+            $range_footer = 'A' . $ujung_kiri . ':' . 'G' . $colIndex;
+            $sheet->getStyle($range_footer)->applyFromArray($styleArray_border);
 
             $Excel_writer = new Xls($spreadSheet);
             header('Content-Type: application/vnd.ms-excel');

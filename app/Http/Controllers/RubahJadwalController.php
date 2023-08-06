@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Mail\NotifEditJadwal;
 use App\Mail\NotifTolak;
 use App\Models\HistoryPerubahanJadwal;
+use App\Models\Keuangan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -27,7 +28,8 @@ class RubahJadwalController extends Controller
             ]);
         } else {
             return view('dashboard.rubah-jadwal.perubahan-jadwal', compact('active_menu'), [
-                'jadwal' => Jadwal::where('user_id', Auth::user()->id)->where('request', true)->get()
+                'jadwal' => Jadwal::where('user_id', Auth::user()->id)->where('request', true)->get(),
+                'keuangan' => Keuangan::where('jadwal_id', Auth::user()->id)->first(),
             ]);
         }
     }
@@ -135,29 +137,6 @@ class RubahJadwalController extends Controller
         }
     }
 
-    // public function AccRequest(Jadwal $jadwal)
-    // {
-    //     $data = [];
-    //     $data['request'] = false;
-    //     $data['alasan'] = null;
-    //     $data['waktu_mulai'] = $jadwal['req_mulai'];
-    //     $data['waktu_selesai'] = $jadwal['req_selesai'];
-
-    //     Jadwal::where('id', $jadwal->id)->update($data);
-
-    //     $getIdUser = $jadwal['user_id'];
-
-    //     $getEmail = User::find($getIdUser)->email;
-
-    //     if($getEmail != null){
-    //         Mail::to($getEmail)->send(new NotifAccJadwal($data));
-    //     }
-
-    //     Alert::success('Congrats', 'Jadwal Berhasil Diatur!');
-    //     return redirect('/');
-    //     // return redirect('/')->with('success', 'Permintaan Berhasil Terkirim.');
-    // }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -166,11 +145,7 @@ class RubahJadwalController extends Controller
      */
     public function destroy(Jadwal $jadwal)
     {
-        Jadwal::destroy($jadwal->id);
-
-        Alert::success('Congrats', 'Jadwal Berhasil dihapus!');
-        return redirect('/');
-        // return redirect('/')->with('success', 'Jadwal Berhasil dihapus.');
+        
     }
 
     public function tolakJadwal(Jadwal $jadwal)
@@ -191,6 +166,6 @@ class RubahJadwalController extends Controller
 
         Alert::success('Congrats', 'Jadwal ditolak!');
         return redirect('/perubahan-jadwal');
-        // return redirect('/perubahan-jadwal')->with('success', 'Jadwal Ditolak.');
+        
     }
 }

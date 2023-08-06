@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 use App\Models\Config;
 use App\Models\Keuangan;
 use App\Models\Ruangan;
-use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -33,13 +32,14 @@ class JadwalController extends Controller
         $active_menu = 'jadwal';
         if (auth()->user()->level === "Admin") {
             return view('dashboard.jadwal.data-jadwal', compact('active_menu'), [
-                'jadwal' => Jadwal::with('ruangan')->where('request', false)->whereRaw("((STR_TO_DATE(waktu_mulai, '%Y-%m-%d') ) >= curdate())")->orderBy('waktu_mulai', 'ASC')->get(),
+                'jadwal' => Jadwal::where('request', false)->whereRaw("((STR_TO_DATE(waktu_mulai, '%Y-%m-%d') ) >= curdate())")->orderBy('waktu_mulai', 'ASC')->get(),
                 'users' => User::all(),
             ]);
         } else {
             return view('dashboard.jadwal.data-jadwal', compact('active_menu'), [
                 'jadwal' => Jadwal::where('user_id', Auth::user()->id)->where('request', false)->whereRaw("((STR_TO_DATE(waktu_mulai, '%Y-%m-%d') ) >= curdate())")->orderBy('waktu_mulai', 'ASC')->get(),
                 'users' => User::all(),
+                'keuangan' => Keuangan::where('jadwal_id', Auth::user()->id)->first(),
             ]);
         }
     }
@@ -119,45 +119,14 @@ class JadwalController extends Controller
                 'ruangan_id' => ''
             ]);
 
-
             $config_biaya = Config::where('key', 'BIAYA_JP')->first();
-
             $biaya = ($config_biaya->value ?? 45000) * $validatedData['jp'];
 
-            // if (!is_numeric($validatedData['user_id'])) {
-            // $getUserName = $validatedData['user_id'];
-            // $getId = User::where('id', $getUserName)->first()->id;
-
             $validatedData['user_id'] = $validatedData['user_id'];
-            // }
 
             $validatedData['waktu_mulai'] = $validatedData['tanggal'] . " " . $validatedData['waktu_mulai'];
             $validatedData['waktu_selesai'] = $validatedData['tanggal']  . " " . $validatedData['waktu_selesai'];
-
-            // $dates = CarbonPeriod::create($validatedData['tanggal'], $validatedData['tanggal_akhir']);
-            // dd($dates);
-            // foreach ($dates as $date) {
-            //     $validatedDataCopy = $validatedData;
-            //     $dateFormatted = $date->format('Y-m-d');
-            //     // dd($date->format('Y-m-d'));
-            //     // $validatedData['tanggal'] = $date->format('Y-m-d');
-
-            //     $jadwal = Jadwal::create($validatedDataCopy);
-
-            //     Keuangan::create([
-            //         'jadwal_id' => $jadwal->id,
-            //         'biaya' => $biaya
-            //     ]);
-            // }
-            // $jadwal =  Jadwal::create($validatedData);
-
-            // Keuangan::create([
-            //     'jadwal_id' => $jadwal->id,
-            //     'biaya' => $biaya
-            // ]);
         }
-
-        // unset($validatedData['tanggal']);
 
         $validatedData['created_by'] = Auth::user()->name;
 
@@ -168,8 +137,6 @@ class JadwalController extends Controller
             'biaya' => $biaya
         ]);
 
-        Alert::success('Congrats', 'Jadwal Berhasil dibuat!');
-
         // $getIdUser = $validatedData['user_id'];
 
         // $getEmail = User::find($getIdUser)->email;
@@ -177,10 +144,9 @@ class JadwalController extends Controller
         // if ($getEmail != null) {
         //     Mail::to($getEmail)->send(new NotifJadwal($validatedData));
         // }
-
-        // return redirect('/jadwal');
-
-        return redirect('/jadwal')->with('success', 'Jadwal Berhasil dibuat.');
+        
+        Alert::success('Congrats', 'Jadwal Berhasil ditambah!');
+        return redirect('/jadwal');
     }
 
     /**
@@ -191,19 +157,11 @@ class JadwalController extends Controller
      */
     public function show(Jadwal $jadwal)
     {
-        $biaya = DB::table('jadwals')
-            ->select(
-                'keuangans.id as keuangan_id',
-                'keuangans.biaya',
-            )
-            ->leftJoin('keuangans', 'keuangans.jadwal_id', '=', 'jadwals.id')
-            ->where('jadwals.id', $jadwal->id)
-            ->first();
-
+        
         $active_menu = 'jadwal';
         return view('dashboard.jadwal.show-jadwal', compact('active_menu'), [
             'jdwl' => $jadwal,
-            'biaya' => $biaya
+            'biaya' => Keuangan::where('jadwal_id', $jadwal->id)->first()
         ]);
     }
 
@@ -250,7 +208,6 @@ class JadwalController extends Controller
                 'user_id' => 'required',
                 'tanggal' => 'required',
                 'keterangan' => '',
-
             ]);
 
             $validatedData['tipe_jadwal'] = $checkTipeJadwal;
@@ -265,6 +222,7 @@ class JadwalController extends Controller
             Keuangan::where('jadwal_id', $jadwal->id)->update([
                 'biaya' => $biaya
             ]);
+            
         } else {
             $validatedData = $request->validate([
                 'kegiatan_id' => 'required',
@@ -280,42 +238,42 @@ class JadwalController extends Controller
             $validatedData['tipe_jadwal'] = $checkTipeJadwal;
             $validatedData['waktu_mulai'] = $validatedData['tanggal'] . " " . $validatedData['waktu_mulai'];
             $validatedData['waktu_selesai'] = $validatedData['tanggal'] . " " . $validatedData['waktu_selesai'];
+
+            $config_biaya = Config::where('key', 'BIAYA_JP')->first();
+
+            $biaya = ($config_biaya->value ?? 45000) * $validatedData['jp'];
+
+            Keuangan::where('jadwal_id', $jadwal->id)->update([
+                'biaya' => $biaya
+            ]);
         }
 
         unset($validatedData['tanggal']);
-
-        // $getUserName = $validatedData['user_id'];
-        // $getId = User::where('id', $getUserName)->first()->id;
 
         $validatedData['user_id'] = $validatedData['user_id'];
         $getIdUser = $validatedData['user_id'];
         $getEmail = User::find($getIdUser)->email;
 
-        if ($checkRequest == true) {
-            if ($userIdBefore == $getIdUser) {
-                if ($getEmailBefore != null) {
-                    Mail::to($getEmailBefore)->send(new NotifAccJadwal($validatedData));
-                }
-            } else {
-                if ($getEmail != null) {
-                    Mail::to($getEmail)->send(new NotifJadwal($validatedData));
-                }
+        // if ($checkRequest == true) {
+        //     if ($userIdBefore == $getIdUser) {
+        //         if ($getEmailBefore != null) {
+        //             Mail::to($getEmailBefore)->send(new NotifAccJadwal($validatedData));
+        //         }
+        //     } else {
+        //         if ($getEmail != null) {
+        //             Mail::to($getEmail)->send(new NotifJadwal($validatedData));
+        //         }
 
-                if ($getEmailBefore != null) {
-                    Mail::to($getEmailBefore)->send(new NotifGantiPegawai($validatedData));
-                }
+        //         if ($getEmailBefore != null) {
+        //             Mail::to($getEmailBefore)->send(new NotifGantiPegawai($validatedData));
+        //         }
+        //     }
 
-                // HistoryPerubahanJadwal::create([
-                //     'jadwal_id' => $jadwal->id,
-                //     'status' => 'disapproved',
-                //     'comment' => 'Ganti Pegawai'
-                // ]);
-            }
-        } else {
-            if ($getEmail != null) {
-                Mail::to($getEmail)->send(new NotifEdit($validatedData));
-            }
-        }
+        // } else {
+        //     if ($getEmail != null) {
+        //         Mail::to($getEmail)->send(new NotifEdit($validatedData));
+        //     }
+        // }
 
 
         $validatedData['request'] = false;
@@ -327,7 +285,6 @@ class JadwalController extends Controller
 
         Alert::success('Congrats', 'Jadwal Berhasil diubah!');
         return redirect('/jadwal');
-        // return redirect('/')->with('success', 'Jadwal Berhasil diubah.');
     }
 
     /**
@@ -342,7 +299,7 @@ class JadwalController extends Controller
 
         Alert::success('Congrats', 'Jadwal Berhasil dihapus!');
         return redirect('/jadwal');
-        // return redirect('/')->with('success', 'Jadwal Berhasil dihapus.');
+
     }
 
     public function showFull(User $user)
@@ -379,8 +336,7 @@ class JadwalController extends Controller
         $idRuangan = [];
 
         foreach ($bentrok as $items) {
-            if($items->ruangan_id == !null)
-            {
+            if ($items->ruangan_id == !null) {
                 $idRuangan[] = $items->ruangan_id;
             }
             $idBentrok[] = $items->user_id;
@@ -398,6 +354,7 @@ class JadwalController extends Controller
         }
 
         $users = DB::table('users')
+            ->where('id', '!=', '1')
             ->whereNotIn('id', $idBentrok)
             ->orderBy('name', 'ASC')
             ->get()
@@ -424,71 +381,16 @@ class JadwalController extends Controller
             "ruangans" => $selectRuangan
         ]]);
 
-
-
-        // $ruangans = DB::table('ruangans')
-        //     ->whereNotIn('id', $idRuangan)
-        //     ->orderBy('nama_ruangan', 'ASC')
-        //     ->get()
-        //     ->toArray();
-
-        // $select = [];
-        // foreach ($users as $item) {
-        //     $select[] = ["id" => $item->id, "text" => $item->name];
-        // }
-
-        // return response()->json(["error" => false, "data" =>[
-        //      "users" => $select
-        //     // "ruangan" => $ruangans
-        // ]]);
-
-        /*
-        $temp = [];
-        $all = DB::table('users')->pluck('id');
-        
-        foreach ($bentrok as $items) {
-            // dd($items->ruangan_id);
-            if ($items->ruangan_id == $ruangan) {
-                $temp[] = $items->user_id;
-            }
-        }
-
-        if (count($temp) > 0) {
-            $temp = $all;
-        }
-
-        foreach ($temp as $item) {
-            $arr_user_id[] = $item;
-        }
-
-        $max_jp = DB::table('jadwals')
-            ->select('user_id')
-            ->whereRaw("waktu_mulai >= STR_TO_DATE('$request->tanggal 00:00:00', '%Y-%m-%d %H:%i:%s') AND waktu_selesai <= STR_TO_DATE('$request->tanggal 23:59:59', '%Y-%m-%d %H:%i:%s')")
-            ->groupBy('user_id')
-            ->having(DB::raw("(SUM(jp)+$jp)"), '>', $limit_max_jp)
-            ->where('ruangan_id', $ruangan)
-            ->get()->toArray();
-            
-        foreach ($max_jp as $item) {
-            $arr_user_id[] = $item->user_id;
-        }
-
-        $checking = DB::table('users')->orderBy('name', 'ASC')->where('status_anggota', true)
-            ->whereNotIn('id', $arr_user_id)
-            ->get();
-
-        
-        
         return response()->json(["error" => false, "data" => $select]);
 
         // echo json_encode([
-        //     'data' => $checking,
-        //     'debug' => [
-        //         'tanggal_mulai' => $tanggal_mulai,
-        //         'tanggal_selesai' => $tanggal_selesai,
-        //         'arr_user_id' => $arr_user_id,
-        //     ]
-        // ]);*/
+        //      'data' => $checking,
+        //      'debug' => [
+        //          'tanggal_mulai' => $tanggal_mulai,
+        //          'tanggal_selesai' => $tanggal_selesai,
+        //          'arr_user_id' => $arr_user_id,
+        //      ]
+        // ]);
     }
 
     public function checkJadwalUpdate(Request $request)
@@ -517,8 +419,7 @@ class JadwalController extends Controller
         $idRuangan = [];
 
         foreach ($bentrok as $items) {
-            if($items->ruangan_id == !null)
-            {
+            if ($items->ruangan_id == !null) {
                 $idRuangan[] = $items->ruangan_id;
             }
             $idBentrok[] = $items->user_id;
@@ -537,12 +438,14 @@ class JadwalController extends Controller
         }
 
         $users = DB::table('users')
+            ->where('id', '!=', '1')
             ->whereNotIn('id', $idBentrok)
             ->orderBy('name', 'ASC')
             ->get()
             ->toArray();
 
         $ruangans = DB::table('ruangans')
+            ->where('id', '!=', '1')
             ->whereNotIn('id', $idRuangan)
             ->orderBy('nama_ruangan', 'ASC')
             ->get()
@@ -581,7 +484,7 @@ class JadwalController extends Controller
             ")
             ->get()
             ->toArray();
-        
+
         $idBentrok = [];
 
         foreach ($bentrok as $items) {
@@ -589,6 +492,7 @@ class JadwalController extends Controller
         }
 
         $users = DB::table('users')
+            ->where('id', '!=', '1')
             ->whereNotIn('id', $idBentrok)
             ->orderBy('name', 'ASC')
             ->get()
@@ -620,7 +524,7 @@ class JadwalController extends Controller
             ")
             ->get()
             ->toArray();
-        
+
         $idBentrok = [];
 
         foreach ($bentrok as $items) {
@@ -628,6 +532,7 @@ class JadwalController extends Controller
         }
 
         $users = DB::table('users')
+            ->where('id', '!=', '1')
             ->whereNotIn('id', $idBentrok)
             ->orderBy('name', 'ASC')
             ->get()
@@ -643,8 +548,21 @@ class JadwalController extends Controller
 
     public function export_jadwal($awal, $akhir, $user, $tipe_jadwal)
     {
-        $jadwal = Jadwal::with('kegiatan', 'user')
-            ->whereBetween('waktu_mulai', [$awal, $akhir]);
+        $config_max_jp = Config::where('key', 'MAX_JP')->first();
+        $max_jp = $config_max_jp->value ?? 15;
+
+        $jadwal = Jadwal::with('kegiatan', 'user', 'ruangan')
+            ->where(function ($query) use ($awal, $akhir) {
+                $query->whereDate('jadwals.waktu_mulai', '=', $awal)
+                    ->orWhereDate('jadwals.waktu_mulai', '=', $akhir)
+                    ->orWhereBetween('jadwals.waktu_mulai', [$awal, $akhir])
+                    ->orWhereRaw("
+                    (waktu_mulai >= '$awal' AND waktu_mulai <= '$akhir')
+                    OR (waktu_selesai >= '$awal' AND waktu_selesai <= '$akhir')
+                    OR ('$awal' >= waktu_mulai AND '$awal' <= waktu_selesai)
+                    OR ('$akhir' >= waktu_mulai AND '$akhir' <= waktu_selesai)
+                ");
+            });
 
         if ($user != 'all') {
             $jadwal->where('user_id', $user);
@@ -654,11 +572,29 @@ class JadwalController extends Controller
             $jadwal->where('tipe_jadwal', $tipe_jadwal);
         }
 
-        $jadwal = $jadwal->get();
+        $jadwal = $jadwal->orderBy('waktu_mulai', 'ASC')->get();
+
+        if ($tipe_jadwal == '1') {
+            $tipe_jadwal = 'Mengajar';
+        } else if ($tipe_jadwal == '2') {
+            $tipe_jadwal = 'Perjalan Dinas';
+        } else {
+            $tipe_jadwal = 'Seluruh Kegiatan';
+        }
+
+        if ($user != 'all') {
+            $user = User::find($user)->name;
+        } else {
+            $user = 'Seluruh Pegawai';
+        }
+
         return view('dashboard.jadwal.export-jadwal', [
             'awal' => $awal,
             'akhir' => $akhir,
-            'jadwal' => $jadwal
+            'jadwal' => $jadwal,
+            'tipe_jadwal' => $tipe_jadwal,
+            'user' => $user,
+            'max_jp' => $max_jp
         ]);
     }
 }

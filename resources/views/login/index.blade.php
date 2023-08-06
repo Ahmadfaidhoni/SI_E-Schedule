@@ -4,15 +4,21 @@
 <style>
     body {
         font-family: "Helvetica Neue", "Open sans", sans-serif;
-        background: #BE93C5;  /* fallback for old browsers */
-        background: -webkit-linear-gradient(to right, #7BC6CC, #BE93C5);  /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to right, #7BC6CC, #BE93C5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: #BE93C5;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #7BC6CC, #BE93C5);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #7BC6CC, #BE93C5);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     }
 
     .gradient-custom-2 {
-        background: #BE93C5;  /* fallback for old browsers */
-        background: -webkit-linear-gradient(to left, #7BC6CC, #BE93C5);  /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to left, #7BC6CC, #BE93C5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: #BE93C5;
+        /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #7BC6CC, #BE93C5);
+        /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #7BC6CC, #BE93C5);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     }
 
     @media (min-width: 768px) {
@@ -27,6 +33,7 @@
             border-bottom-right-radius: .3rem;
         }
     }
+
 </style>
 
 <head>
@@ -48,8 +55,7 @@
     <div id="preloader">
         <div class="loader">
             <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3"
-                    stroke-miterlimit="10" />
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
             </svg>
         </div>
     </div>
@@ -72,7 +78,7 @@
                                     <h4>Login Form</h4>
                                     {{-- <img src="images/logo/logo.png" width="200px" height="200px"> --}}
                                 </div>
-                                @if (session()->has('success'))
+                                {{-- @if (session()->has('success'))
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                                         {{ session('success') }}
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -87,7 +93,7 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                @endif
+                                @endif --}}
                                 <form action="/login" method="post" class="mt-4 mb-4 login-input">
                                     @csrf
                                     <div class="form-group">
@@ -95,9 +101,9 @@
                                             class="form-control @error('login') is-invalid @enderror"
                                             placeholder="Email or NIP" value="{{ old('login') }}" autofocus required>
                                         @error('login')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
@@ -105,9 +111,9 @@
                                             class="form-control @error('password') is-invalid @enderror"
                                             placeholder="Password" required>
                                         @error('password')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
                                         @enderror
                                     </div>
                                     <button class="btn login-form__btn submit w-100 mt-2">Sign In</button>
