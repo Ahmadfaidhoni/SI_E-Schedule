@@ -139,7 +139,7 @@
                                     <td>{{ date('H:i', strtotime($jdwl->waktu_mulai)) }} -
                                         {{ date('H:i', strtotime($jdwl->waktu_selesai)) }}</td>
                                     <td>{{ isset($jdwl->angkatan) ? $jdwl->angkatan : '-' }}</td>
-                                    <td>{{ isset($jdwl->ruangan_id) ? $jdwl->ruangan->nama_ruangan : '-' }}</td>
+                                    <td>{{ isset($jdwl->ruangan) ? $jdwl->ruangan->nama_ruangan : '-' }}</td>
                                     @if (Auth::user()->level != 'Admin')
                                         <td>{{ number_format($keuangan->biaya) ?? '-' }}</td>
                                     @endif

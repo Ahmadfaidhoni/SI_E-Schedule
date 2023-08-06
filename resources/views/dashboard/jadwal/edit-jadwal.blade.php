@@ -261,7 +261,7 @@
 
                     $.ajax({
                         type: 'GET',
-                        url: '{{ url(' / get - pegawaiUpdate ') }}',
+                        url: '{{ url('/get-pegawaiUpdate') }}',
                         data: {
                             tanggal: tipe_jadwal,
                             mulai: tipe_jadwal2,
@@ -322,7 +322,7 @@
 
                     $.ajax({
                         type: 'GET',
-                        url: '{{ url(' / get - pegawaiDinasUpdate ') }}',
+                        url: '{{ url('/get-pegawaiDinasUpdate') }}',
                         data: {
                             tanggal: tipe_jadwal,
                             tanggal_akhir: tipe_jadwal1,

@@ -32,7 +32,7 @@ class JadwalController extends Controller
         $active_menu = 'jadwal';
         if (auth()->user()->level === "Admin") {
             return view('dashboard.jadwal.data-jadwal', compact('active_menu'), [
-                'jadwal' => Jadwal::with('ruangan')->where('request', false)->whereRaw("((STR_TO_DATE(waktu_mulai, '%Y-%m-%d') ) >= curdate())")->orderBy('waktu_mulai', 'ASC')->get(),
+                'jadwal' => Jadwal::where('request', false)->whereRaw("((STR_TO_DATE(waktu_mulai, '%Y-%m-%d') ) >= curdate())")->orderBy('waktu_mulai', 'ASC')->get(),
                 'users' => User::all(),
             ]);
         } else {
@@ -438,12 +438,14 @@ class JadwalController extends Controller
         }
 
         $users = DB::table('users')
+            ->where('id', '!=', '1')
             ->whereNotIn('id', $idBentrok)
             ->orderBy('name', 'ASC')
             ->get()
             ->toArray();
 
         $ruangans = DB::table('ruangans')
+            ->where('id', '!=', '1')
             ->whereNotIn('id', $idRuangan)
             ->orderBy('nama_ruangan', 'ASC')
             ->get()
@@ -490,6 +492,7 @@ class JadwalController extends Controller
         }
 
         $users = DB::table('users')
+            ->where('id', '!=', '1')
             ->whereNotIn('id', $idBentrok)
             ->orderBy('name', 'ASC')
             ->get()
@@ -529,6 +532,7 @@ class JadwalController extends Controller
         }
 
         $users = DB::table('users')
+            ->where('id', '!=', '1')
             ->whereNotIn('id', $idBentrok)
             ->orderBy('name', 'ASC')
             ->get()
