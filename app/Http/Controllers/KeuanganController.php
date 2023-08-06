@@ -40,7 +40,6 @@ class KeuanganController extends Controller
 
     public function export_excel($awal, $akhir, $user, $tipe_jadwal)
     {
-        // dd($awal, $akhir, $user, $tipe_jadwal);
         ini_set('max_execution_time', 0);
         ini_set('memory_limit', '4000M');
         $dt = date('Ymd');
@@ -79,7 +78,7 @@ class KeuanganController extends Controller
 
             $sheet->setCellValue('B1', $pegawai);
             $sheet->setCellValue('B2', $tj);
-            $sheet->setCellValue('B3', $awal . ' - ' . $akhir);
+            $sheet->setCellValue('B3', $awal . ' s/d ' . $akhir);
 
             $sheet->setCellValue('A5', '#');
             $sheet->setCellValue('B5', 'Kegiatan');
@@ -102,7 +101,6 @@ class KeuanganController extends Controller
                 ],
             ];
             $sheet->getStyle($range)->applyFromArray($styleArray_border);
-
 
             $colIndex = 6;
             $number = 1;
@@ -130,7 +128,7 @@ class KeuanganController extends Controller
                 $keuangan = $keuangan->where('jadwals.tipe_jadwal', $tipe_jadwal);
             }
 
-            $keuangan = $keuangan->get();
+            $keuangan = $keuangan->orderBy('waktu_mulai', 'ASC')->get();
 
             $total_mengajar = 0;
             $total_perjalanan_dinas = 0;
@@ -138,16 +136,17 @@ class KeuanganController extends Controller
                 $sheet->setCellValue("A{$colIndex}", $number);
                 $sheet->setCellValue("B{$colIndex}", $detail->nama_kegiatan ?? 'Perjalanan Dinas');
                 $sheet->setCellValue("C{$colIndex}", $detail->name ?? '-');
-                $sheet->setCellValue("E{$colIndex}", date('H:i:s', strtotime($detail->waktu_mulai)) ?? '-');
                 $sheet->setCellValue("F{$colIndex}", $detail->jp ?? '-');
                 $sheet->setCellValue("G{$colIndex}", $detail->biaya ?? '-');
 
                 if ($detail->tipe_jadwal == '1') {
                     $total_mengajar += $detail->biaya;
                     $sheet->setCellValue("D{$colIndex}", date('Y-m-d', strtotime($detail->waktu_mulai)) ?? '-');
+                    $sheet->setCellValue("E{$colIndex}", date('H:i', strtotime($detail->waktu_mulai)) ?? '-');
                 } else if ($detail->tipe_jadwal == '2') {
                     $total_perjalanan_dinas += $detail->biaya;
-                    $sheet->setCellValue("D{$colIndex}", (date('Y-m-d', strtotime($detail->waktu_mulai)) ?? '-') . '-' . (date('Y-m-d', strtotime($detail->waktu_selesai)) ?? '-'));
+                    $sheet->setCellValue("D{$colIndex}", (date('Y-m-d', strtotime($detail->waktu_mulai)) ?? '-') . 's/d' . (date('Y-m-d', strtotime($detail->waktu_selesai)) ?? '-'));
+                    $sheet->setCellValue("E{$colIndex}", (date('H:i', strtotime($detail->waktu_mulai)) ?? '-') . '-' . (date('H:i', strtotime($detail->waktu_selesai)) ?? '-'));
                 }
 
                 $number++;
@@ -175,9 +174,6 @@ class KeuanganController extends Controller
             // $range = 'A5:' . $highestColumn . $highestRow;
             $range_footer = 'A' . $ujung_kiri . ':' . 'G' . $colIndex;
             $sheet->getStyle($range_footer)->applyFromArray($styleArray_border);
-
-
-
 
             $Excel_writer = new Xls($spreadSheet);
             header('Content-Type: application/vnd.ms-excel');

@@ -57,8 +57,7 @@
     <div id="preloader">
         <div class="loader">
             <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3"
-                    stroke-miterlimit="10" />
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
             </svg>
         </div>
     </div>
@@ -72,83 +71,11 @@
     ***********************************-->
     <div class="wrapper">
 
-        <!--**********************************
-            Nav header start
-        ***********************************-->
-        {{-- <div class="nav-header">
-            <div class="brand-logo">
-                <img class="logo-abbr mt-3 ml-2" src="images/logo/logo.png">
-                <a href="/" class="text-decoration-none">
-                    <b class="logo-abbr"><img src="images/logo.png" alt=""> </b>
-                    <span class="logo-compact"><img src="./images/logo-compact.png" alt=""></span>
-                    <span class="brand-title">
-                        <h3 class="text-white text-center">E-Schedule</h3>
-                    </span>
-                </a>
-            </div>
-        </div> --}}
-        <!--**********************************
-            Nav header end
-        ***********************************-->
-
-        <!--**********************************
-            Header start
-        ***********************************-->
-        {{-- <div class="header">
-            <div class="header-content clearfix">
-
-                <div class="nav-control">
-                    <div class="hamburger">
-                        <span class="toggle-icon"><i class="icon-menu"></i></span>
-                    </div>
-                </div>
-
-                @auth
-                    <div class="header-right">
-                        <ul class="clearfix">
-                            <li class="icons dropdown d-none d-md-flex">
-                                <a class="log-user">
-                                    <span>Selamat Datang, {{ auth()->user()->name }}</span>
-                                </a>
-                            </li>
-                            <li class="icons dropdown">
-                                <div class="user-img c-pointer position-relative" data-toggle="dropdown">
-                                    <span class="activity active"></span>
-                                    <img src="images/user/1.png" height="40" width="40" alt="">
-                                </div>
-                                <div class="drop-down dropdown-profile   dropdown-menu">
-                                    <div class="dropdown-content-body">
-                                        <ul>
-                                            <li>
-                                                <a href="/profile" class="text-decoration-none text-muted"><i
-                                                        class="icon-user"></i> <span>Profile</span></a>
-                                            </li>
-                                            <hr class="my-2">
-
-                                            <li>
-                                                <form action="/logout" method="post">
-                                                    @csrf
-                                                    <button type="submit" class="button-logout">
-                                                        <i class="icon-key"></i> <span>Logout</span>
-                                                    </button>
-                                                </form>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                @endauth
-            </div>
-        </div> --}}
-
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
-                            class="fas fa-bars"></i></a>
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-widget="fullscreen" href="#" role="button">
@@ -198,37 +125,13 @@
 
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <a href="/" class="brand-link">
-                <img src="images/logo/logo.png" alt="AdminLTE Logo" class="bg-white img-circle elevation-3"
-                    width="50" height="50">
+                <img src="images/logo/logo.png" alt="AdminLTE Logo" class="bg-white img-circle elevation-3" width="50"
+                    height="50">
                 <span class="ml-3 brand-text font-weight-light">E-Schedule</span>
             </a>
 
             <!-- Sidebar -->
             <div class="sidebar">
-                <!-- Sidebar user panel (optional) -->
-                {{-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                    <div class="image">
-                        <img src="template/dist/img/user2-160x160.jpg" class="img-circle elevation-2"
-                            alt="User Image">
-                    </div>
-                    <div class="info">
-                        <a href="#" class="d-block">Alexander Pierce</a>
-                    </div>
-                </div> --}}
-
-                <!-- SidebarSearch Form -->
-                {{-- <div class="form-inline">
-                    <div class="input-group" data-widget="sidebar-search">
-                        <input class="form-control form-control-sidebar" type="search" placeholder="Search"
-                            aria-label="Search">
-                        <div class="input-group-append">
-                            <button class="btn btn-sidebar">
-                                <i class="fas fa-search fa-fw"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div> --}}
-
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
@@ -241,32 +144,7 @@
                                 </p>
                             </a>
                         </li>
-                        {{-- <li class="nav-item">
-                            <a href="pages/widgets.html" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                    Widgets
-                                    <span class="right badge badge-danger">New</span>
-                                </p>
-                            </a>
-                        </li> --}}
-                        {{-- <li class="nav-item">
-                            <a class="has-arrow nav-link text-decoration-none" href="javascript:void()"
-                                aria-expanded="false">
-                                <i class="icon-speedometer menu-icon"></i><span class="nav-text">Penjadwalan</span>
-                            </a>
-                            <ul aria-expanded="false">
-                                <li class="nav-item">
-                                    <a href="/jadwal" class="nav-link text-decoration-none">
-                                        <i class="bi bi-calendar3"></i>Jadwal
-                                    </a>
-                                </li>
-                                <li class="nav-item"><a href="/perubahan-jadwal" class="text-decoration-none">
-                                        <i class="icon-note menu-icon"></i>Perubahan Jadwal
-                                    </a>
-                                </li>
-                            </ul>
-                        </li> --}}
+
                         <li
                             class="nav-item @if (!empty($active_menu)) {{ $active_menu == 'jadwal' || $active_menu == 'perubahan-jadwal' ? 'menu-open' : '' }} @endif">
                             <a href="#" class="nav-link">
@@ -295,69 +173,57 @@
                             </ul>
                         </li>
                         @can('admin')
-                            <li class="nav-item">
-                                <a href="/data-pegawai" aria-expanded="false"
-                                    class="nav-link @if (!empty($active_menu)) {{ $active_menu == 'data-pegawai' ? 'active' : '' }} @endif">
-                                    <i class="bi nav-icon bi-people"></i>
-                                    <p><span class="nav-text">Data Pegawai</span></p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/data-kegiatan" aria-expanded="false"
-                                    class="nav-link @if (!empty($active_menu)) {{ $active_menu == 'data-kegiatan' ? 'active' : '' }} @endif">
-                                    <i class="bi nav-icon bi-bookmark"></i>
-                                    <p><span class="nav-text">Data Kegiatan</span></p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/data-ruangan" aria-expanded="false"
-                                    class="nav-link @if (!empty($active_menu)) {{ $active_menu == 'data-ruangan' ? 'active' : '' }} @endif">
-                                    <i class="bi nav-icon bi-door-open"></i>
-                                    <p><span class="nav-text">Data Ruangan</span></p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/config" aria-expanded="false"
-                                    class="nav-link @if (!empty($active_menu)) {{ $active_menu == 'config' ? 'active' : '' }} @endif">
-                                    <i class="bi nav-icon bi-gear"></i>
-                                    <p><span class="nav-text">Config</span></p>
-                                </a>
-                            </li>
+                        <li class="nav-item">
+                            <a href="/data-pegawai" aria-expanded="false"
+                                class="nav-link @if (!empty($active_menu)) {{ $active_menu == 'data-pegawai' ? 'active' : '' }} @endif">
+                                <i class="bi nav-icon bi-people"></i>
+                                <p><span class="nav-text">Data Pegawai</span></p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/data-kegiatan" aria-expanded="false"
+                                class="nav-link @if (!empty($active_menu)) {{ $active_menu == 'data-kegiatan' ? 'active' : '' }} @endif">
+                                <i class="bi nav-icon bi-bookmark"></i>
+                                <p><span class="nav-text">Data Kegiatan</span></p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/data-ruangan" aria-expanded="false"
+                                class="nav-link @if (!empty($active_menu)) {{ $active_menu == 'data-ruangan' ? 'active' : '' }} @endif">
+                                <i class="bi nav-icon bi-door-open"></i>
+                                <p><span class="nav-text">Data Ruangan</span></p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/config" aria-expanded="false"
+                                class="nav-link @if (!empty($active_menu)) {{ $active_menu == 'config' ? 'active' : '' }} @endif">
+                                <i class="bi nav-icon bi-gear"></i>
+                                <p><span class="nav-text">Config</span></p>
+                            </a>
+                        </li>
                         @endcan
                         @can('keuangan')
-                            {{-- <li class="nav-item">
-                                <a class="has-arrow text-decoration-none" href="javascript:void()" aria-expanded="false">
-                                    <i class="icon-speedometer menu-icon"></i><span class="nav-text">Keuangan</span>
-                                </a>
-                                <ul aria-expanded="false">
-                                    <li class="nav-item">
-                                        <a href="/keuangan" class="text-decoration-none nav-link">
-                                            <i class="bi bi-currency-dollar"></i>Master Keuangan
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li> --}}
 
-                            <li
-                                class="nav-item @if (!empty($active_menu)) {{ $active_menu == 'keuangan' ? 'menu-open' : '' }} @endif">
-                                <a href="#" class="nav-link">
-                                    <i class="icon-speedometer nav-icon"></i>
-                                    <p>
-                                        Keuangan
-                                        <i class="fas fa-angle-left right"></i>
-                                        {{-- <span class="badge badge-info right">6</span> --}}
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="/keuangan"
-                                            class="nav-link @if (!empty($active_menu)) {{ $active_menu == 'keuangan' ? 'active' : '' }} @endif">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Master Keuangan</p>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
+                        <li
+                            class="nav-item @if (!empty($active_menu)) {{ $active_menu == 'keuangan' ? 'menu-open' : '' }} @endif">
+                            <a href="#" class="nav-link">
+                                <i class="icon-speedometer nav-icon"></i>
+                                <p>
+                                    Keuangan
+                                    <i class="fas fa-angle-left right"></i>
+                                    {{-- <span class="badge badge-info right">6</span> --}}
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/keuangan"
+                                        class="nav-link @if (!empty($active_menu)) {{ $active_menu == 'keuangan' ? 'active' : '' }} @endif">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Master Keuangan</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         @endcan
                     </ul>
                 </nav>
@@ -366,82 +232,7 @@
         <aside class="control-sidebar control-sidebar-dark">
             <!-- Control sidebar content goes here -->
         </aside>
-        <!--**********************************
-            Header end ti-comment-alt
-        ***********************************-->
 
-        <!--**********************************
-            Sidebar start
-        ***********************************-->
-        {{-- <div class="nk-sidebar">
-            <div class="nk-nav-scroll">
-                <ul class="metismenu" id="menu">
-                    <li class="nav-label">Dashboard @can('admin')
-                            Admin
-                        @endcan
-                    </li>
-                    <li>
-                        <a href="/" aria-expanded="false" class="text-decoration-none">
-                            <i class="bi bi-house"></i><span class="nav-text">Dashboard</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="has-arrow text-decoration-none" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Penjadwalan</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li>
-                                <a href="/jadwal" class="text-decoration-none">
-                                    <i class="bi bi-calendar3"></i>Jadwal
-                                </a>
-                            </li>
-                            <li><a href="/perubahan-jadwal" class="text-decoration-none">
-                                    <i class="icon-note menu-icon"></i>Perubahan Jadwal
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    @can('admin')
-                        <li>
-                            <a href="/data-pegawai" aria-expanded="false" class="text-decoration-none">
-                                <i class="bi bi-people"></i><span class="nav-text">Data Pegawai</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/data-kegiatan" aria-expanded="false" class="text-decoration-none">
-                                <i class="bi bi-bookmark"></i><span class="nav-text">Data Kegiatan</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/data-ruangan" aria-expanded="false" class="text-decoration-none">
-                                <i class="bi bi-door-open"></i><span class="nav-text">Data Ruangan</span>
-                            </a>
-                        </li>
-                    @endcan
-                    @can('keuangan')
-                        <li>
-                            <a class="has-arrow text-decoration-none" href="javascript:void()" aria-expanded="false">
-                                <i class="icon-speedometer menu-icon"></i><span class="nav-text">Keuangan</span>
-                            </a>
-                            <ul aria-expanded="false">
-                                <li>
-                                    <a href="/keuangan" class="text-decoration-none">
-                                        <i class="bi bi-currency-dollar"></i>Master Keuangan
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    @endcan
-                </ul>
-            </div>
-        </div> --}}
-        <!--**********************************
-            Sidebar end
-        ***********************************-->
-
-        <!--**********************************
-            Content body start
-        ***********************************-->
         <div class="content-wrapper">
 
             <div class="row page-titles mx-0">
@@ -467,7 +258,7 @@
         ***********************************-->
         <div class="footer">
             <div class="copyright">
-                <p>Copyright &copy; PPSDM Regional Bandung @2022</p>
+                <p>Copyright &copy; PPSDM Regional Bandung @2023</p>
             </div>
         </div>
         <!--**********************************

@@ -137,29 +137,6 @@ class RubahJadwalController extends Controller
         }
     }
 
-    // public function AccRequest(Jadwal $jadwal)
-    // {
-    //     $data = [];
-    //     $data['request'] = false;
-    //     $data['alasan'] = null;
-    //     $data['waktu_mulai'] = $jadwal['req_mulai'];
-    //     $data['waktu_selesai'] = $jadwal['req_selesai'];
-
-    //     Jadwal::where('id', $jadwal->id)->update($data);
-
-    //     $getIdUser = $jadwal['user_id'];
-
-    //     $getEmail = User::find($getIdUser)->email;
-
-    //     if($getEmail != null){
-    //         Mail::to($getEmail)->send(new NotifAccJadwal($data));
-    //     }
-
-    //     Alert::success('Congrats', 'Jadwal Berhasil Diatur!');
-    //     return redirect('/');
-    //     // return redirect('/')->with('success', 'Permintaan Berhasil Terkirim.');
-    // }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -168,11 +145,7 @@ class RubahJadwalController extends Controller
      */
     public function destroy(Jadwal $jadwal)
     {
-        Jadwal::destroy($jadwal->id);
-
-        Alert::success('Congrats', 'Jadwal Berhasil dihapus!');
-        return redirect('/');
-        // return redirect('/')->with('success', 'Jadwal Berhasil dihapus.');
+        
     }
 
     public function tolakJadwal(Jadwal $jadwal)
@@ -193,6 +166,6 @@ class RubahJadwalController extends Controller
 
         Alert::success('Congrats', 'Jadwal ditolak!');
         return redirect('/perubahan-jadwal');
-        // return redirect('/perubahan-jadwal')->with('success', 'Jadwal Ditolak.');
+        
     }
 }

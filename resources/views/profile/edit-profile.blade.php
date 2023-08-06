@@ -64,9 +64,6 @@
                                             class="text-danger">*</span>
                                     </label>
                                     <div class="col-lg-6">
-                                        {{-- <input type="text" class="form-control @error('jabatan') is-invalid @enderror"
-                                            id="jabatan" name="jabatan" placeholder="Masukan Nama Pengajar.."
-                                            value="{{ old('jabatan', $user->jabatan) }}"> --}}
                                         <select class="form-control @error('jabatan') is-invalid @enderror" id="jabatan"
                                             name="jabatan" required>
                                             <optgroup label="Golongan IV">
