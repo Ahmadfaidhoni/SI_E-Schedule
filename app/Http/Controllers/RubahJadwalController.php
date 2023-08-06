@@ -6,6 +6,7 @@ use App\Mail\NotifAccJadwal;
 use App\Mail\NotifAdmin;
 use App\Models\User;
 use App\Models\Jadwal;
+use App\Models\Ruangan;
 use App\Models\Kegiatan;
 use Illuminate\Http\Request;
 use App\Mail\NotifEditJadwal;
@@ -99,6 +100,8 @@ class RubahJadwalController extends Controller
      */
     public function update(Request $request, Jadwal $jadwal)
     {
+        $checkTipeJadwal = $jadwal->tipe_jadwal;
+
         if (Auth::id() == $jadwal->user_id) {
             $validatedData = $request->validate([
                 'alasan' => 'required',
@@ -108,27 +111,36 @@ class RubahJadwalController extends Controller
 
             Jadwal::where('id', $jadwal->id)->update($validatedData);
 
+            // get validate
             $getIdUser = $jadwal['user_id'];
-
-            // $getEmail = User::find($getIdUser)->email;
+            $getEmail = User::find($getIdUser)->email;
             $emailAdmin = User::where('level', 'Admin')->where('email', '!=', null)->get();
+            $getEmailAdmin = [];
+            
+            foreach($emailAdmin as $item){
+                $getEmailAdmin[] = $item->email;
+            }
 
-            // $arr_email = [];
-            // foreach ($emailAdmin as $item) {
-            //     $arr_email[] = $item->email;
-            // }
+            // send validate
+            $validatedData['username'] = User::find($getIdUser)->name;
+            $validatedData['waktu_mulai'] = $jadwal['waktu_mulai'];
+            $validatedData['waktu_selesai'] = $jadwal['waktu_selesai'];
+            $validatedData['keterangan'] = $jadwal['keterangan'];
+            $validatedData['tipe_jadwal'] = $jadwal['tipe_jadwal'];
+            
+            if ($checkTipeJadwal == 1){
+                $validatedData['ruangan'] = Ruangan::find($jadwal['ruangan_id'])->nama_ruangan ?? '-';
+                $validatedData['kegiatan'] = Kegiatan::find($jadwal['kegiatan_id'])->nama_kegiatan ?? '-';
+            }
 
-            // if ($getEmail != null) {
-            //     Mail::to($getEmail)->send(new NotifEditJadwal($validatedData));
+            // kirim email
+            if ($getEmail != null) {
+                Mail::to($getEmail)->send(new NotifEditJadwal($validatedData));
+            }
 
-            //     if ($arr_email != null) {
-            //         Mail::to($arr_email)->send(new NotifAdmin($validatedData));
-            //     }
-            // } else {
-            //     if ($arr_email != null) {
-            //         Mail::to($arr_email)->send(new NotifAdmin($validatedData));
-            //     }
-            // }
+            if ($getEmailAdmin != null) {
+                Mail::to($getEmailAdmin)->send(new NotifAdmin($validatedData));
+            }
 
             Alert::success('Congrats', 'Permintaan Berhasil Terkirim!');
             return redirect('/perubahan-jadwal');
@@ -150,19 +162,36 @@ class RubahJadwalController extends Controller
 
     public function tolakJadwal(Jadwal $jadwal)
     {
+        $checkTipeJadwal = $jadwal->tipe_jadwal;
+        $getAlasan = $jadwal->alasan;
+
         $data = [];
         $data['request'] = false;
         $data['alasan'] = null;
 
         Jadwal::where('id', $jadwal->id)->update($data);
 
-        $getIdUser = $jadwal->user_id;
-
+        // get validate
+        $getIdUser = $jadwal['user_id'];
         $getEmail = User::find($getIdUser)->email;
 
-        // if ($getEmail != null) {
-        //     Mail::to($getEmail)->send(new NotifTolak($data));
-        // }
+        // send validate
+        $data['username'] = User::find($getIdUser)->name;
+        $data['waktu_mulai'] = $jadwal['waktu_mulai'];
+        $data['waktu_selesai'] = $jadwal['waktu_selesai'];
+        $data['keterangan'] = $jadwal['keterangan'];
+        $data['tipe_jadwal'] = $jadwal['tipe_jadwal'];
+        $data['alasan'] = $jadwal['alasan'];
+        
+        if ($checkTipeJadwal == 1){
+            $data['ruangan'] = Ruangan::find($jadwal['ruangan_id'])->nama_ruangan ?? '-';
+            $data['kegiatan'] = Kegiatan::find($jadwal['kegiatan_id'])->nama_kegiatan ?? '-';
+        }
+
+        // kirim email
+        if ($getEmail != null) {
+            Mail::to($getEmail)->send(new NotifTolak($data));
+        }
 
         Alert::success('Congrats', 'Jadwal ditolak!');
         return redirect('/perubahan-jadwal');
