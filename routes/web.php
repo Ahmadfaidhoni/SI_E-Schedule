@@ -44,7 +44,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/history-perubahan-jadwal', [RubahJadwalController::class, 'history_perubahan']);
     Route::get('{jadwal}.editJadwal', [RubahJadwalController::class, 'edit'])->middleware(CheckJadwalOwner::class);
     Route::patch('data-ubah-jadwal.{jadwal}', [RubahJadwalController::class, 'update']);
-    
+
     //logout
     Route::post('/logout', [LoginController::class, 'logout']);
 
@@ -78,7 +78,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::post('/add-kegiatan', [KegiatanController::class, 'store']);
     Route::get('editKegiatan-{kegiatan:kode_kegiatan}', [KegiatanController::class, 'edit']);
     Route::patch('data-kegiatan.{kegiatan}', [KegiatanController::class, 'update']);
-    Route::delete('data-kegiatan.{kegiatan}', [KegiatanController::class, 'destroy']);
+    Route::delete('data-kegiatan/{id}', [KegiatanController::class, 'destroy']);
 
     // ruangan
     Route::get('/data-ruangan', [RuanganController::class, 'index']);
