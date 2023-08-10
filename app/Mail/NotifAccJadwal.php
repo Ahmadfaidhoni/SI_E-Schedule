@@ -10,16 +10,16 @@ use Illuminate\Queue\SerializesModels;
 class NotifAccJadwal extends Mailable
 {
     use Queueable, SerializesModels;
-    public $data;
+    public $validatedData;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct($validatedData)
     {
-        $this->data = $data;
+        $this->validatedData = $validatedData;
     }
 
     /**
@@ -31,6 +31,6 @@ class NotifAccJadwal extends Mailable
     {
         return $this->markdown('mail.notif-acc-jadwal')
                     ->subject('Permintaan Perubahan Jadwal Anda Telah disetujui!')
-                    ->with('data', $this->data);;
+                    ->with('validatedData', $this->validatedData);;
     }
 }
