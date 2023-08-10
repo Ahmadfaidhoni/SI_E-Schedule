@@ -34,6 +34,12 @@
         }
     }
 
+    @media only screen and (max-width: 768px) {
+        img {
+            width: 100%;
+            height: auto;
+        }
+    }
 </style>
 
 <head>
@@ -55,7 +61,8 @@
     <div id="preloader">
         <div class="loader">
             <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3"
+                    stroke-miterlimit="10" />
             </svg>
         </div>
     </div>
@@ -64,15 +71,15 @@
     ********************-->
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-xl-11">
+            <div class="col-xl-12">
                 <div class="card rounded-3 text-black">
-                    <div class="row g-0">
-                        <div class="col-lg-7 d-flex align-items-center gradient-custom-2">
+                    <div class="d-flex justify-content-center flex-wrap g-0">
+                        <div class="col-lg-7 col-md-12 d-flex align-items-center gradient-custom-2">
                             <div class="text-white px-3 py-4 p-md-5 mx-md-4">
                                 <img src="images/logo/logo1.png" width="400" height="400">
                             </div>
                         </div>
-                        <div class="col-lg-5">
+                        <div class="col-lg-5 col-md-12">
                             <div class="card-body pt-5">
                                 <div class="text-center">
                                     <h4>Login Form</h4>
@@ -101,9 +108,9 @@
                                             class="form-control @error('login') is-invalid @enderror"
                                             placeholder="Email or NIP" value="{{ old('login') }}" autofocus required>
                                         @error('login')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
@@ -111,9 +118,9 @@
                                             class="form-control @error('password') is-invalid @enderror"
                                             placeholder="Password" required>
                                         @error('password')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
                                         @enderror
                                     </div>
                                     <button class="btn login-form__btn submit w-100 mt-2">Sign In</button>
