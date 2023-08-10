@@ -51,7 +51,6 @@ class KegiatanController extends Controller
 
         Alert::success('Congrats', 'Kegiatan Berhasil dibuat!');
         return redirect('/data-kegiatan');
-        
     }
 
     /**
@@ -105,9 +104,9 @@ class KegiatanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Kegiatan $kegiatan)
+    public function destroy($id)
     {
-        Kegiatan::destroy($kegiatan->id);
+        Kegiatan::destroy($id);
 
         Alert::success('Congrats', 'Kegiatan Berhasil dihapus!');
         return redirect('/data-kegiatan');
