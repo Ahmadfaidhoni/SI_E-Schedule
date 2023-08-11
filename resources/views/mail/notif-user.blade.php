@@ -9,7 +9,7 @@ dan login menggunakan email dan password anda. </p>
 <p>Untuk mengetahui Password anda saat ini silahkan hubungi admin,
 atau bisa dengan klik tombol di bawah.</p>
 
-@component('mail::button', ['url' => 'schedule.regbandung.com'])
+@component('mail::button', ['url' => '/'])
 Klik di sini
 @endcomponent
 

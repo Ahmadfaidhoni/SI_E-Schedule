@@ -3,15 +3,17 @@ Permintaan Perubahan Jadwal Anda Telah Ditolak!
 
 <p>Berikut adalah permintaan Jadwal yang ditolak:</p>
 
-@if($data['tipe_jadwal'] == 1)
-    <p>Tanggal: {{ date('d-m-Y', strtotime($data['waktu_mulai'])); }}</p>
-    <p>Kegiatan: {{ $data['kegiatan'] }}</p>
-    <p>Ruangan: {{ $data['ruangan'] }}</p>
-    <p>Pukul: {{ date('H:i', strtotime($data['waktu_mulai'])) }} - {{ date('H:i', strtotime($data['waktu_selesai'])) }}</p>
-@else
-    <p>Tanggal: {{ date('d-m-Y', strtotime($data['waktu_mulai'])); }} s/d {{ date('d-m-Y', strtotime($data['waktu_selesai'])); }}</p>
-    <p>Perjalanan Dinas</p>
-@endif
+<p>
+    @if($data['tipe_jadwal'] == 1)
+        <p>Tanggal: {{ date('d-m-Y', strtotime($data['waktu_mulai'])); }}</p>
+        <p>Kegiatan: {{ $data['kegiatan'] }}</p>
+        <p>Ruangan: {{ $data['ruangan'] }}</p>
+        <p>Pukul: {{ date('H:i', strtotime($data['waktu_mulai'])) }} - {{ date('H:i', strtotime($data['waktu_selesai'])) }}</p>
+    @else
+        <p>Tanggal: {{ date('d-m-Y', strtotime($data['waktu_mulai'])); }} s/d {{ date('d-m-Y', strtotime($data['waktu_selesai'])); }}</p>
+        <p>Perjalanan Dinas</p>
+    @endif
+</p>
 
 <p>Alasan: {{ $data['alasan'] }}</p>
 
