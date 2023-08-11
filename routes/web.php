@@ -109,7 +109,7 @@ Route::group(['middleware' => 'admin'], function () {
 
     //perubahan jadwal
     Route::get('ubah-jadwal-{jadwal:id}', [RubahJadwalController::class, 'show']);
-    Route::patch('tolak-jadwal.{jadwal}', [RubahJadwalController::class, 'tolakJadwal']);
+    Route::patch('tolak-jadwal/{id}', [RubahJadwalController::class, 'tolakJadwal']);
 });
 
 // login
