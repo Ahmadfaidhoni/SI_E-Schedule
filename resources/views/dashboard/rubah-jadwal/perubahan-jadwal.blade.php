@@ -60,11 +60,11 @@
                                                     <a href="ubah-jadwal-{{ $jdwl->id }}"><button type="button"
                                                             class="btn btn-sm mb-1 btn-primary"><i class="bi bi-eye"></i>
                                                             Lihat</button></a>
-                                                    <form action="tolak-jadwal.{{ $jdwl->id }}" method="post" class="d-inline"
+                                                    <form method="post" class="d-inline"
                                                         id="tolak-form">
                                                         @method('patch')
                                                         @csrf
-                                                        <button type="button" onclick="tolak()"
+                                                        <button type="button" onclick="tolak({{ $jdwl->id }})"
                                                             class="btn btn-sm mb-1 btn-danger"><i class="bi bi-dash-circle"></i>
                                                             Tolak</button>
                                                     </form>
@@ -85,7 +85,7 @@
     </div>
 </div>
 <script>
-    function tolak() {
+    function tolak(id) {
         Swal.fire({
             title: 'Apakah anda yakin?',
             text: "Apakah anda yakin ingin menolak jadwal ini?",
@@ -96,6 +96,7 @@
             confirmButtonText: 'Ya, Tolak!'
         }).then((result) => {
             if (result.isConfirmed) {
+                $('#tolak-form').attr('action', '/tolak-jadwal/' + id);
                 $('#tolak-form').submit();
             }
         })

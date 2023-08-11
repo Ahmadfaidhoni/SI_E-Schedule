@@ -86,7 +86,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::post('/add-ruangan', [RuanganController::class, 'store']);
     Route::get('editRuangan-{ruangan:id}', [RuanganController::class, 'edit']);
     Route::patch('data-ruangan.{ruangan}', [RuanganController::class, 'update']);
-    Route::delete('data-ruangan.{ruangan}', [RuanganController::class, 'destroy']);
+    Route::delete('data-ruangan/{id}', [RuanganController::class, 'destroy']);
 
     //config
     Route::get('/config', [ConfigController::class, 'index']);
@@ -109,7 +109,7 @@ Route::group(['middleware' => 'admin'], function () {
 
     //perubahan jadwal
     Route::get('ubah-jadwal-{jadwal:id}', [RubahJadwalController::class, 'show']);
-    Route::patch('tolak-jadwal.{jadwal}', [RubahJadwalController::class, 'tolakJadwal']);
+    Route::patch('tolak-jadwal/{id}', [RubahJadwalController::class, 'tolakJadwal']);
 });
 
 // login

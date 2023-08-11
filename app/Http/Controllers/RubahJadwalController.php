@@ -116,8 +116,8 @@ class RubahJadwalController extends Controller
             $getEmail = User::find($getIdUser)->email;
             $emailAdmin = User::where('level', 'Admin')->where('email', '!=', null)->get();
             $getEmailAdmin = [];
-            
-            foreach($emailAdmin as $item){
+
+            foreach ($emailAdmin as $item) {
                 $getEmailAdmin[] = $item->email;
             }
 
@@ -127,8 +127,8 @@ class RubahJadwalController extends Controller
             $validatedData['waktu_selesai'] = $jadwal['waktu_selesai'];
             $validatedData['keterangan'] = $jadwal['keterangan'];
             $validatedData['tipe_jadwal'] = $jadwal['tipe_jadwal'];
-            
-            if ($checkTipeJadwal == 1){
+
+            if ($checkTipeJadwal == 1) {
                 $validatedData['ruangan'] = Ruangan::find($jadwal['ruangan_id'])->nama_ruangan ?? '-';
                 $validatedData['kegiatan'] = Kegiatan::find($jadwal['kegiatan_id'])->nama_kegiatan ?? '-';
             }
@@ -157,11 +157,11 @@ class RubahJadwalController extends Controller
      */
     public function destroy(Jadwal $jadwal)
     {
-        
     }
 
-    public function tolakJadwal(Jadwal $jadwal)
+    public function tolakJadwal($id)
     {
+        $jadwal = Jadwal::find($id);
         $checkTipeJadwal = $jadwal->tipe_jadwal;
         $getAlasan = $jadwal->alasan;
 
@@ -169,7 +169,8 @@ class RubahJadwalController extends Controller
         $data['request'] = false;
         $data['alasan'] = null;
 
-        Jadwal::where('id', $jadwal->id)->update($data);
+        $jadwal->update($data);
+        // Jadwal::where('id', $jadwal->id)->update($data);
 
         // get validate
         $getIdUser = $jadwal['user_id'];
@@ -182,8 +183,8 @@ class RubahJadwalController extends Controller
         $data['keterangan'] = $jadwal['keterangan'];
         $data['tipe_jadwal'] = $jadwal['tipe_jadwal'];
         $data['alasan'] = $jadwal['alasan'];
-        
-        if ($checkTipeJadwal == 1){
+
+        if ($checkTipeJadwal == 1) {
             $data['ruangan'] = Ruangan::find($jadwal['ruangan_id'])->nama_ruangan ?? '-';
             $data['kegiatan'] = Kegiatan::find($jadwal['kegiatan_id'])->nama_kegiatan ?? '-';
         }
@@ -195,6 +196,5 @@ class RubahJadwalController extends Controller
 
         Alert::success('Congrats', 'Jadwal ditolak!');
         return redirect('/perubahan-jadwal');
-        
     }
 }

@@ -110,9 +110,9 @@ class RuanganController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Ruangan $ruangan)
+    public function destroy($id)
     {
-        Ruangan::destroy($ruangan->id);
+        Ruangan::destroy($id);
 
         Alert::success('Congrats', 'Ruangan Berhasil dihapus!');
 

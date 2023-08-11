@@ -36,12 +36,12 @@
                                                         class="btn btn-sm mb-1 btn-warning"><i
                                                             class="bi bi-pencil-square"></i>
                                                         Edit</button></a>
-                                                <form action="data-ruangan.{{ $rng->id }}" method="post" class="d-inline"
+                                                <form method="post" class="d-inline"
                                                     id="hapus-form">
                                                     @method('delete')
                                                     @csrf
                                                     <button type="button" class="btn btn-sm mb-1 btn-danger"
-                                                        onclick="hapus()"><i class="bi bi-trash"></i> Hapus</button>
+                                                        onclick="hapus({{ $rng->id }})"><i class="bi bi-trash"></i> Hapus</button>
                                                 </form>
                                             </div>
                                         </div>
@@ -57,7 +57,7 @@
 </div>
 @endsection
 <script>
-    function hapus() {
+    function hapus(id) {
         Swal.fire({
             title: 'Apakah anda yakin?',
             text: "Apakah anda yakin ingin menghapus Ruangan ini?",
@@ -68,6 +68,7 @@
             confirmButtonText: 'Ya, Hapus!'
         }).then((result) => {
             if (result.isConfirmed) {
+                $('#hapus-form').attr('action', '/data-ruangan/' + id);
                 $('#hapus-form').submit();
             }
         })
