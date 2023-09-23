@@ -109,7 +109,7 @@
                                         </div>
                                     @enderror
                                 </div>
-                                <div id="form_alasan" class="col-md-4 mt-4">
+                                <div id="form_alasan" class="col-md-12 mt-4">
                                     <label for="angkatan" class="m-t-20">Dokumen Pendukung</label> <span
                                         class="text-danger">*</span>
                                     <input type="file" class="form-control @error('file_alasan') is-invalid @enderror"
@@ -120,6 +120,44 @@
                                             {{ $message }}
                                         </div>
                                     @enderror
+                                </div>
+                                <div class="col-md-12 mt-4 form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
+                                        name="saran" value="1">
+                                    <label class="form-check-label" for="flexSwitchCheckDefault">Apakah mempunyai Saran
+                                        Pergantian Jadwal ?</label>
+                                </div>
+                                <div id="form_saran" class="col-md-12 mt-4 d-none row">
+                                    <div id="form_date" class="col-md-6">
+                                        <label for="pengajar">Tanggal</label> <span class="text-danger">*</span>
+                                        <div class="input-group">
+                                            <input type="date"
+                                                class="form-control @error('waktu_mulai_form') is-invalid @enderror"
+                                                id="waktu_mulai_form" name="waktu_mulai_form"
+                                                placeholder="Tanggal Kegiatan" value="{{ old('waktu_mulai_form') }}"
+                                                min="<?= date('Y-m-d') ?>">
+                                            @error('waktu_mulai_form')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div id="form_date_end" class="col-md-6">
+                                        <label for="pengajar">Tanggal Akhir</label> <span class="text-danger">*</span>
+                                        <div class="input-group">
+                                            <input type="date"
+                                                class="form-control @error('waktu_selesai_form') is-invalid @enderror"
+                                                id="waktu_selesai_form" name="waktu_selesai_form"
+                                                placeholder="Tanggal_akhir Kegiatan"
+                                                value="{{ old('waktu_selesai_form') }}" min="<?= date('Y-m-d') ?>">
+                                            @error('waktu_selesai_form')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
                                 <div id="form_submit" class="col-12 mt-3">
                                     <button id="btnSubmit" type="submit" class="btn btn-info">Simpan</button>
@@ -136,4 +174,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"
         integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+            $('#flexSwitchCheckDefault').click(function() {
+                $('#form_saran').toggleClass('d-none');
+            });
+        })
+    </script>
 @endsection

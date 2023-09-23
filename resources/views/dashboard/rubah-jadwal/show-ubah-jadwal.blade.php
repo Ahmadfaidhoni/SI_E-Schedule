@@ -76,6 +76,12 @@
                                     </a>
                                 </td>
                             </tr>
+                            <tr>
+                                <th scope="row">Saran Tanggal:</th>
+                                <td>
+                                    {{ isset($saran) ? date('d-m-Y', strtotime($saran->waktu_mulai)) . ' s/d ' . date('d-m-Y', strtotime($saran->waktu_selesai)) : '-' }}
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

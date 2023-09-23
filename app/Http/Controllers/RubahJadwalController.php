@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use App\Mail\NotifEditJadwal;
 use App\Mail\NotifTolak;
 use App\Models\Keuangan;
+use App\Models\Saran_Jadwal;
+use App\Models\SaranJadwal;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -69,8 +71,10 @@ class RubahJadwalController extends Controller
     public function show(Jadwal $jadwal)
     {
         $active_menu = 'perubahan-jadwal';
+        $saran = SaranJadwal::where('jadwal_id', $jadwal->id)->latest()->first();
         return view('dashboard.rubah-jadwal.show-ubah-jadwal', compact('active_menu'), [
             'jadwal' => $jadwal,
+            'saran' => $saran
         ]);
     }
 
@@ -116,7 +120,22 @@ class RubahJadwalController extends Controller
                 $validatedData['file_alasan'] = 'images/jadwal/' . $filename;
             }
 
+            if (isset($request->saran)) {
+                $validatedDataSaran = $request->validate([
+                    'waktu_mulai_form' => 'required',
+                    'waktu_selesai_form' => 'required',
+                ]);
+
+                SaranJadwal::create([
+                    'jadwal_id' => $jadwal->id,
+                    'waktu_mulai' => $request->waktu_mulai_form,
+                    'waktu_selesai' => $request->waktu_selesai_form,
+                ]);
+            }
+
             Jadwal::where('id', $jadwal->id)->update($validatedData);
+
+
 
             // get validate
             $getIdUser = $jadwal['user_id'];
