@@ -22,6 +22,7 @@ class ConfigController extends Controller
                 'value' => $request->value,
             ]);
 
+            Alert::success('Congrats', 'Config Berhasil diubah!');
             return redirect('/config');
         } catch (\Exception $e) {
             // return redirect()->back()->with('error', $e->getMessage());

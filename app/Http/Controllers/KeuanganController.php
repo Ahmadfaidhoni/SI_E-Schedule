@@ -21,7 +21,7 @@ class KeuanganController extends Controller
     {
         $active_menu = 'keuangan';
         return view('keuangan.data-pegawai-keuangan', compact('active_menu'), [
-            "pegawai" => User::orderBy('name', 'ASC')->get(),
+            "pegawai" => User::where('id', '!=', '1')->orderBy('name', 'ASC')->get(),
         ]);
     }
 

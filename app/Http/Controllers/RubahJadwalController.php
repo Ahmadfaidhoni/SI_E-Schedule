@@ -11,7 +11,6 @@ use App\Models\Kegiatan;
 use Illuminate\Http\Request;
 use App\Mail\NotifEditJadwal;
 use App\Mail\NotifTolak;
-use App\Models\HistoryPerubahanJadwal;
 use App\Models\Keuangan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;

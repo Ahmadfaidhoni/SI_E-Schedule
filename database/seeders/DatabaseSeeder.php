@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         User::create([
-            'name' => 'Admin 1',
+            'name' => 'Admin',
             'nip' => '00000000',
             'email' => null,
             'password' => bcrypt('admin123'),
@@ -29,54 +29,54 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::create([
-            'name' => 'Admin 2',
-            'nip' => '99999999',
+            'name' => 'Pegawai A',
+            'nip' => '12345678',
             'email' => null,
-            'password' => bcrypt('admin123'),
-            'jabatan' => 'Super Admin 2',
-            'level' => 'Admin',
-            'phone' => '085465258961'
+            'password' => bcrypt('password'),
+            'jabatan' => 'Pegawai A',
+            'level' => 'Keuangan',
+            'phone' => '08546525896122'
         ]);
 
         User::create([
-            'name' => 'Keuangan Test',
-            'nip' => '1234567812',
+            'name' => 'Pegawai B',
+            'nip' => '123456789',
             'email' => null,
-            'password' => bcrypt('1234567812'),
-            'jabatan' => 'Testing',
-            'level' => 'Keuangan',
+            'password' => bcrypt('password'),
+            'jabatan' => 'Pegawai B',
+            'level' => 'User',
             'phone' => '085465258961'
         ]);
         
         User::create([
-            'name' => 'Keuangan Test 2',
-            'nip' => '12345678121',
+            'name' => 'Pegawai C',
+            'nip' => '1234567890',
             'email' => null,
-            'password' => bcrypt('12345678121'),
-            'jabatan' => 'Testing 2',
-            'level' => 'Keuangan',
-            'phone' => '0854652589611'
+            'password' => bcrypt('password'),
+            'jabatan' => 'Pegawai C',
+            'level' => 'User',
+            'phone' => '081312341234'
         ]);
 
-        User::create([
-            'name' => 'User Test',
-            'nip' => '12345678',
-            'email' => null,
-            'password' => bcrypt('12345678'),
-            'jabatan' => 'Testing',
-            'level' => 'User',
-            'phone' => '085465258962'
-        ]);
+        // User::create([
+        //     'name' => 'User Test',
+        //     'nip' => '12345678',
+        //     'email' => null,
+        //     'password' => bcrypt('12345678'),
+        //     'jabatan' => 'Testing',
+        //     'level' => 'User',
+        //     'phone' => '085465258962'
+        // ]);
     
-        User::create([
-            'name' => 'User Test 2',
-            'nip' => '123456781',
-            'email' => null,
-            'password' => bcrypt('123456781'),
-            'jabatan' => 'Testing 2',
-            'level' => 'User',
-            'phone' => '0854652589621'
-        ]);
+        // User::create([
+        //     'name' => 'User Test 2',
+        //     'nip' => '123456781',
+        //     'email' => null,
+        //     'password' => bcrypt('123456781'),
+        //     'jabatan' => 'Testing 2',
+        //     'level' => 'User',
+        //     'phone' => '0854652589621'
+        // ]);
 
         Kegiatan::create([
             'kode_kegiatan' => 'PKP',
