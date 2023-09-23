@@ -64,33 +64,48 @@
                                             class="text-danger">*</span>
                                     </label>
                                     <div class="col-lg-6">
-                                        <select class="form-control @error('jabatan') is-invalid @enderror" id="jabatan"
-                                            name="jabatan" required>
+                                        <input type="text" class="form-control @error('jabatan') is-invalid @enderror"
+                                            id="jabatan" name="jabatan" placeholder="Masukan Jabatan Pengajar.."
+                                            value="{{ old('jabatan', $user->jabatan) }}" required>
+                                        @error('jabatan')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="golongan">Golongan <span
+                                            class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <select class="form-control @error('golongan') is-invalid @enderror" id="golongan"
+                                            name="golongan" required>
                                             <optgroup label="Golongan IV">
                                                 <option value="Pembina Utama IV-e"
-                                                    @if (old('jabatan', $user->jabatan) == 'Pembina Utama IV-e') selected @endif>Pembina Utama IV-e
+                                                    @if (old('golongan', $user->golongan) == 'Pembina Utama IV-e') selected @endif>Pembina Utama IV-e
                                                 </option>
                                                 <option value="Pembina utama Muda IV-c"
-                                                    {{ old('jabatan', $user->jabatan) == 'Pembina utama Muda IV-c' ? 'selected' : '' }}>
+                                                    {{ old('golongan', $user->golongan) == 'Pembina utama Muda IV-c' ? 'selected' : '' }}>
                                                     Pembina utama Muda IV-c
                                                 </option>
                                                 <option value="Pembina Tingkat I IV-b"
-                                                    @if (old('jabatan', $user->jabatan) == 'Pembina Tingkat I IV-b') selected @endif>Pembina Tingkat I IV-b
+                                                    @if (old('golongan', $user->golongan) == 'Pembina Tingkat I IV-b') selected @endif>Pembina Tingkat I IV-b
                                                 </option>
-                                                <option value="Pembina IV-a" @if (old('jabatan', $user->jabatan) == 'Pembina IV-a') selected @endif>
+                                                <option value="Pembina IV-a" @if (old('golongan', $user->golongan) == 'Pembina IV-a') selected @endif>
                                                     Pembina IV-a</option>
                                             </optgroup>
                                             <optgroup label="Golongan III">
                                                 <option value="Penata Tingkat I III-d"
-                                                    @if (old('jabatan', $user->jabatan) == 'Penata Tingkat I III-d') selected @endif>Penata Tingkat I III-d
+                                                    @if (old('golongan', $user->golongan) == 'Penata Tingkat I III-d') selected @endif>Penata Tingkat I III-d
                                                 </option>
-                                                <option value="Penata III-c" @if (old('jabatan', $user->jabatan) == 'Penata III-c') selected @endif>
+                                                <option value="Penata III-c" @if (old('golongan', $user->golongan) == 'Penata III-c') selected @endif>
                                                     Penata III-c</option>
                                                 <option value="Penata Muda Tingkat I III-b"
-                                                    @if (old('jabatan', $user->jabatan) == 'Penata Muda Tingkat I III-b') selected @endif>Penata Muda Tingkat I
+                                                    @if (old('golongan', $user->golongan) == 'Penata Muda Tingkat I III-b') selected @endif>Penata Muda Tingkat I
                                                     III-b</option>
                                                 <option value="Penata Muda III-a"
-                                                    @if (old('jabatan', $user->jabatan) == 'Penata Muda III-a') selected @endif>Penata Muda III-a
+                                                    @if (old('golongan', $user->golongan) == 'Penata Muda III-a') selected @endif>Penata Muda III-a
                                                 </option>
                                             </optgroup>
                                             <optgroup label="Golongan II">

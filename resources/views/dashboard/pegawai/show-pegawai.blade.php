@@ -51,6 +51,10 @@
                                 <td>{{ $user->jabatan }}</td>
                             </tr>
                             <tr>
+                                <th scope="row">Golongan:</th>
+                                <td>{{ $user->golongan }}</td>
+                            </tr>
+                            <tr>
                                 <th scope="row">E-mail:</th>
                                 <td>{{ isset($user->email) ? $user->email : '-' }}</td>
                             </tr>

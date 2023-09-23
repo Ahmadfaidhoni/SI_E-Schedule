@@ -32,6 +32,7 @@ class ProfileController extends Controller
         $rules = [
             'name' => 'required',
             'jabatan' => '',
+            'golongan' => '',
             'status_anggota' => ''
         ];
 

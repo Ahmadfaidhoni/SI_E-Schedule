@@ -46,10 +46,11 @@ class UserController extends Controller
      */
     public function store(Request $request, User $user)
     {
-
+        // dd($request->all());
         $rules = [
             'nip' => 'required',
             'name' => 'required',
+            'golongan' => 'required',
             'jabatan' => 'required',
             'level' => 'required',
         ];
@@ -134,6 +135,7 @@ class UserController extends Controller
             'nip' => 'required',
             'name' => 'required',
             'jabatan' => 'required',
+            'golongan' => 'required',
             'level' => 'required',
             'status_anggota' => 'required'
         ];
