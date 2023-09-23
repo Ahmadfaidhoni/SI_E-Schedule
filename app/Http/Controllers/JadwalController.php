@@ -144,10 +144,10 @@ class JadwalController extends Controller
         Keuangan::create([
             'jadwal_id' => $jadwal->id,
             'biaya' => $biaya,
-            'biaya_harian' => $biaya_harian,
-            'biaya_penginapan' => $biaya_penginapan,
-            'biaya_transport' => $biaya_transport,
-            'biaya_representasi' => $biaya_representasi
+            'biaya_harian' => $biaya_harian ?? 0,
+            'biaya_penginapan' => $biaya_penginapan ?? 0,
+            'biaya_transport' => $biaya_transport ?? 0,
+            'biaya_representasi' => $biaya_representasi ?? 0
         ]);
 
         // get validate
