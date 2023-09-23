@@ -148,7 +148,7 @@
                                 <label for="biaya" class="m-t-20">Biaya</label>
                                 <input type="number" class="form-control @error('biaya') is-invalid @enderror"
                                     placeholder="Masukkan Biaya Dinas" id="biaya" name="biaya"
-                                    value="{{ $biaya->biaya }}">
+                                    value="{{ $biaya->biaya ?? 0 }}">
                                 @error('biaya')
                                 <div class="invalid-feedback">
                                     {{ $message }}
