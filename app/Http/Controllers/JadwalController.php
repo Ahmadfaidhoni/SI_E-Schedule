@@ -86,6 +86,10 @@ class JadwalController extends Controller
         $config_max_jp = Config::where('key', 'MAX_JP')->first();
 
         $biaya = null;
+        $biaya_harian = null;
+        $biaya_penginapan = null;
+        $biaya_representasi = null;
+        $biaya_transport = null;
         if ($checkTipeJadwal != 1) {
             $validatedData = $request->validate([
                 'tipe_jadwal' => 'required',
@@ -102,6 +106,11 @@ class JadwalController extends Controller
             $validatedData['waktu_selesai'] = $validatedData['tanggal_akhir'] . " 23:59:00";
 
             $biaya = $request->biaya;
+            $biaya_harian = $request->biaya_harian;
+            $biaya_penginapan = $request->biaya_penginapan;
+            $biaya_transport = $request->biaya_transport;
+            $biaya_representasi = $request->biaya_representasi;
+
 
             $validatedData['user_id'] = $validatedData['user_id'];
         } else {
@@ -134,14 +143,18 @@ class JadwalController extends Controller
 
         Keuangan::create([
             'jadwal_id' => $jadwal->id,
-            'biaya' => $biaya
+            'biaya' => $biaya,
+            'biaya_harian' => $biaya_harian,
+            'biaya_penginapan' => $biaya_penginapan,
+            'biaya_transport' => $biaya_transport,
+            'biaya_representasi' => $biaya_representasi
         ]);
 
         // get validate
         $getIdUser = $validatedData['user_id'];
         $getEmail = User::find($getIdUser)->email;
 
-        if ($checkTipeJadwal == 1){
+        if ($checkTipeJadwal == 1) {
             $validatedData['ruangan'] = Ruangan::find($validatedData['ruangan_id'])->nama_ruangan ?? '-';
             $validatedData['kegiatan'] = Kegiatan::find($validatedData['kegiatan_id'])->nama_kegiatan ?? '-';
         }
@@ -152,7 +165,7 @@ class JadwalController extends Controller
         if ($getEmail != null) {
             Mail::to($getEmail)->send(new NotifJadwal($validatedData));
         }
-        
+
         Alert::success('Congrats', 'Jadwal Berhasil ditambah!');
         return redirect('/jadwal');
     }
@@ -165,7 +178,7 @@ class JadwalController extends Controller
      */
     public function show(Jadwal $jadwal)
     {
-        
+
         $active_menu = 'jadwal';
         return view('dashboard.jadwal.show-jadwal', compact('active_menu'), [
             'jdwl' => $jadwal,
@@ -230,7 +243,6 @@ class JadwalController extends Controller
             Keuangan::where('jadwal_id', $jadwal->id)->update([
                 'biaya' => $biaya
             ]);
-            
         } else {
             $validatedData = $request->validate([
                 'kegiatan_id' => 'required',
@@ -260,7 +272,7 @@ class JadwalController extends Controller
         unset($validatedData['tanggal']);
 
         $validatedData['user_id'] = $validatedData['user_id'];
-        
+
         $validatedData['request'] = false;
         $validatedData['alasan'] = null;
 
@@ -273,7 +285,7 @@ class JadwalController extends Controller
         $getEmail = User::find($getIdUser)->email;
 
         // send validate
-        if ($checkTipeJadwal == 1){
+        if ($checkTipeJadwal == 1) {
             $validatedData['ruangan'] = Ruangan::find($validatedData['ruangan_id'])->nama_ruangan ?? '-';
             $validatedData['kegiatan'] = Kegiatan::find($validatedData['kegiatan_id'])->nama_kegiatan ?? '-';
         }
@@ -323,7 +335,6 @@ class JadwalController extends Controller
 
         Alert::success('Congrats', 'Jadwal Berhasil dihapus!');
         return redirect('/jadwal');
-
     }
 
     public function showFull(User $user)
