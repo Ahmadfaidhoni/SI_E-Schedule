@@ -99,6 +99,7 @@ class RubahJadwalController extends Controller
      */
     public function update(Request $request, Jadwal $jadwal)
     {
+        // dd($request->all());
         $checkTipeJadwal = $jadwal->tipe_jadwal;
 
         if (Auth::id() == $jadwal->user_id) {
@@ -107,6 +108,13 @@ class RubahJadwalController extends Controller
             ]);
 
             $validatedData['request'] = 1;
+
+            if ($request->File('file_alasan') != null) {
+                $file = $request->file('file_alasan');
+                $filename = time() . '.' . $file->extension();
+                $file->move(public_path('images/jadwal/'), $filename);
+                $validatedData['file_alasan'] = 'images/jadwal/' . $filename;
+            }
 
             Jadwal::where('id', $jadwal->id)->update($validatedData);
 
@@ -126,6 +134,10 @@ class RubahJadwalController extends Controller
             $validatedData['waktu_selesai'] = $jadwal['waktu_selesai'];
             $validatedData['keterangan'] = $jadwal['keterangan'];
             $validatedData['tipe_jadwal'] = $jadwal['tipe_jadwal'];
+
+
+
+            // dd($validatedData);
 
             if ($checkTipeJadwal == 1) {
                 $validatedData['ruangan'] = Ruangan::find($jadwal['ruangan_id'])->nama_ruangan ?? '-';
