@@ -140,7 +140,7 @@
                                         </div>
                                     @enderror
                                 </div>
-                                <div id="form_biaya_harian" class="col-md-6 mt-2" style="display: none;">
+                                <div id="form_biaya_harian" class="col-md-3 mt-2" style="display: none;">
                                     <label for="biaya_harian" class="m-t-20">Biaya Harian</label>
                                     <input type="number" class="form-control @error('biaya_harian') is-invalid @enderror"
                                         placeholder="Masukkan Biaya Harian Dinas" id="biaya_harian" name="biaya_harian"
@@ -151,7 +151,7 @@
                                         </div>
                                     @enderror
                                 </div>
-                                <div id="form_biaya_penginapan" class="col-md-6 mt-2" style="display: none;">
+                                <div id="form_biaya_penginapan" class="col-md-3 mt-2" style="display: none;">
                                     <label for="biaya_penginapan" class="m-t-20">Biaya Penginapan</label>
                                     <input type="number"
                                         class="form-control @error('biaya_penginapan') is-invalid @enderror"
@@ -163,7 +163,7 @@
                                         </div>
                                     @enderror
                                 </div>
-                                <div id="form_biaya_transport" class="col-md-6 mt-2" style="display: none;">
+                                <div id="form_biaya_transport" class="col-md-3 mt-2" style="display: none;">
                                     <label for="biaya_transport" class="m-t-20">Biaya Transport</label>
                                     <input type="number"
                                         class="form-control @error('biaya_transport') is-invalid @enderror"
@@ -175,7 +175,7 @@
                                         </div>
                                     @enderror
                                 </div>
-                                <div id="form_biaya_representasi" class="col-md-6 mt-2" style="display: none;">
+                                <div id="form_biaya_representasi" class="col-md-3 mt-2" style="display: none;">
                                     <label for="biaya_representasi" class="m-t-20">Biaya Representasi</label>
                                     <input type="number"
                                         class="form-control @error('biaya_representasi') is-invalid @enderror"
@@ -410,7 +410,7 @@
                 document.getElementById('form_keterangan').classList = styleClass;
 
                 document.getElementById('form_date').classList = style_tanggal;
-                document.getElementById('form_biaya').style.display = style_biaya;
+                // document.getElementById('form_biaya').style.display = style_biaya;
                 document.getElementById('form_biaya_penginapan').style.display = style_biaya;
                 document.getElementById('form_biaya_representasi').style.display = style_biaya;
                 document.getElementById('form_biaya_transport').style.display = style_biaya;
