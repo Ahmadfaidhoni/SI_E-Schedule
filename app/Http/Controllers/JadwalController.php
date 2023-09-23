@@ -105,12 +105,12 @@ class JadwalController extends Controller
             $validatedData['waktu_mulai'] = $validatedData['tanggal'] . " 00:00:00";
             $validatedData['waktu_selesai'] = $validatedData['tanggal_akhir'] . " 23:59:00";
 
-            $biaya = $request->biaya ?? 0;
+
             $biaya_harian = $request->biaya_harian ?? 0;
             $biaya_penginapan = $request->biaya_penginapan ?? 0;
             $biaya_transport = $request->biaya_transport ?? 0;
             $biaya_representasi = $request->biaya_representasi ?? 0;
-
+            $biaya = $biaya_harian + $biaya_penginapan + $biaya_transport + $biaya_representasi;
 
             $validatedData['user_id'] = $validatedData['user_id'];
         } else {
