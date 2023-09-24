@@ -36,10 +36,17 @@ class JadwalController extends Controller
                 'users' => User::all(),
             ]);
         } else {
+            $temp = Jadwal::where('user_id', Auth::user()->id)
+                ->leftJoin('keuangans as kua', 'jadwals.id', '=', 'kua.jadwal_id')
+                ->where('request', false)
+                ->whereRaw("((STR_TO_DATE(waktu_mulai, '%Y-%m-%d') ) >= curdate())")
+                ->orderBy('waktu_mulai', 'ASC')
+                ->get();
+
             return view('dashboard.jadwal.data-jadwal', compact('active_menu'), [
-                'jadwal' => Jadwal::where('user_id', Auth::user()->id)->where('request', false)->whereRaw("((STR_TO_DATE(waktu_mulai, '%Y-%m-%d') ) >= curdate())")->orderBy('waktu_mulai', 'ASC')->get(),
+                'jadwal' => $temp,
                 'users' => User::all(),
-                'keuangan' => Keuangan::where('jadwal_id', Auth::user()->id)->first(),
+                // 'keuangan' => Keuangan::where('jadwal_id', Jadwal::where('user_id', Auth::user()->id)->first()->id)->first(),
             ]);
         }
     }

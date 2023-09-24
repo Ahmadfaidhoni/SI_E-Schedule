@@ -29,9 +29,16 @@ class RubahJadwalController extends Controller
                 'jadwal' => Jadwal::where('request', true)->get()
             ]);
         } else {
+            $temp = Jadwal::where('user_id', Auth::user()->id)
+                ->leftJoin('keuangans as kua', 'jadwals.id', '=', 'kua.jadwal_id')
+                ->where('request', true)
+                ->whereRaw("((STR_TO_DATE(waktu_mulai, '%Y-%m-%d') ) >= curdate())")
+                ->orderBy('waktu_mulai', 'ASC')
+                ->get();
+            
             return view('dashboard.rubah-jadwal.perubahan-jadwal', compact('active_menu'), [
-                'jadwal' => Jadwal::where('user_id', Auth::user()->id)->where('request', true)->get(),
-                'keuangan' => Keuangan::where('jadwal_id', Auth::user()->id)->first(),
+                'jadwal' => $temp
+                // 'keuangan' => Keuangan::where('jadwal_id', Jadwal::where('user_id', Auth::user()->id)->first()->id)->first(),
             ]);
         }
     }

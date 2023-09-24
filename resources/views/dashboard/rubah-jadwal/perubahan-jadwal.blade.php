@@ -51,7 +51,7 @@
                                     <td>{{ isset($jdwl->angkatan) ? $jdwl->angkatan : '-' }}</td>
                                     <td>{{ isset($jdwl->ruangan) ? $jdwl->ruangan->nama_ruangan : '-' }}</td>
                                     @if (Auth::user()->level != 'Admin')
-                                        <td>{{ number_format($keuangan->biaya) ?? '-' }}</td>
+                                        <td>{{ number_format($jdwl->biaya) ?? '-' }}</td>
                                     @endif
                                     <td class="text-center">
                                         @if (Auth::user()->level == 'Admin')
